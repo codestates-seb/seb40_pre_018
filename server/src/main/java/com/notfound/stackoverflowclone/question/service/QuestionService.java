@@ -21,7 +21,7 @@ public class QuestionService {
         return questionRepository.save(madeQuestion);
     }
 
-    public Question createQuestion(Question question, User user) {
+    private Question createQuestion(Question question, User user) {
         question.setAuthor(user);
         user.getQuestions().add(question);
         return question;
