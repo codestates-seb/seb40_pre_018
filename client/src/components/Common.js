@@ -1,3 +1,4 @@
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Nav from './Nav';
 
@@ -65,6 +66,9 @@ const Common = () => {
       <LeftAside>
         <Nav />
       </LeftAside>
+
+      <Outlet />
+
       <RightAside>
         <ul>
           <li className="widget-header">The Overflow Blog</li>
