@@ -15,4 +15,15 @@ public interface UserMapper {
 
         return user;
     }
+    default UserResponseDto userToUserResponseDto(User user){
+        UserResponseDto userResponseDto = new UserResponseDto();
+
+        userResponseDto.setDisplayName(user.getDisplayName());
+        userResponseDto.setEmail(user.getEmail());
+        userResponseDto.setPassword(user.getPassword());
+        userResponseDto.setUserStatus(user.getUserStatus());
+
+        return userResponseDto;
+    }
+
 }
