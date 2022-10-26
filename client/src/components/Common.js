@@ -1,15 +1,9 @@
 import styled from 'styled-components';
 
-const CommonLayout = styled.div`
-
-`
+const CommonLayout = styled.div``;
 
 const Common = () => {
-    return (
-        <CommonLayout>
-
-        </CommonLayout>
-    );
+  return <CommonLayout></CommonLayout>;
 };
 
 export default Common;
