@@ -20,11 +20,11 @@ public class ErrorResponse {
     private final List<ConstraintViolationError> violationErrors;
 
     public static ErrorResponse of(BindingResult bindingResult) {
-        return new ErrorResponse(null, null, FieldError.of(bindingResult), null);
+        return new ErrorResponse(400, null, FieldError.of(bindingResult), null);
     }
 
     public static ErrorResponse of(Set<ConstraintViolation<?>> violations) {
-        return new ErrorResponse(null, null, null, ConstraintViolationError.of(violations));
+        return new ErrorResponse(400, null, null, ConstraintViolationError.of(violations));
     }
 
     public static ErrorResponse of(ExceptionCode exceptionCode) {
@@ -33,6 +33,10 @@ public class ErrorResponse {
 
     public static ErrorResponse of(HttpStatus httpStatus) {
         return new ErrorResponse(httpStatus.value(), httpStatus.getReasonPhrase(), null, null);
+    }
+
+    public static ErrorResponse of(HttpStatus httpStatus, String message) {
+        return new ErrorResponse(httpStatus.value(), message, null, null);
     }
 
     @Getter
