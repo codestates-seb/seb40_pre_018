@@ -20,6 +20,8 @@ const GlobalStyle = createGlobalStyle`
 
     ul, ol, li{
         list-style-type: none;
+        padding: 0;
+        margin: 0;
     }
 
     a {
