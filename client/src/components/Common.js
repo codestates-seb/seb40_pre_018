@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
+import Footer from './Footer';
 import Nav from './Nav';
 
 const CommonLayout = styled.main`
@@ -62,32 +63,35 @@ const RightAside = styled.aside`
 
 const Common = () => {
   return (
-    <CommonLayout>
-      <LeftAside>
-        <Nav />
-      </LeftAside>
+    <>
+      <CommonLayout>
+        <LeftAside>
+          <Nav />
+        </LeftAside>
 
-      <Outlet />
+        <Outlet />
 
-      <RightAside>
-        <ul>
-          <li className="widget-header">The Overflow Blog</li>
-          <li>
-            A flight simulator for developers to practice real world challenges
-            and...
-          </li>
-          <li>
-            Goodbye Webpack, hello Turbopack! The big news from today’s Next.JS
-            conference
-          </li>
-          <li className="widget-header">Featured on Meta</li>
-          <li>The 2022 Community-a-thon has begun!</li>
-          <li>Mobile app infrastructure being decommissioned</li>
-          <li>Staging Ground Workflow: Canned Comments</li>
-          <li>The Ask Wizard (2022) has graduated</li>
-        </ul>
-      </RightAside>
-    </CommonLayout>
+        <RightAside>
+          <ul>
+            <li className="widget-header">The Overflow Blog</li>
+            <li>
+              A flight simulator for developers to practice real world
+              challenges and...
+            </li>
+            <li>
+              Goodbye Webpack, hello Turbopack! The big news from today’s
+              Next.JS conference
+            </li>
+            <li className="widget-header">Featured on Meta</li>
+            <li>The 2022 Community-a-thon has begun!</li>
+            <li>Mobile app infrastructure being decommissioned</li>
+            <li>Staging Ground Workflow: Canned Comments</li>
+            <li>The Ask Wizard (2022) has graduated</li>
+          </ul>
+        </RightAside>
+      </CommonLayout>
+      <Footer />
+    </>
   );
 };
 
