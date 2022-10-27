@@ -18,14 +18,14 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User createUser(User user){
+    public User saveUser(User user){
         verifyExistEmail(user.getEmail());
         return userRepository.save(user);
     }
     private void verifyExistEmail(String email){
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent())
-            throw new RuntimeException(); //일단런타임오류로 작성
+            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
     }
     @Transactional(readOnly = true)
     public User findVerifiedUser(Long userId) {
