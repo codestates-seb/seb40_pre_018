@@ -23,4 +23,10 @@ public class QuestionController {
         return mapper.entityToResponseDto(questionService.saveQuestion(question, userId));
     }
 
+    @GetMapping("/{question-id}")
+    @ResponseStatus(HttpStatus.OK)
+    QuestionDto.Response getQuestion(@PathVariable("question-id") Long questionId) {
+        return mapper.entityToResponseDto(questionService.findViewedQuestion(questionId));
+    }
+
 }

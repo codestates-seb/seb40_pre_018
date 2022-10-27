@@ -29,7 +29,7 @@ public class Question extends AuditingEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    private long clicks;
+    private long views;
 
     @Builder.Default
     @OneToMany(mappedBy = "question")

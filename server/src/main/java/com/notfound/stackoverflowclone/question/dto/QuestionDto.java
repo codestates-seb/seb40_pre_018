@@ -1,5 +1,6 @@
 package com.notfound.stackoverflowclone.question.dto;
 
+import com.notfound.stackoverflowclone.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,10 +13,10 @@ public class QuestionDto {
     @Builder
     public static class Response {
         private Long questionId;
-        private Long userId;
+        private UserDto.Response author;
         private String title;
         private String content;
-        private Long clicks;
+        private Long views;
     }
 
     @Getter

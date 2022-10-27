@@ -1,5 +1,7 @@
 package com.notfound.stackoverflowclone.question.service;
 
+import com.notfound.stackoverflowclone.exception.BusinessLogicException;
+import com.notfound.stackoverflowclone.exception.ExceptionCode;
 import com.notfound.stackoverflowclone.question.entity.Question;
 import com.notfound.stackoverflowclone.question.repository.QuestionRepository;
 import com.notfound.stackoverflowclone.user.entity.User;
@@ -26,4 +28,16 @@ public class QuestionService {
         user.getQuestions().add(question);
         return question;
     }
+
+    public Question findVerifiedQuestion(Long questionId) {
+        return questionRepository.findById(questionId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
+    }
+
+    public Question findViewedQuestion(Long questionId) {
+        Question findQuestion = findVerifiedQuestion(questionId);
+        findQuestion.setViews(findQuestion.getViews() + 1);
+        return findQuestion;
+    }
+
 }

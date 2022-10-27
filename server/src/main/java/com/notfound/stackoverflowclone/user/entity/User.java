@@ -21,14 +21,16 @@ public class User extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
 
     private String displayName;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus;
+    private UserStatus userStatus = UserStatus.ACTIVE;
 
     @Builder.Default
     @OneToMany(mappedBy = "author")
