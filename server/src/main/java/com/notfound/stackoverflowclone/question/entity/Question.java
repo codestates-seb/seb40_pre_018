@@ -31,6 +31,7 @@ public class Question extends AuditingEntity {
 
     private long clicks;
 
+    @Builder.Default
     @OneToMany(mappedBy = "question")
     private List<Answer> answers = new ArrayList<>();
 }
