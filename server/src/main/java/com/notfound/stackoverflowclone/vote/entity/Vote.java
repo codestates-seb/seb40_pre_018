@@ -22,7 +22,7 @@ import javax.persistence.*;
 public class Vote extends AuditingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long answerVoteId;
+    private Long voteId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
