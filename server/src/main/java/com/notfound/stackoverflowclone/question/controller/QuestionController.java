@@ -26,7 +26,7 @@ public class QuestionController {
     @GetMapping("/{question-id}")
     @ResponseStatus(HttpStatus.OK)
     QuestionDto.Response getQuestion(@PathVariable("question-id") Long questionId) {
-        return mapper.entityToResponseDto(questionService.findVerifiedQuestion(questionId));
+        return mapper.entityToResponseDto(questionService.findQuestion(questionId));
     }
 
 }
