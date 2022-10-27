@@ -30,9 +30,11 @@ public class User extends AuditingEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
 
+    @Builder.Default
     @OneToMany(mappedBy = "author")
     private List<Question> questions = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "author")
     private List<Answer> answers = new ArrayList<>();
 
