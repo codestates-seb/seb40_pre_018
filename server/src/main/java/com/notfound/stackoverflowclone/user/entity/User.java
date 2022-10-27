@@ -25,7 +25,7 @@ public class User extends AuditingEntity {
 
     private String password;
 
-    private String nickname;
+    private String displayName;
 
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
