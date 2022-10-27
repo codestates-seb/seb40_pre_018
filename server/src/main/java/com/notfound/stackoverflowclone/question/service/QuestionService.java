@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -36,7 +34,7 @@ public class QuestionService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
-    public Question findQuestion(Long questionId) {
+    public Question findClickedQuestion(Long questionId) {
         Question findQuestion = findVerifiedQuestion(questionId);
         findQuestion.setClicks(findQuestion.getClicks() + 1);
         return findQuestion;
