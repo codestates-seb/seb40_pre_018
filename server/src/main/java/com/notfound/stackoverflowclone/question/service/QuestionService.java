@@ -7,6 +7,9 @@ import com.notfound.stackoverflowclone.question.repository.QuestionRepository;
 import com.notfound.stackoverflowclone.user.entity.User;
 import com.notfound.stackoverflowclone.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +41,10 @@ public class QuestionService {
         Question findQuestion = findVerifiedQuestion(questionId);
         findQuestion.setViews(findQuestion.getViews() + 1);
         return findQuestion;
+    }
+
+    public Page<Question> findQuestions(int page, int size) {
+        return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
 }
