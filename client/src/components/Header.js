@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { LoginBtn, SignupBtn } from './Buttons';
+import { CommonButton } from './Buttons';
 import Search from './Search';
 import sprites from '../assets/images/sprites.svg';
 
@@ -75,8 +75,15 @@ const Header = () => {
         </ul>
         <Search />
         <div className="button-container">
-          <LoginBtn onClick={handleLogin}>Log in</LoginBtn>
-          <SignupBtn onClick={handleSignup}>Sign up</SignupBtn>
+          <CommonButton onClick={handleLogin}>Log in</CommonButton>
+          <CommonButton
+            bgColor="var(--blue-500)"
+            color="#fff"
+            border="transparent"
+            onClick={handleSignup}
+          >
+            Sign up
+          </CommonButton>
         </div>
       </div>
     </HeaderContainer>
