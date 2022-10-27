@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/users")
@@ -27,5 +28,13 @@ public class UserController {
         User user = mapper.postDtoToEntity(requestDto);
         User createdUser = userService.saveUser(user);
         return mapper.EntityToResponseDto(createdUser);
+    }
+
+    @GetMapping("/{user-id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto.Response getUser(
+            @PathVariable("user-id") @Positive Long userId){
+        User user = userService.findVerifiedUser(userId);
+        return mapper.EntityToResponseDto(user);
     }
 }
