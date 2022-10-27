@@ -3,6 +3,8 @@ package com.notfound.stackoverflowclone.user.dto;
 import com.notfound.stackoverflowclone.user.entity.UserStatus;
 import lombok.*;
 
+import javax.validation.constraints.Email;
+
 public class UserDto {
     @Getter
     @NoArgsConstructor
@@ -19,7 +21,9 @@ public class UserDto {
     @AllArgsConstructor
     @Builder
     public static class Post {
+        @Email(message = "Email should not be empty.")
         private String email;
+
         private String displayName;
     }
 }
