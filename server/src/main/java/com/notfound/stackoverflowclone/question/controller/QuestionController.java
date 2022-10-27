@@ -38,7 +38,7 @@ public class QuestionController {
     @ResponseStatus(HttpStatus.OK)
     MultiResponseDto<QuestionDto.Response>
     getQuestions(@RequestParam(required = false, defaultValue = "1") Integer page,
-                 @RequestParam(required = false, defaultValue = "10") Integer size) {
+                 @RequestParam(required = false, defaultValue = "15") Integer size) {
         Page<Question> pagedQuestions = questionService.findQuestions(page - 1, size);
         List<Question> questions = pagedQuestions.getContent();
         return MultiResponseDto.of(mapper.entityListToResponseDtoList(questions), pagedQuestions);
