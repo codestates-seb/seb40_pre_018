@@ -34,9 +34,9 @@ public class QuestionService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
-    public Question findClickedQuestion(Long questionId) {
+    public Question findViewedQuestion(Long questionId) {
         Question findQuestion = findVerifiedQuestion(questionId);
-        findQuestion.setClicks(findQuestion.getClicks() + 1);
+        findQuestion.setViews(findQuestion.getViews() + 1);
         return findQuestion;
     }
 

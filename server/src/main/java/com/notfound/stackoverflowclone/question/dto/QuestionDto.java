@@ -16,7 +16,7 @@ public class QuestionDto {
         private UserDto.Response author;
         private String title;
         private String content;
-        private Long clicks;
+        private Long views;
     }
 
     @Getter
