@@ -43,4 +43,11 @@ public class QuestionController {
         List<Question> questions = pagedQuestions.getContent();
         return MultiResponseDto.of(mapper.entityListToResponseDtoList(questions), pagedQuestions);
     }
+
+    @DeleteMapping("/{question-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deleteQuestion(@PathVariable(name = "question-id") Long questionId,
+                        @RequestHeader(name = "Authorization") Long userId) {
+        questionService.deleteQuestion(questionId, userId);
+    }
 }
