@@ -13,6 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -45,6 +48,19 @@ public class QuestionService {
 
     public Page<Question> findQuestions(int page, int size) {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
+    }
+
+    public void deleteQuestion(Long questionId, Long userId) {
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+        optionalQuestion.ifPresentOrElse(question -> {
+            if (!Objects.equals(question.getAuthor().getUserId(), userId)) {
+                throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
+            }
+            questionRepository.delete(question);
+
+        }, () -> {
+            return;
+        });
     }
 
 }
