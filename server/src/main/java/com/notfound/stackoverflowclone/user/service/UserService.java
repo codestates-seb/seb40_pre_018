@@ -1,5 +1,6 @@
 package com.notfound.stackoverflowclone.user.service;
 
+
 import com.notfound.stackoverflowclone.exception.BusinessLogicException;
 import com.notfound.stackoverflowclone.exception.ExceptionCode;
 import com.notfound.stackoverflowclone.user.entity.User;
@@ -11,12 +12,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
 @Transactional
+@Service
 public class UserService {
     private final UserRepository userRepository;
 
+    public User saveUser(User user){
+        verifyExistEmail(user.getEmail());
+        return userRepository.save(user);
+    }
+    private void verifyExistEmail(String email){
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent())
+            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+    }
     @Transactional(readOnly = true)
     public User findVerifiedUser(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
