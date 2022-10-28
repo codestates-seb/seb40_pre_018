@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import Common from './components/Common';
 import Header from './components/Header';
 import QuestionDetail from './pages/Questions/QuestionDetail';
-import QuestionCreate from './pages/Questions/QuestionCreate';
+import AskQuestion from './pages/Questions/AskQuestion';
 import QuestionList from './pages/Questions/QuestionList';
 
 function App() {
