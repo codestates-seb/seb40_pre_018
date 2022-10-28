@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Footer from '../../components/Footer';
 import questionCreateBg from '../../assets/images/questionCreateBg.svg';
-import QuestionCreateForm from '../../components/QuestionCreateForm';
+import AskQuestionForm from '../../components/AskQuestionForm';
 
 const QuestionCreatePage = styled.section`
   width: 100%;
@@ -117,7 +117,7 @@ const AskQuestion = () => {
               </div>
             </div>
           </div>
-          <QuestionCreateForm />
+          <AskQuestionForm />
         </div>
       </QuestionCreatePage>
       <Footer />
