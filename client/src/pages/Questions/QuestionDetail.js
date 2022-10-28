@@ -99,8 +99,8 @@ const QuestionHeader = styled.div`
   }
 `;
 
-// QuestionHeader 아래 날짜 및 조회수
-const QuestionInfo = styled.div`
+// QuestionSubheader - QuestionHeader 아래 날짜 및 조회수 정보
+const QuestionSubHeader = styled.div`
   display: flex;
   padding-bottom: 8px;
   margin-bottom: 16px;
@@ -117,6 +117,27 @@ const QuestionInfo = styled.div`
     }
   }
 `;
+
+// QuestionSubHeader의 내용 컴포넌트
+// eslint-disable-next-line react/prop-types
+const QuestionInfo = ({ asked, modified, views }) => {
+  return (
+    <>
+      <div>
+        <span>Asked</span>
+        <time>{getDaysElapsed(asked)}</time>
+      </div>
+      <div>
+        <span>Modified</span>
+        <time>{getDaysElapsed(modified)}</time>
+      </div>
+      <div>
+        <span>Viewed</span>
+        {views} times
+      </div>
+    </>
+  );
+};
 
 // 메인 콘텐츠(헤더 아래 ~ 태그/작성자 정보(+댓글)) 컨테이너
 const QuestionContent = styled.div`
@@ -305,20 +326,13 @@ const QuestionDetail = () => {
           Ask Question
         </CommonButton>
       </QuestionHeader>
-      <QuestionInfo>
-        <div>
-          <span>Asked</span>
-          <time>{getDaysElapsed(question.asked)}</time>
-        </div>
-        <div>
-          <span>Modified</span>
-          <time>{getDaysElapsed(question.modified)}</time>
-        </div>
-        <div>
-          <span>Viewed</span>
-          {question.viewed} times
-        </div>
-      </QuestionInfo>
+      <QuestionSubHeader>
+        <QuestionInfo
+          asked={question.asked}
+          modified={question.modified}
+          views={question.viewed}
+        />
+      </QuestionSubHeader>
       <QuestionContent>
         <VoteContainer>
           <button className="voting-button">
