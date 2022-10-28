@@ -52,7 +52,7 @@ const AnswerData = {
       description: `You could do something like the below code.
 
       Step-wise details:
-      
+
       Split the text string around ** to create an array arr of string.
       The string inside the **...** will be at odd indices in arr array.
       So, wrap strings at odd indices with bold-styled Text component and other strings at even indices(i.e. which are outside the **...** block) with simple Text component.
@@ -61,7 +61,7 @@ const AnswerData = {
       modified: '2022-10-27 13:34:52Z',
       answered: '2022-10-27 12:48:24Z',
       votes: 1,
-      userName: '',
+      userName: 'John Doe',
       userId: 7040601,
       userAvatar:
         'https://www.gravatar.com/avatar/8645047cc60a3d4cc3a43239b5b523bf?s=64&d=identicon&r=PG&f=1',
@@ -69,7 +69,49 @@ const AnswerData = {
       userBadge: { gold: 1, silver: 18, bronze: 26 },
     },
   ],
-  61341913: [{}],
+  61341913: [
+    {
+      description: `Solution 1: Separated npm package
+    In my project, I separated my core parts with each npm package.
+
+    Create npm package and put your shared components into that.
+    You can test immediately your shared component's function with npm link or specify your local package's absolute path with npm install.
+    If you want to manage your package more intuitive way, then you can publish your package to npm repository with private mode.
+    Solution 2: Depend on the environment variable
+    You can separate your running environment with react-native-config. With this package, created multiple environments .env or .env.production you can separate your runtime variables with ENVFILE=.env npm start or ENVFILE=.env.production npm start. Then in your javascript code, you can refer your each runtime settings.
+
+    import Config from 'react-native-config';
+
+    const isProduction = Config.environment === 'production';
+
+    <Image source={isProduction ? require(..production_image) : require(..development_image)} />
+    How to show your slight difference in your app depends on you. like Platform.os === 'ios'`,
+      modified: '2022-10-28 03:40:20Z',
+      answered: '2020-04-24 09:39:34Z',
+      votes: 2,
+      userName: 'MJ Studio',
+      userId: 10199138,
+      userAvatar:
+        'https://www.gravatar.com/avatar/8645047cc60a3d4cc3a43239b5b523bf?s=64&d=identicon&r=PG&f=1',
+      userReputation: 3220,
+      userBadge: { silver: 20, bronze: 32 },
+    },
+    {
+      description: `Refere this: https://github.com/luggit/react-native-config
+
+      You can create different builds : Production, staging, testing.
+
+      You can set multiple environment and generate build.`,
+      answered: '2020-04-24 08:16:42Z',
+      votes: 0,
+      userName: 'Vinit Bhavsar',
+      userId: 11136807,
+      userAvatar:
+        'https://www.gravatar.com/avatar/8645047cc60a3d4cc3a43239b5b523bf?s=64&d=identicon&r=PG&f=1',
+      userReputation: 218,
+      userBadge: { silver: 3, bronze: 13 },
+    },
+  ],
 };
 
 // 전체 감싸는 컨테이너
@@ -116,6 +158,7 @@ const SubHeaderWrapper = styled.div`
     }
   }
 `;
+
 const QuestionSubHeader = ({ asked, modified, views }) => {
   return (
     <SubHeaderWrapper>
@@ -167,7 +210,6 @@ const QuestionDetail = () => {
   const params = useParams();
   const question = QuestionData[params.id];
   const answer = AnswerData[params.id];
-
   const handleSignUp = () => {
     useNavigate('/login');
   };
@@ -205,7 +247,7 @@ const QuestionDetail = () => {
         description={question.description}
         tags={question.tags}
         modified={question.modified}
-        asked={question.asked}
+        created={question.asked}
         userAvatar={question.userAvatar}
         userName={question.userName}
         userId={question.userId}
@@ -213,6 +255,24 @@ const QuestionDetail = () => {
         userBadge={question.userBadge}
       />
       <AnswersHeader count={answer.length} />
+      {answer.map((ans) => {
+        return (
+          <Content
+            key={'answer' + ans.userId}
+            type="answer"
+            votes={ans.votes}
+            description={ans.description}
+            tags={ans.tags}
+            modified={ans.modified}
+            created={ans.answered}
+            userAvatar={ans.userAvatar}
+            userName={ans.userName}
+            userId={ans.userId}
+            userReputation={ans.userReputation}
+            userBadge={ans.userBadge}
+          />
+        );
+      })}
     </Container>
   );
 };
