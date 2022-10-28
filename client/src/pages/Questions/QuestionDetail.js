@@ -1,9 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getDaysElapsed, getTimeElapsed } from '../../utils/timeElapsed';
-import { ReactComponent as VoteUpIcon } from '../../assets/images/voteUp.svg';
-import { ReactComponent as VoteDownIcon } from '../../assets/images/voteDown.svg';
+import { getDaysElapsed } from '../../utils/timeElapsed';
 import { CommonButton } from '../../components/Buttons';
+import { Content } from '../../components/Content';
 
 // Dummy Data: 질문 내용
 const QuestionData = {
@@ -100,7 +99,7 @@ const QuestionHeader = styled.div`
 `;
 
 // QuestionSubheader - QuestionHeader 아래 날짜 및 조회수 정보
-const QuestionSubHeader = styled.div`
+const SubHeaderWrapper = styled.div`
   display: flex;
   padding-bottom: 8px;
   margin-bottom: 16px;
@@ -117,12 +116,9 @@ const QuestionSubHeader = styled.div`
     }
   }
 `;
-
-// QuestionSubHeader의 내용 컴포넌트
-// eslint-disable-next-line react/prop-types
-const QuestionInfo = ({ asked, modified, views }) => {
+const QuestionSubHeader = ({ asked, modified, views }) => {
   return (
-    <>
+    <SubHeaderWrapper>
       <div>
         <span>Asked</span>
         <time>{getDaysElapsed(asked)}</time>
@@ -135,162 +131,9 @@ const QuestionInfo = ({ asked, modified, views }) => {
         <span>Viewed</span>
         {views} times
       </div>
-    </>
+    </SubHeaderWrapper>
   );
 };
-
-// 메인 콘텐츠(헤더 아래 ~ 태그/작성자 정보(+댓글)) 컨테이너
-const QuestionContent = styled.div`
-  display: flex;
-  align-items: flex-start;
-`;
-
-// 메인 콘텐츠 (질문 내용 ~ 답변 전까지)
-const MainContent = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-// 투표
-const VoteContainer = styled.div`
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-right: 16px;
-
-  div {
-    text-align: center;
-    font-size: 21px;
-    color: var(--black-500);
-    font-weight: 400;
-  }
-
-  .voting-button {
-    height: 36px;
-    width: 36px;
-    margin: 2px;
-    display: flex;
-    padding: 0;
-    background: none;
-    border: none;
-
-    svg {
-      width: 36px;
-      height: 36px;
-    }
-  }
-`;
-
-// eslint-disable-next-line react/prop-types
-const VotingSystem = ({ votes }) => {
-  return (
-    <>
-      <button className="voting-button">
-        <VoteUpIcon fill="var(--black-200)" />
-      </button>
-      <div>{votes}</div>
-      <button className="voting-button">
-        <VoteDownIcon fill="var(--black-200)" />
-      </button>
-    </>
-  );
-};
-
-// 질문 내용과 태그, 작성자 정보, (+ 댓글)
-const Question = styled.div`
-  p {
-    margin: 0;
-    font-size: 15px;
-    line-height: 22.5px;
-  }
-`;
-
-// 태그 리스트와 태그
-const Tags = styled.ul`
-  display: flex;
-  margin-top: 24px;
-  margin-bottom: 27px;
-
-  li {
-    margin-right: 4px;
-
-    span {
-      margin: 2px 2px 2px 0px;
-      padding: 0.4em 0.5em;
-      border-radius: 3px;
-      font-size: 12px;
-      color: var(--powder-700);
-      background-color: var(--powder-100);
-    }
-  }
-`;
-
-// 태그 하단 공유 ~ 작성자 정보 컨테이너
-const Utils = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  margin: 16px 0;
-  padding-top: 4px;
-
-  .modified-date {
-    font-size: 12px;
-    color: var(--blue-600);
-  }
-`;
-
-// 공유, 수정, 삭제 옵션들
-const Options = styled.div`
-  display: flex;
-  color: var(--black-500);
-  font-size: 13px;
-  margin: -4px;
-
-  div {
-    margin: 4px;
-    cursor: pointer;
-  }
-`;
-
-// 작성자 정보 박스(하늘색 박스)
-const UserInfo = styled.div`
-  width: 200px;
-  padding: 5px 6px 7px 7px;
-  border-radius: 3px;
-  background-color: rgb(217, 234, 247);
-  color: var(--black-500);
-
-  span {
-    font-size: 12px;
-  }
-
-  .avatar-wrapper {
-    float: left;
-    width: 32px;
-    height: 32px;
-
-    img {
-      width: 32px;
-      height: 32px;
-      border-radius: 3px;
-    }
-  }
-
-  .user-detail {
-    float: left;
-    margin-left: 8px;
-    font-size: 13px;
-
-    a {
-      color: var(--blue-600);
-    }
-
-    .user-scores {
-      margin-bottom: -4px;
-    }
-  }
-`;
 
 // 답변 컨테이너
 const AnswersContainer = styled.div`
@@ -314,7 +157,7 @@ const QuestionDetail = () => {
   const params = useParams();
   const question = QuestionData[params.id];
   const answer = AnswerData[params.id];
-  console.log(getDaysElapsed(question.asked));
+
   const handleSignUp = () => {
     useNavigate('/login');
   };
@@ -341,76 +184,25 @@ const QuestionDetail = () => {
           Ask Question
         </CommonButton>
       </QuestionHeader>
-      <QuestionSubHeader>
-        <QuestionInfo
-          asked={question.asked}
-          modified={question.modified}
-          views={question.viewed}
-        />
-      </QuestionSubHeader>
-      <QuestionContent>
-        <VoteContainer>
-          <VotingSystem votes={question.votes} />
-        </VoteContainer>
-        <MainContent>
-          <Question>
-            <p>{question.description}</p>
-          </Question>
-          <Tags>
-            {question.tags.map((tag) => {
-              return (
-                <li key={tag}>
-                  <span>{tag}</span>
-                </li>
-              );
-            })}
-          </Tags>
-          <Utils>
-            <Options>
-              <div>Share</div>
-              <div>Edit</div>
-              <div>Delete</div>
-            </Options>
-            <div className="modified-date">
-              {question.modified !== '' && (
-                <span>edited {getTimeElapsed(question.modified)}</span>
-              )}
-            </div>
-            <UserInfo>
-              <div>
-                <span>asked {getTimeElapsed(question.asked)}</span>
-              </div>
-              <div className="avatar-wrapper">
-                <img
-                  src={question.userAvatar}
-                  alt={question.userName + "'s avatar"}
-                />
-              </div>
-              <div className="user-detail">
-                <a
-                  href={
-                    'https://stackoverflow.com/questions/7' + question.userId
-                  }
-                >
-                  {question.userName}
-                </a>
-                <div className="user-scores">
-                  <span>{question.userReputation}</span>
-                  <span>
-                    {Object.keys(question.userBadge).map((badge) => {
-                      return (
-                        <span key={badge} className={badge}>
-                          {question.userBadge[badge]}
-                        </span>
-                      );
-                    })}
-                  </span>
-                </div>
-              </div>
-            </UserInfo>
-          </Utils>
-        </MainContent>
-      </QuestionContent>
+      <QuestionSubHeader
+        asked={question.asked}
+        modified={question.modified}
+        views={question.viewed}
+      />
+      <Content
+        type="question"
+        votes={question.votes}
+        description={question.description}
+        tags={question.tags}
+        modified={question.modified}
+        asked={question.asked}
+        userAvatar={question.userAvatar}
+        userName={question.userName}
+        userId={question.userId}
+        userReputation={question.userReputation}
+        userBadge={question.userBadge}
+      />
+
       <AnswersContainer>
         <div className="answers">
           <h2 className="answer-count">
@@ -427,8 +219,5 @@ const QuestionDetail = () => {
     </Container>
   );
 };
-
-// edited 4 hours ago
-// edited 54 secs ago
 
 export default QuestionDetail;
