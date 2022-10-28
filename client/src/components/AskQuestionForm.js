@@ -61,7 +61,13 @@ const QCFormCommon = styled.div`
   }
 `;
 
-const QuestionCreateForm = () => {
+const AskQuestionForm = ({
+  askTitle,
+  askTitleSet,
+  askBody,
+  askBodySet,
+  handleSubmit,
+}) => {
   return (
     <>
       <QCFormCommon>
@@ -79,7 +85,8 @@ const QuestionCreateForm = () => {
                 id="title"
                 type="text"
                 placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
-                value=""
+                value={askTitle}
+                onChange={(event) => askTitleSet(event.target.value)}
               ></input>
             </div>
           </div>
@@ -99,7 +106,12 @@ const QuestionCreateForm = () => {
               </label>
             </div>
             <div className="qc-form-body">
-              <input id="qc-body" type="text" value=""></input>
+              <input
+                id="qc-body"
+                type="text"
+                value={askBody}
+                onChange={(event) => askBodySet(event.target.value)}
+              ></input>
             </div>
           </div>
           <RecommendBody />
@@ -110,7 +122,7 @@ const QuestionCreateForm = () => {
           bgColor="var(--blue-500)"
           color="#fff"
           border="transparent"
-          //   onClick={}
+          onClick={() => handleSubmit(askTitle, askBody)}
         >
           Post your question
         </CommonButton>
@@ -119,4 +131,4 @@ const QuestionCreateForm = () => {
   );
 };
 
-export default QuestionCreateForm;
+export default AskQuestionForm;
