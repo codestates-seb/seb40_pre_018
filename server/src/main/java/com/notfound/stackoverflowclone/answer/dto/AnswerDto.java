@@ -25,6 +25,9 @@ public class AnswerDto {
         @NotNull
         private Long questionId;
 
+        @NotNull
+        private Long userId;
+
         @NotBlank(message = "Body is missing.")
         private String content;
     }
