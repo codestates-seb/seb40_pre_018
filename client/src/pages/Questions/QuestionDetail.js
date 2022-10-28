@@ -151,7 +151,7 @@ const MainContent = styled.div`
   flex-direction: column;
 `;
 
-// 투표 버튼과 현재 투표 수
+// 투표
 const VoteContainer = styled.div`
   width: auto;
   display: flex;
@@ -181,6 +181,21 @@ const VoteContainer = styled.div`
     }
   }
 `;
+
+// eslint-disable-next-line react/prop-types
+const VotingSystem = ({ votes }) => {
+  return (
+    <>
+      <button className="voting-button">
+        <VoteUpIcon fill="var(--black-200)" />
+      </button>
+      <div>{votes}</div>
+      <button className="voting-button">
+        <VoteDownIcon fill="var(--black-200)" />
+      </button>
+    </>
+  );
+};
 
 // 질문 내용과 태그, 작성자 정보, (+ 댓글)
 const Question = styled.div`
@@ -335,13 +350,7 @@ const QuestionDetail = () => {
       </QuestionSubHeader>
       <QuestionContent>
         <VoteContainer>
-          <button className="voting-button">
-            <VoteUpIcon fill="var(--black-200)" />
-          </button>
-          <div>{question.votes}</div>
-          <button className="voting-button">
-            <VoteDownIcon fill="var(--black-200)" />
-          </button>
+          <VotingSystem votes={question.votes} />
         </VoteContainer>
         <MainContent>
           <Question>
