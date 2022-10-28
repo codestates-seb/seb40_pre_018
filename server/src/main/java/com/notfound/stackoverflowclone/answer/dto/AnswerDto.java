@@ -2,14 +2,13 @@ package com.notfound.stackoverflowclone.answer.dto;
 
 
 import com.notfound.stackoverflowclone.answer.entity.AnswerStatus;
-import com.notfound.stackoverflowclone.user.entity.User;
+import com.notfound.stackoverflowclone.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class AnswerDto {
     @Getter
@@ -19,8 +18,7 @@ public class AnswerDto {
     public static class Response {
         private Long answerId;
         private String content;
-        private AnswerStatus answerStatus;
-        private User author;
+        private UserDto.Response author;
         private int vote;
     }
     @Getter
@@ -28,11 +26,6 @@ public class AnswerDto {
     @AllArgsConstructor
     @Builder
     public static class Post {
-        @NotNull
-        private Long questionId;
-
-        @NotNull
-        private Long userId;
 
         @NotBlank(message = "Body is missing.")
         private String content;
