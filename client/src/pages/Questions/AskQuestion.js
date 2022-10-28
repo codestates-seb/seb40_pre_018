@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import Footer from '../../components/Footer';
 import questionCreateBg from '../../assets/images/questionCreateBg.svg';
 import AskQuestionForm from '../../components/AskQuestionForm';
+import { useState } from 'react';
+import { fetchCreate } from '../../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 const QuestionCreatePage = styled.section`
   width: 100%;
@@ -82,6 +85,16 @@ const QuestionCreatePage = styled.section`
 `;
 
 const AskQuestion = () => {
+  const [askTitle, askTitleSet] = useState('');
+  const [askBody, askBodySet] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = (title, content) => {
+    const data = { title, content };
+    fetchCreate('http://localhost:3001/questions', data);
+    navigate('/');
+  };
+
   return (
     <>
       <QuestionCreatePage>
@@ -117,7 +130,13 @@ const AskQuestion = () => {
               </div>
             </div>
           </div>
-          <AskQuestionForm />
+          <AskQuestionForm
+            askTitle={askTitle}
+            askTitleSet={askTitleSet}
+            askBody={askBody}
+            askBodySet={askBodySet}
+            handleSubmit={handleSubmit}
+          />
         </div>
       </QuestionCreatePage>
       <Footer />

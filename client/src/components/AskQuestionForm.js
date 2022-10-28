@@ -1,6 +1,4 @@
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { submit } from '../redux/actions/submit';
 import { CommonButton } from './Buttons';
 import { RecommendBody, RecommendTitle } from './Recommends';
 
@@ -63,12 +61,13 @@ const QCFormCommon = styled.div`
   }
 `;
 
-const AskQuestionForm = () => {
-  const dispatch = useDispatch();
-
-  const handleSubmit = () => {
-    dispatch(submit('hello'));
-  };
+const AskQuestionForm = ({
+  askTitle,
+  askTitleSet,
+  askBody,
+  askBodySet,
+  handleSubmit,
+}) => {
   return (
     <>
       <QCFormCommon>
@@ -86,8 +85,8 @@ const AskQuestionForm = () => {
                 id="title"
                 type="text"
                 placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
-                value=""
-                // onChange={}
+                value={askTitle}
+                onChange={(event) => askTitleSet(event.target.value)}
               ></input>
             </div>
           </div>
@@ -107,7 +106,12 @@ const AskQuestionForm = () => {
               </label>
             </div>
             <div className="qc-form-body">
-              <input id="qc-body" type="text" value=""></input>
+              <input
+                id="qc-body"
+                type="text"
+                value={askBody}
+                onChange={(event) => askBodySet(event.target.value)}
+              ></input>
             </div>
           </div>
           <RecommendBody />
@@ -118,7 +122,7 @@ const AskQuestionForm = () => {
           bgColor="var(--blue-500)"
           color="#fff"
           border="transparent"
-          onClick={handleSubmit}
+          onClick={() => handleSubmit(askTitle, askBody)}
         >
           Post your question
         </CommonButton>
