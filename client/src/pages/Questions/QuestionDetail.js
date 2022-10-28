@@ -136,7 +136,7 @@ const QuestionSubHeader = ({ asked, modified, views }) => {
 };
 
 // 답변 컨테이너
-const AnswersContainer = styled.div`
+const AnswersHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
   .answer-count {
@@ -151,6 +151,16 @@ const AnswersContainer = styled.div`
     }
   }
 `;
+
+const AnswersHeader = ({ count }) => {
+  return (
+    <AnswersHeaderWrapper>
+      <h2 className="answer-count">
+        {count > 0 && count + (count === 1 ? ' answer' : ' answers')}
+      </h2>
+    </AnswersHeaderWrapper>
+  );
+};
 
 // 여기서부터!
 const QuestionDetail = () => {
@@ -202,20 +212,7 @@ const QuestionDetail = () => {
         userReputation={question.userReputation}
         userBadge={question.userBadge}
       />
-
-      <AnswersContainer>
-        <div className="answers">
-          <h2 className="answer-count">
-            {answer.length > 0 &&
-              (answer.length > 1
-                ? `${answer.length} answers`
-                : `${answer.length} answer`)}
-          </h2>
-        </div>
-        <div className="new-answer">
-          <h2>Your Answer</h2>
-        </div>
-      </AnswersContainer>
+      <AnswersHeader count={answer.length} />
     </Container>
   );
 };
