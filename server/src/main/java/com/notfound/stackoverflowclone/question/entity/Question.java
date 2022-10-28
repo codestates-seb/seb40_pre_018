@@ -29,8 +29,9 @@ public class Question extends AuditingEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    private long clicks;
+    private long views;
 
-    @OneToMany(mappedBy = "question")
+    @Builder.Default
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.REMOVE})
     private List<Answer> answers = new ArrayList<>();
 }

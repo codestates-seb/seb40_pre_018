@@ -1,12 +1,20 @@
 package com.notfound.stackoverflowclone.question.service;
 
+import com.notfound.stackoverflowclone.exception.BusinessLogicException;
+import com.notfound.stackoverflowclone.exception.ExceptionCode;
 import com.notfound.stackoverflowclone.question.entity.Question;
 import com.notfound.stackoverflowclone.question.repository.QuestionRepository;
 import com.notfound.stackoverflowclone.user.entity.User;
 import com.notfound.stackoverflowclone.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,4 +34,33 @@ public class QuestionService {
         user.getQuestions().add(question);
         return question;
     }
+
+    public Question findVerifiedQuestion(Long questionId) {
+        return questionRepository.findById(questionId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
+    }
+
+    public Question findViewedQuestion(Long questionId) {
+        Question findQuestion = findVerifiedQuestion(questionId);
+        findQuestion.setViews(findQuestion.getViews() + 1);
+        return findQuestion;
+    }
+
+    public Page<Question> findQuestions(int page, int size) {
+        return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
+    }
+
+    public void deleteQuestion(Long questionId, Long userId) {
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+        optionalQuestion.ifPresentOrElse(question -> {
+            if (!Objects.equals(question.getAuthor().getUserId(), userId)) {
+                throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
+            }
+            questionRepository.delete(question);
+
+        }, () -> {
+            return;
+        });
+    }
+
 }
