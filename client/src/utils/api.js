@@ -1,24 +1,38 @@
+import axios from 'axios';
+
 export const fetchCreate = (url, data) => {
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  }).catch((err) => console.log(err.message));
+  axios(url, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: '1',
+    },
+    data,
+  })
+    .then((res) => console.log(res.data))
+    .catch((err) => console.log('Error', err.message));
+};
+
+export const fetchPatch = (url, data) => {
+  axios(url, {
+    method: 'patch',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: '1',
+    },
+    data,
+  })
+    .then((res) => console.log(res.data))
+    .catch((err) => console.log('Error', err.message));
 };
 
 /* 추후에 사용하기 위한 로직입니다. */
 /*
 export const fetchDelete = (url) => {
-  fetch(url, {
-    method: 'DELETE',
-  }).catch((err) => console.log('Error', err.message));
-};
-
-export const fetchPatch = (url, data) => {
-  fetch(url, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  }).catch((err) => console.log(err.message));
+  axios(url, {
+    method: 'delete',
+  })
+    .then((res) => console.log(res.data))
+    .catch((err) => console.log('Error', err.message));
 };
 */
