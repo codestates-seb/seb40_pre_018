@@ -6,7 +6,7 @@ const UserInfoContainer = styled.section`
   width: 200px;
   padding: 7px 6px 7px 7px;
   border-radius: 3px;
-  background-color: rgb(217, 234, 247);
+  background-color: ${(props) => props.bgColor};
   color: var(--black-500);
   font-size: 12px;
 
@@ -75,7 +75,8 @@ const UserInfoContainer = styled.section`
 `;
 
 export const UserInfo = ({
-  asked,
+  type,
+  created,
   userAvatar,
   userName,
   userId,
@@ -83,9 +84,13 @@ export const UserInfo = ({
   userBadge,
 }) => {
   return (
-    <UserInfoContainer>
+    <UserInfoContainer
+      bgColor={type === 'question' ? 'rgb(217, 234, 247)' : 'transparent'}
+    >
       <div className="asked-time">
-        <span>asked {getTimeElapsed(asked)}</span>
+        <span>
+          {type === 'question' ? 'asked' : 'answered'} {getTimeElapsed(created)}
+        </span>
       </div>
       <div className="avatar-wrapper">
         <img src={userAvatar} alt={userName + "'s avatar"} />

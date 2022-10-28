@@ -49,7 +49,7 @@ export const Content = ({
   description,
   tags,
   modified,
-  asked,
+  created,
   userAvatar,
   userName,
   userId,
@@ -61,22 +61,21 @@ export const Content = ({
       <Vote votes={votes} />
       <div className="main-content">
         <p className="question">{description}</p>
-        <Tags tags={tags} />
+        {type === 'question' && <Tags tags={tags} />}
         <Utils>
-          {type == 'question' && (
-            <Options>
-              <div>Share</div>
-              <div>Edit</div>
-              <div>Delete</div>
-            </Options>
-          )}
+          <Options>
+            <div>Share</div>
+            <div>Edit</div>
+            <div>Delete</div>
+          </Options>
           {modified && (
             <span className="modified-date">
               edited {getTimeElapsed(modified)}
             </span>
           )}
           <UserInfo
-            asked={asked}
+            type={type}
+            created={created}
             userAvatar={userAvatar}
             userName={userName}
             userId={userId}
