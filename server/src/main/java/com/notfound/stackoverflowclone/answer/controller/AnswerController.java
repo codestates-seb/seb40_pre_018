@@ -6,7 +6,6 @@ import com.notfound.stackoverflowclone.answer.mapper.AnswerMapper;
 import com.notfound.stackoverflowclone.answer.service.AnswerService;
 import com.notfound.stackoverflowclone.question.entity.Question;
 import com.notfound.stackoverflowclone.question.service.QuestionService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -18,22 +17,23 @@ import javax.validation.constraints.Positive;
 @RestController
 @RequestMapping
 @Validated
-@AllArgsConstructor
 @RequiredArgsConstructor
 public class AnswerController {
-    private AnswerService answerService;
-    private AnswerMapper mapper;
-    private QuestionService questionService;
+    private final AnswerService answerService;
+    private final AnswerMapper mapper;
+    private final QuestionService questionService;
 
     @PostMapping("/questions/{question-id}/answers")
     @ResponseStatus(HttpStatus.CREATED)
     public AnswerDto.Response postAnswer(
+            @RequestHeader(name = "Authorization") Long userId,
             @PathVariable("question-id") @Positive Long questionId,
             @Valid @RequestBody AnswerDto.Post postDto){
         Question question = questionService.findVerifiedQuestion(questionId);
-        Answer answer = answerService.createAnswer(
-                mapper.postDtoToEntity(postDto, question)
-        );
-        return mapper.entityToResponseDto(answer);
+        Answer answer = mapper.postDtoToEntity(postDto);
+        answer.builder()
+                .question(question)
+                .build();
+        return mapper.entityToResponseDto(answerService.saveAnswer(answer, userId));
     }
 }
