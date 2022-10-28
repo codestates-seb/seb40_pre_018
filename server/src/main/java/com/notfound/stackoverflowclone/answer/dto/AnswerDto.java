@@ -1,6 +1,8 @@
 package com.notfound.stackoverflowclone.answer.dto;
 
 
+import com.notfound.stackoverflowclone.answer.entity.AnswerStatus;
+import com.notfound.stackoverflowclone.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +17,11 @@ public class AnswerDto {
     @AllArgsConstructor
     @Builder
     public static class Response {
-
+        private Long answerId;
+        private String content;
+        private AnswerStatus answerStatus;
+        private User author;
+        private int vote;
     }
     @Getter
     @NoArgsConstructor
