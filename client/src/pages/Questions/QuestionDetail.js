@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getDaysElapsed, getTimeElapsed } from '../../utils/timeElapsed';
 import { ReactComponent as VoteUpIcon } from '../../assets/images/voteUp.svg';
 import { ReactComponent as VoteDownIcon } from '../../assets/images/voteDown.svg';
+import { CommonButton } from '../../components/Buttons';
 
 // Dummy Data: 질문 내용
 const QuestionData = {
@@ -90,26 +91,12 @@ const QuestionHeader = styled.div`
     font-size: 27px;
     font-weight: 400;
   }
-`;
 
-// QuestionHeader내 AskQuestionBtn
-// SignupBtn을 변형 (그대로 쓰니 글자가 다음 줄로 넘어감ㅜ)
-const AskQuestionBtn = styled.button`
-  /* position: absolute; */
-  /* right: 0; */
-  text-align: left;
-  display: block;
-  margin-left: 12px;
-  padding: 0.8em;
-  background-color: var(--blue-500);
-  box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
-  border: 1px solid transparent;
-  border-radius: 3px;
-  color: white;
-  font-size: 13px;
-  white-space: nowrap;
-  height: 37px;
-  cursor: pointer;
+  .ask-question-btn {
+    display: block;
+    white-space: nowrap;
+    height: 37px;
+  }
 `;
 
 // QuestionHeader 아래 날짜 및 조회수
@@ -291,8 +278,7 @@ const QuestionDetail = () => {
   const params = useParams();
   const question = QuestionData[params.id];
   const answer = AnswerData[params.id];
-
-  console.log(answer.length);
+  console.log(getDaysElapsed(question.asked));
   const handleSignUp = () => {
     useNavigate('/login');
   };
@@ -309,7 +295,15 @@ const QuestionDetail = () => {
             {question.title}
           </a>
         </h1>
-        <AskQuestionBtn onClick={handleSignUp}>Ask Question</AskQuestionBtn>
+        <CommonButton
+          bgColor="var(--blue-500)"
+          color="#fff"
+          border="transparent"
+          onClick={handleSignUp}
+          className="ask-question-btn"
+        >
+          Ask Question
+        </CommonButton>
       </QuestionHeader>
       <QuestionInfo>
         <div>
