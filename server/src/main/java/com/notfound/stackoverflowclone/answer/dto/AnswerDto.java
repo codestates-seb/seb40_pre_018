@@ -14,6 +14,13 @@ public class AnswerDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
+    public static class Response {
+
+    }
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class Post {
         @NotNull
         private Long questionId;
