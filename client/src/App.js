@@ -4,6 +4,7 @@ import Header from './components/Header';
 import QuestionDetail from './pages/Questions/QuestionDetail';
 import AskQuestion from './pages/Questions/AskQuestion';
 import QuestionList from './pages/Questions/QuestionList';
+import EditQuestion from './pages/Questions/EditQuestion';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Common />}>
           <Route index element={<QuestionList />}></Route>
           <Route path="/:id" element={<QuestionDetail />}></Route>
+          <Route path="edit" element={<EditQuestion />}></Route>
           {/* Tags, Users, 답변 작성, 수정 페이지 라우팅은 여기 */}
         </Route>
         <Route path="/ask" element={<AskQuestion />} />
