@@ -19,6 +19,7 @@ export const AskBtn = styled.button`
   margin: 4px;
   padding: 0.5rem;
   box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
+  border: 1px solid ${(props) => props.border || 'var(--blue-600)'};
   width: auto;
   height: 36px;
   border-width: 0;
@@ -50,13 +51,14 @@ export const SortBtn = styled.button`
 
 export const BottomBtn = styled.button`
   background-color: var(--orange-400);
-  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
   margin: 2px;
+  width: auto;
   box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
   border-radius: 3px;
   color: white;
   font-size: 13px;
-  height: 30px;
-  width: auto;
+  height: 35px;
   border: 0;
 `;

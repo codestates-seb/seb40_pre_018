@@ -27,12 +27,11 @@ export const PostSum = styled.div`
   }
 `;
 
-// eslint-disable-next-line react/prop-types
-const PostSummary = ({ viewNum }) => {
+const PostSummary = ({ voteNum, answerNum, viewNum }) => {
   return (
     <PostSum>
-      <span className="post-votes">8 votes</span>
-      <span className="post-answers">8 answers</span>
+      <span className="post-votes">{voteNum} votes</span>
+      <span className="post-answers">{answerNum} answers</span>
       <span className="post-views">{viewNum} views</span>
     </PostSum>
   );
