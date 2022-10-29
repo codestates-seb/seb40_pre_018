@@ -32,17 +32,15 @@ const Qusetions = ({ questions }) => {
   return (
     <div>
       <QusetionContainer>
-        {questions.map((item) => (
-          <>
-            <div className="container">
-              <PostSummary />
-              <div className="questions">
-                <div className="question-title"> {item.title} </div>
-                <div className="question-content"> {item.content} </div>
-              </div>
+        <>
+          <div className="container">
+            <PostSummary viewNum={questions.views} />
+            <div className="questions">
+              <div className="question-title"> {questions.title} </div>
+              <div className="question-content"> {questions.content} </div>
             </div>
-          </>
-        ))}
+          </div>
+        </>
       </QusetionContainer>
     </div>
   );

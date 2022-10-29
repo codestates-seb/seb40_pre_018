@@ -1,4 +1,6 @@
-import { useState } from 'react';
+/* eslint-disable no-unused-vars */
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AskBtn } from '../../components/Buttons';
 import QDummyData from './QuestionDummy';
@@ -29,7 +31,28 @@ const QuestionHeader = styled.header`
 
 const QuestionList = () => {
   // eslint-disable-next-line no-unused-vars
-  const [questions, setQuestion] = useState([QDummyData]);
+  const [questions, setQuestion] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(15);
+  const [totalNum, setTotalNum] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `http://15.165.244.155:8080/questions?page=${page}&size=${size}`
+        );
+        console.log(response.data.data);
+        setQuestion(response.data.data);
+      } catch (e) {
+        console.log(e);
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, [size, page]);
 
   return (
     <>
@@ -40,9 +63,9 @@ const QuestionList = () => {
         </QuestionHeader>
         <SortTabs />
         <div>
-          {questions.map((question) => (
-            <Qusetions key={question.id} questions={question} />
-          ))}
+          {questions.map((question) => {
+            return <Qusetions key={question.questionId} questions={question} />;
+          })}
         </div>
       </QuestionListPage>
     </>
