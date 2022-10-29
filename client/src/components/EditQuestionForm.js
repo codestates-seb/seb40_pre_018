@@ -1,0 +1,76 @@
+import styled from 'styled-components';
+import { CommonButton } from './Buttons';
+
+const EditFormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .edit-title-form,
+  .edit-body-form,
+  .edit-buttons {
+    display: flex;
+    margin: 20px 0;
+  }
+
+  .edit-title-form,
+  .edit-body-form {
+    flex-direction: column;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  input {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px 9px;
+    background-color: #fff;
+    color: hsl(210, 8%, 5%);
+    border: 1px solid var(--black-200);
+    border-radius: 3px;
+    outline: none;
+
+    &:focus {
+      box-shadow: 0px 0px 0px 4px var(--powder-200);
+      border-color: var(--blue-600);
+    }
+  }
+
+  input#edit-body {
+    height: 250px;
+  }
+`;
+
+const EditQuestionForm = () => {
+  return (
+    <EditFormContainer>
+      <div className="edit-title-form">
+        <label htmlFor="edit-title">Title</label>
+        <input
+          id="edit-title"
+          type="text"
+          //   value={askTitle}
+          //   onChange={(event) => askTitleSet(event.target.value)}
+        ></input>
+      </div>
+      <div className="edit-body-form">
+        <label htmlFor="edit-body">Body</label>
+        <input id="edit-body" type="text"></input>
+      </div>
+      <div className="body-preview">미리보기</div>
+      <div className="edit-buttons">
+        <CommonButton
+          bgColor="var(--blue-500)"
+          color="#fff"
+          border="transparent"
+        >
+          Save edits
+        </CommonButton>
+        <CommonButton bgColor="#fff" border="transparent">
+          Cancel
+        </CommonButton>
+      </div>
+    </EditFormContainer>
+  );
+};
+
+export default EditQuestionForm;

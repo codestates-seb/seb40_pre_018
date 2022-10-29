@@ -54,9 +54,13 @@ const RightAside = styled.aside`
       font-weight: 700;
       font-size: 12px;
       background-color: var(--yellow-100);
-      border: 1px solid var(--yellow-200);
+      border-bottom: 1px solid var(--yellow-200);
       list-style-type: none;
       margin: 0;
+    }
+
+    .widget-header:nth-child(4) {
+      border-top: 1px solid var(--yellow-200);
     }
   }
 `;
