@@ -4,6 +4,8 @@ import com.notfound.stackoverflowclone.answer.entity.Answer;
 import com.notfound.stackoverflowclone.answer.repository.AnswerRepository;
 import com.notfound.stackoverflowclone.exception.BusinessLogicException;
 import com.notfound.stackoverflowclone.exception.ExceptionCode;
+import com.notfound.stackoverflowclone.question.entity.Question;
+import com.notfound.stackoverflowclone.question.service.QuestionService;
 import com.notfound.stackoverflowclone.user.entity.User;
 import com.notfound.stackoverflowclone.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +21,15 @@ import java.util.Optional;
 public class AnswerService {
     private final AnswerRepository answerRepository;
     private final UserService userService;
+    private final QuestionService questionService;
 
-    public Answer saveAnswer(Answer answer, Long userId){
+    public Answer saveAnswer(Answer answer, Long userId, Long questionId){
         User findUser = userService.findVerifiedUser(userId);
+        Question question = questionService.findVerifiedQuestion(questionId);
         Answer madeAnswer = createAnswer(answer, findUser);
+        madeAnswer.builder()
+                .question(question)
+                .build();
         return answerRepository.save(madeAnswer);
     }
     private Answer createAnswer(Answer answer, User user) {
