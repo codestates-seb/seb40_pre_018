@@ -57,7 +57,7 @@ export const Content = ({
   userBadge,
 }) => {
   return (
-    <ContentWrapper>
+    <ContentWrapper className={type + '-container'}>
       <Vote votes={votes} />
       <div className="main-content">
         <p className="question">{description}</p>
