@@ -26,6 +26,7 @@ public class User extends AuditingEntity {
 
     private String password;
 
+    @Column
     private String displayName;
 
     @Builder.Default
