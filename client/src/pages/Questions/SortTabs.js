@@ -11,10 +11,8 @@ const SortContainer = styled.div`
 `;
 
 const SortTabs = () => {
-  const countQuestions = '7,079,803';
   return (
     <SortContainer>
-      <h4> {countQuestions} questions</h4>
       <div>
         <SortBtn>newest</SortBtn>
         <SortBtn>voted</SortBtn>
