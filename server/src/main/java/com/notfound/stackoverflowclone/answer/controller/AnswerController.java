@@ -36,4 +36,11 @@ public class AnswerController {
                 .build();
         return mapper.entityToResponseDto(answerService.saveAnswer(answer, userId));
     }
+
+    @DeleteMapping("/questions/{question-id}/answers/{answer-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deleteAnswer(@PathVariable(name = "answer-id") Long answerId,
+                      @RequestHeader(name = "Authorization") Long userId){
+        answerService.deleteAnswer(answerId,userId);
+    }
 }
