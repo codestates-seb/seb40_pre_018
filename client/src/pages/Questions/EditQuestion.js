@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import EditQuestionForm from '../../components/EditQuestionForm';
+import useAxios from '../../hooks/useAxios';
 
 const EditQuestionPage = styled.section`
   padding: 24px;
@@ -17,6 +18,8 @@ const EditQuestionPage = styled.section`
 `;
 
 const EditQuestion = () => {
+  const [question, isPending] = useAxios('http://localhost:3001/questions/1');
+
   return (
     <EditQuestionPage>
       <div className="edit-question-container">
@@ -30,8 +33,12 @@ const EditQuestion = () => {
           example, by fixing grammar or adding additional resoureces and
           hyperlinks.
         </div>
+        {isPending ? (
+          '질문 불러오는 중...'
+        ) : (
+          <EditQuestionForm question={question} />
+        )}
       </div>
-      <EditQuestionForm />
     </EditQuestionPage>
   );
 };

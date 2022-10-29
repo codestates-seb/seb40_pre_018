@@ -43,13 +43,20 @@ const EditFormContainer = styled.div`
   }
 `;
 
-const EditQuestionForm = () => {
-  const [editBody, editBodySet] = useState('');
+const EditQuestionForm = ({ question }) => {
+  const { title, content } = question;
+  const [editTitle, editTitleSet] = useState(title);
+  const [editBody, editBodySet] = useState(content);
   return (
     <EditFormContainer>
       <div className="edit-title-form">
         <label htmlFor="edit-title">Title</label>
-        <input id="edit-title" type="text"></input>
+        <input
+          id="edit-title"
+          type="text"
+          value={editTitle}
+          onChange={(event) => editTitleSet(event.target.value)}
+        ></input>
       </div>
       <div className="edit-body-form">
         <label htmlFor="edit-body">Body</label>
