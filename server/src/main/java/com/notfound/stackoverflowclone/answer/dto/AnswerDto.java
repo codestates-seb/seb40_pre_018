@@ -26,7 +26,7 @@ public class AnswerDto {
     @Builder
     public static class Post {
 
-        @NotBlank(message = "Body is missing.")
+        @NotBlank(message = "Content is missing.")
         private String content;
     }
 }
