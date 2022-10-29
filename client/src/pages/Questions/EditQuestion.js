@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import EditQuestionForm from '../../components/EditQuestionForm';
 import useAxios from '../../hooks/useAxios';
@@ -18,7 +19,11 @@ const EditQuestionPage = styled.section`
 `;
 
 const EditQuestion = () => {
-  const [question, isPending] = useAxios('http://localhost:3001/questions/1');
+  const { id } = useParams();
+  console.log(id);
+  const [question, isPending] = useAxios(
+    `http://15.165.244.155:8080/questions/${id}`
+  );
 
   return (
     <EditQuestionPage>
