@@ -25,17 +25,19 @@ public class AnswerService {
 
     public Answer saveAnswer(Answer answer, Long userId, Long questionId){
         User findUser = userService.findVerifiedUser(userId);
-        Question question = questionService.findVerifiedQuestion(questionId);
-        Answer madeAnswer = createAnswer(answer, findUser);
-        madeAnswer.builder()
-                .question(question)
-                .build();
+        Question findQuestion = questionService.findVerifiedQuestion(questionId);
+        Answer madeAnswer = createAnswer(answer, findQuestion, findUser);
         return answerRepository.save(madeAnswer);
     }
-    private Answer createAnswer(Answer answer, User user) {
-        answer.setAuthor(user);
-        user.getAnswers().add(answer);
-        return answer;
+    private Answer createAnswer(Answer answer, Question question, User user) {
+        Answer createdAnswer = Answer.builder()
+                .content(answer.getContent()) //추후 answerDto.Post에 필드 추가시에 수정필요한부분
+                .author(user)
+                .question(question)
+                .build();
+        user.getAnswers().add(createdAnswer);
+        question.getAnswers().add(createdAnswer);
+        return createdAnswer;
     }
 
     public void deleteAnswer(Long answerId, Long userId){
