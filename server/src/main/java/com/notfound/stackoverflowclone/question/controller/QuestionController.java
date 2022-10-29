@@ -30,8 +30,8 @@ public class QuestionController {
 
     @GetMapping("/{question-id}")
     @ResponseStatus(HttpStatus.OK)
-    QuestionDto.Response getQuestion(@PathVariable("question-id") Long questionId) {
-        return mapper.entityToResponseDto(questionService.findViewedQuestion(questionId));
+    QuestionDto.DetailResponse getQuestion(@PathVariable("question-id") Long questionId) {
+        return mapper.entityToDetailResponseDto(questionService.findViewedQuestion(questionId));
     }
 
     @GetMapping
