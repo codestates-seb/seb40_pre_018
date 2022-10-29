@@ -4,6 +4,7 @@ import com.notfound.stackoverflowclone.user.entity.UserStatus;
 import lombok.*;
 
 import javax.validation.constraints.Email;
+import java.time.LocalDateTime;
 
 public class UserDto {
     @Getter
@@ -15,6 +16,7 @@ public class UserDto {
         private String displayName;
         private String email;
         private UserStatus userStatus;
+        private LocalDateTime createdAt;
     }
     @Getter
     @NoArgsConstructor

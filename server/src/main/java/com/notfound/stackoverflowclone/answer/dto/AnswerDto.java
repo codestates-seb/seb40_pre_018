@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 public class AnswerDto {
     @Getter
@@ -20,6 +21,8 @@ public class AnswerDto {
         private String content;
         private UserDto.Response author;
         private int vote;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
     }
     @Getter
     @NoArgsConstructor
