@@ -6,6 +6,7 @@ import com.notfound.stackoverflowclone.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class Question extends AuditingEntity {
     private String content;
 
     private long views;
+
+    @Builder.Default
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Builder.Default
     @OneToMany(mappedBy = "question", cascade = {CascadeType.REMOVE})

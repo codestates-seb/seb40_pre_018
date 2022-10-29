@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 public class QuestionDto {
     @Getter
     @NoArgsConstructor
@@ -17,6 +19,9 @@ public class QuestionDto {
         private String title;
         private String content;
         private Long views;
+        private int vote;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
     }
 
     @Getter
