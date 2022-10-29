@@ -38,7 +38,8 @@ const EditFormContainer = styled.div`
   }
 
   textarea#edit-body {
-    height: 250px;
+    height: 300px;
+    resize: vertical;
   }
 `;
 
