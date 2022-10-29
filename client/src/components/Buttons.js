@@ -47,3 +47,16 @@ export const SortBtn = styled.button`
     background-color: #f0efef;
   }
 `;
+
+export const BottomBtn = styled.button`
+  background-color: var(--orange-400);
+  padding: 10px;
+  margin: 2px;
+  box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
+  border-radius: 3px;
+  color: white;
+  font-size: 13px;
+  height: 30px;
+  width: auto;
+  border: 0;
+`;
