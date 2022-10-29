@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { getDaysElapsed } from '../../utils/timeElapsed';
 import { CommonButton } from '../../components/Buttons';
 import { Content } from '../../components/Content';
+import { Editor } from '../../components/Editor';
 
 // Dummy Data: 질문 내용
 const QuestionData = {
@@ -222,23 +223,6 @@ const YourAnswerHeader = styled.h2`
   font-weight: 400;
   line-height: 1.3;
 `;
-
-const EditorInput = styled.input`
-  width: 100%;
-  height: 254px;
-  margin-bottom: 8px;
-`;
-
-const Editor = ({ value, onChangeHandler }) => {
-  return (
-    <EditorInput
-      id="qc-body"
-      type="text"
-      value={value}
-      onChange={(event) => onChangeHandler(event.target.value)}
-    ></EditorInput>
-  );
-};
 
 // 여기서부터!
 const QuestionDetail = () => {
