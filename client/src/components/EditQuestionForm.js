@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { CommonButton } from './Buttons';
 
@@ -42,6 +43,7 @@ const EditFormContainer = styled.div`
 `;
 
 const EditQuestionForm = () => {
+  const [editBody, editBodySet] = useState('');
   return (
     <EditFormContainer>
       <div className="edit-title-form">
@@ -50,9 +52,14 @@ const EditQuestionForm = () => {
       </div>
       <div className="edit-body-form">
         <label htmlFor="edit-body">Body</label>
-        <textarea id="edit-body" type="text"></textarea>
+        <textarea
+          id="edit-body"
+          type="text"
+          value={editBody}
+          onChange={(event) => editBodySet(event.target.value)}
+        ></textarea>
       </div>
-      <div className="body-preview">미리보기</div>
+      <div className="body-preview">{editBody}</div>
       <div className="edit-buttons">
         <CommonButton
           bgColor="var(--blue-500)"
