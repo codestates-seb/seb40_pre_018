@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { getDaysElapsed } from '../../utils/timeElapsed';
 import { CommonButton } from '../../components/Buttons';
@@ -119,6 +120,15 @@ const Container = styled.div`
   padding: 24px;
   border-left: 1px solid var(--black-100);
   height: 100%;
+
+  .answer-container {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--black-075);
+  }
+
+  .submit-answer-btn {
+    margin: 10px 0 15px;
+  }
 `;
 
 // QuestionHeader와 그 내부 요소들
@@ -178,7 +188,7 @@ const QuestionSubHeader = ({ asked, modified, views }) => {
   );
 };
 
-// 답변 컨테이너
+// 답변 헤더
 const AnswersHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -205,11 +215,38 @@ const AnswersHeader = ({ count }) => {
   );
 };
 
+const YourAnswerHeader = styled.h2`
+  padding-top: 20px;
+  margin: 0 0 1em;
+  font-size: 1.46153846rem;
+  font-weight: 400;
+  line-height: 1.3;
+`;
+
+const EditorInput = styled.input`
+  width: 100%;
+  height: 254px;
+  margin-bottom: 8px;
+`;
+
+const Editor = ({ value, onChangeHandler }) => {
+  return (
+    <EditorInput
+      id="qc-body"
+      type="text"
+      value={value}
+      onChange={(event) => onChangeHandler(event.target.value)}
+    ></EditorInput>
+  );
+};
+
 // 여기서부터!
 const QuestionDetail = () => {
   const params = useParams();
   const question = QuestionData[params.id];
   const answer = AnswerData[params.id];
+  const [yourAnswer, setYourAnswer] = useState('');
+
   const handleSignUp = () => {
     useNavigate('/login');
   };
@@ -273,6 +310,17 @@ const QuestionDetail = () => {
           />
         );
       })}
+
+      <YourAnswerHeader>Your Answer</YourAnswerHeader>
+      <Editor value={yourAnswer} onChangeHandler={setYourAnswer} />
+      <CommonButton
+        bgColor="var(--blue-500)"
+        color="#fff"
+        border="transparent"
+        className="submit-answer-btn"
+      >
+        Post Your Answer
+      </CommonButton>
     </Container>
   );
 };
