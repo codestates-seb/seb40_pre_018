@@ -35,7 +35,6 @@ public class AnswerService {
                 .author(user)
                 .question(question)
                 .build();
-        answer.setAuthor(user);
         user.getAnswers().add(createdAnswer);
         question.getAnswers().add(createdAnswer);
         return createdAnswer;
