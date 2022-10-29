@@ -19,7 +19,8 @@ const EditFormContainer = styled.div`
     font-weight: bold;
   }
 
-  input {
+  input,
+  textarea {
     width: 100%;
     margin-top: 5px;
     padding: 8px 9px;
@@ -35,7 +36,7 @@ const EditFormContainer = styled.div`
     }
   }
 
-  input#edit-body {
+  textarea#edit-body {
     height: 250px;
   }
 `;
@@ -45,16 +46,11 @@ const EditQuestionForm = () => {
     <EditFormContainer>
       <div className="edit-title-form">
         <label htmlFor="edit-title">Title</label>
-        <input
-          id="edit-title"
-          type="text"
-          //   value={askTitle}
-          //   onChange={(event) => askTitleSet(event.target.value)}
-        ></input>
+        <input id="edit-title" type="text"></input>
       </div>
       <div className="edit-body-form">
         <label htmlFor="edit-body">Body</label>
-        <input id="edit-body" type="text"></input>
+        <textarea id="edit-body" type="text"></textarea>
       </div>
       <div className="body-preview">미리보기</div>
       <div className="edit-buttons">
