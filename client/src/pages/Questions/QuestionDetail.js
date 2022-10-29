@@ -15,7 +15,6 @@ const QuestionData = {
     Tried contacting the zeroSSL team but no answers.
     `,
     asked: '2022-10-27T04:36:53',
-    modified: '2022-10-27 09:11:32Z',
     viewed: 5,
     votes: 0,
     tags: ['ssl', 'ssl-certificate', 'certificate', 'zerossl'],
@@ -136,7 +135,6 @@ const Container = styled.div`
 const QuestionHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  /* position: relative; */
 
   h1 {
     margin: 0 0 8px 0;
@@ -177,10 +175,12 @@ const QuestionSubHeader = ({ asked, modified, views }) => {
         <span>Asked</span>
         <time>{getDaysElapsed(asked)}</time>
       </div>
-      <div>
-        <span>Modified</span>
-        <time>{getDaysElapsed(modified)}</time>
-      </div>
+      {modified && (
+        <div>
+          <span>Modified</span>
+          <time>{getDaysElapsed(modified)}</time>
+        </div>
+      )}
       <div>
         <span>Viewed</span>
         {views} times

@@ -56,12 +56,13 @@ export const Content = ({
   userReputation,
   userBadge,
 }) => {
+  console.log(type, modified);
   return (
     <ContentWrapper className={type + '-container'}>
       <Vote votes={votes} />
       <div className="main-content">
         <p className="question">{description}</p>
-        {type === 'question' && <Tags tags={tags} />}
+        {type === 'question' && tags && <Tags tags={tags} />}
         <Utils>
           <Options>
             <div>Share</div>
