@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<Common />}>
           <Route index element={<QuestionList />}></Route>
           <Route path="/:id" element={<QuestionDetail />}></Route>
-          <Route path="edit" element={<EditQuestion />}></Route>
+          <Route path="edit/:id" element={<EditQuestion />}></Route>
           {/* Tags, Users, 답변 작성, 수정 페이지 라우팅은 여기 */}
         </Route>
         <Route path="/ask" element={<AskQuestion />} />
