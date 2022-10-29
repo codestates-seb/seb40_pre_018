@@ -1,7 +1,6 @@
 package com.notfound.stackoverflowclone.answer.dto;
 
 
-import com.notfound.stackoverflowclone.answer.entity.AnswerStatus;
 import com.notfound.stackoverflowclone.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
