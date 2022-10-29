@@ -10,3 +10,21 @@ export const CommonButton = styled.button`
   font-size: 13px;
   border: 1px solid ${(props) => props.border || 'var(--blue-600)'};
 `;
+
+export const SocialButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => props.bgColor || '#fff'};
+  padding: 10px;
+  margin: 4px 0;
+  border: 1px solid ${(props) => props.border || 'var(--black-100)'};
+  border-radius: 5px;
+  font-size: 13px;
+  color: ${(props) => props.color || 'var(--black-700)'};
+  outline: none;
+
+  > svg {
+    margin-right: 5px;
+  }
+`;
