@@ -43,7 +43,7 @@ const EditFormContainer = styled.div`
   }
 `;
 
-const EditQuestionForm = ({ question }) => {
+const EditQuestionForm = ({ question, handleEdit }) => {
   const { title, content } = question;
   const [editTitle, editTitleSet] = useState(title);
   const [editBody, editBodySet] = useState(content);
@@ -73,6 +73,7 @@ const EditQuestionForm = ({ question }) => {
           bgColor="var(--blue-500)"
           color="#fff"
           border="transparent"
+          onClick={() => handleEdit(editTitle, editBody)}
         >
           Save edits
         </CommonButton>

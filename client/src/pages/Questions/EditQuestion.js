@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import EditQuestionForm from '../../components/EditQuestionForm';
 import useAxios from '../../hooks/useAxios';
+import { fetchPatch } from '../../utils/api';
 
 const EditQuestionPage = styled.section`
   padding: 24px;
@@ -20,10 +21,14 @@ const EditQuestionPage = styled.section`
 
 const EditQuestion = () => {
   const { id } = useParams();
-  console.log(id);
   const [question, isPending] = useAxios(
     `http://15.165.244.155:8080/questions/${id}`
   );
+
+  const handleEdit = (title, content) => {
+    fetchPatch(`http:/15.165.244.155:8080/questions/${id}`, { title, content });
+    // 질문 상세페이지로 라우팅 필요함
+  };
 
   return (
     <EditQuestionPage>
@@ -41,7 +46,7 @@ const EditQuestion = () => {
         {isPending ? (
           '질문 불러오는 중...'
         ) : (
-          <EditQuestionForm question={question} />
+          <EditQuestionForm question={question} handleEdit={handleEdit} />
         )}
       </div>
     </EditQuestionPage>

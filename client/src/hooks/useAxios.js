@@ -10,7 +10,6 @@ const useAxios = (url) => {
       .then((res) => {
         setIsPending(false);
         setData(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         setIsPending(true);
