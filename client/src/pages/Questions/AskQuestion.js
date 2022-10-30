@@ -91,7 +91,7 @@ const AskQuestion = () => {
 
   const handleSubmit = (title, content) => {
     const data = { title, content };
-    fetchCreate('http://localhost:3001/questions', data);
+    fetchCreate('http://15.165.244.155:8080/questions', data);
     navigate('/');
   };
 

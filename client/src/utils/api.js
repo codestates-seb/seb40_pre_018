@@ -1,21 +1,29 @@
-export const fetchCreate = (url, data) => {
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  }).catch((err) => console.log(err.message));
-};
+import axios from 'axios';
 
-export const fetchDelete = (url) => {
-  fetch(url, {
-    method: 'DELETE',
+export const fetchCreate = (url, data) => {
+  axios(url, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: '1',
+    },
+    data,
   }).catch((err) => console.log('Error', err.message));
 };
 
 export const fetchPatch = (url, data) => {
-  fetch(url, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  }).catch((err) => console.log(err.message));
+  axios(url, {
+    method: 'patch',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: '1',
+    },
+    data,
+  }).catch((err) => console.log('Error', err.message));
+};
+
+export const fetchDelete = (url) => {
+  axios(url, {
+    method: 'delete',
+  }).catch((err) => console.log('Error', err.message));
 };
