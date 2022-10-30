@@ -1,9 +1,9 @@
 // 매개변수로 들어온 날짜 ~ 오늘까지 경과한 날짜(일, 개월, 연도)를 반환하는 함수
 export const getDaysElapsed = (dateObj) => {
-  const date = new Date(dateObj);
+  if (dateObj == undefined) return '--';
+  const date = new Date(dateObj.replace(/"/g, "'"));
   const now = new Date();
   var days = Math.floor((now.getTime() - date.getTime()) / 8.64e7);
-
   // 31일 미만은 날짜 단위로 반환합니다.
   if (days < 31) {
     if (days === 0) return 'today';
@@ -24,13 +24,13 @@ export const getDaysElapsed = (dateObj) => {
     yearsAndMonth +=
       ', ' + monthsLeft + (monthsLeft === 1 ? ' month' : ' months');
   }
-
   return yearsAndMonth + ' ago';
 };
 
 // date부터 오늘까지 경과한 시간(초, 분, 시) 또는 date를 25 Aug at 12:34 형식으로 반환하는 함수
 export const getTimeElapsed = (dateObj) => {
-  const date = new Date(dateObj);
+  if (dateObj == undefined) return dateObj;
+  const date = new Date(dateObj.replace(/"/g, "'"));
   const now = new Date();
   const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
