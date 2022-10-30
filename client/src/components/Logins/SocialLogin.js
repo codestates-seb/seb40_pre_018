@@ -4,19 +4,20 @@ import { ReactComponent as GoogleLogo } from '../../assets/images/google-logo.sv
 import { ReactComponent as GitHubLogo } from '../../assets/images/github-logo.svg';
 import { ReactComponent as FacebookLogo } from '../../assets/images/facebook-logo.svg';
 
-const SocialLogin = () => {
-  const SocialContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 288px;
-    margin: 24px 0 16px;
+const SocialContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 288px;
+  margin: 24px 0 16px;
 
-    .github-svg path,
-    .facebook-svg path {
-      fill: #fff;
-    }
-  `;
+  .github-svg path,
+  .facebook-svg path {
+    fill: #fff;
+  }
+`;
+
+const SocialLogin = () => {
   return (
     <SocialContainer className="social-container">
       <SocialButton>
