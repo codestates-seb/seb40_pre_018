@@ -8,7 +8,7 @@ import { Content } from '../../components/Content';
 import { Editor } from '../../components/Editor';
 import { fetchCreate } from '../../utils/api';
 
-// // Dummy Data: 답변 목록
+// // Dummy Data: 답변 더미 데이터
 const AData = {
   1: [
     {
@@ -52,7 +52,7 @@ const AData = {
 };
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
-const Container = styled.div`
+const Container = styled.article`
   padding: 24px;
   border-left: 1px solid var(--black-100);
   height: 100%;

@@ -6,7 +6,7 @@ import { getTimeElapsed } from '../utils/timeElapsed';
 import { fetchDelete } from '../utils/api';
 // import { Tags } from './Tags';
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.section`
   display: flex;
   align-items: flex-start;
 
