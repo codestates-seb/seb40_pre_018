@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import { fetchCreate } from '../../utils/api';
 import { CommonButton } from '../Buttons';
 import { Input } from '../InputStyles';
 
@@ -38,21 +40,41 @@ const BasicContainer = styled.div`
 `;
 
 const BasicLogin = () => {
+  // 유효성 검사 필요함
+  const [loginEmail, loginEmailSet] = useState(null);
+  const [loginPassword, loginPasswordSet] = useState(null);
+
+  const handeLogin = (email, password) => {
+    // 추후 api와 url 변경이 필요함
+    fetchCreate('url', { email, password });
+  };
+
   return (
     <BasicContainer className="basic-container">
       <div className="login-email">
         <label htmlFor="email">Email</label>
-        <Input id="email" type="email" />
+        <Input
+          id="email"
+          type="email"
+          value={loginEmail}
+          onChange={(event) => loginEmailSet(event.target.value)}
+        />
       </div>
       <div className="login-password">
         <label htmlFor="email">Password</label>
-        <Input id="password" type="password" />
+        <Input
+          id="password"
+          type="password"
+          value={loginPassword}
+          onChange={(event) => loginPasswordSet(event.target.value)}
+        />
       </div>
       <div>
         <CommonButton
           bgColor="var(--blue-500)"
           color="#fff"
           border="transparent"
+          onClick={() => handeLogin(loginEmail, loginPassword)}
         >
           Log in
         </CommonButton>
