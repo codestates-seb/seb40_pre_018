@@ -92,7 +92,11 @@ export const UserInfo = ({ type, createdAt, author }) => {
         <AiOutlineUser size="32px" />
       </div>
       <div className="user-detail">
-        <a href={'https://stackoverflow.com/questions/7' + author.userId}>
+        <a
+          href={'https://stackoverflow.com/users/' + author.userId}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {author.displayName}
         </a>
         {/* 아래는 유저 프로필 중 reputation 과 뱃지 관련 부분입니다. (우선순위가 낮아 일단 주석 처리 했습니다! - 추후 사용시 수정해서 사용) */}
