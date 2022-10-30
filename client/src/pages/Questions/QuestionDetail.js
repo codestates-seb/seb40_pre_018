@@ -29,7 +29,7 @@ const AData = {
     How to show your slight difference in your app depends on you. like Platform.os === 'ios'`,
       modified: '2022-10-28 03:40:20Z',
       answered: '2020-04-24 09:39:34Z',
-      votes: 2,
+      vote: 2,
       author: {
         userId: 10199138,
         displayName: 'MJ Studio',
@@ -42,7 +42,7 @@ const AData = {
 
       You can set multiple environment and generate build.`,
       answered: '2020-04-24 08:16:42Z',
-      votes: 0,
+      vote: 0,
       author: {
         userId: 11136807,
         displayName: 'Vinit Bhavsar',
@@ -206,6 +206,7 @@ const QuestionDetail = () => {
   if (isPending) return <div>질문 불러오는 중...</div>;
   if (questionData === null) return <div>Question Not Found</div>;
   if (questionData) {
+    console.log(questionData);
     return (
       <Container>
         <QuestionHeader>
@@ -241,7 +242,7 @@ const QuestionDetail = () => {
           type="question"
           author={questionData.author}
           content={questionData.content}
-          votes={questionData.votes}
+          votes={questionData.vote}
           createdAt={questionData.createdAt}
           updatedAt={questionData.updatedAt}
           // tags={ans.tags}
@@ -256,7 +257,7 @@ const QuestionDetail = () => {
                   type="answer"
                   author={ans.author}
                   content={ans.content}
-                  votes={ans.votes}
+                  votes={ans.vote}
                   createdAt={ans.answered}
                   updatedAt={ans.modified}
                   // tags={ans.tags}
