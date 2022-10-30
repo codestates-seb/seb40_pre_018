@@ -1,15 +1,19 @@
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Vote } from './Vote';
 import { UserInfo } from './UserInfo';
-import { Tags } from './Tags';
 import { getTimeElapsed } from '../utils/timeElapsed';
+import { fetchDelete } from '../utils/api';
+// import { Tags } from './Tags';
 
 const ContentWrapper = styled.div`
   display: flex;
   align-items: flex-start;
 
   .main-content {
-    .question {
+    width: 100%;
+
+    .text {
       margin: 0;
       font-size: 15px;
       line-height: 22.5px;
@@ -17,10 +21,12 @@ const ContentWrapper = styled.div`
   }
 `;
 
+// 질문 내용 아래 공유, 수정, 삭제 옵션 ~ 작성자 정보 스타일링
 const Utils = styled.div`
   display: flex;
+  color: red;
   justify-content: space-between;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   margin: 16px 0;
   padding-top: 4px;
 
@@ -30,59 +36,63 @@ const Utils = styled.div`
   }
 `;
 
-// 공유, 수정, 삭제 옵션들
+// 공유, 수정, 삭제 옵션들 스타일링
 const Options = styled.div`
   display: flex;
   color: var(--black-500);
   font-size: 13px;
   margin: -4px;
 
-  div {
-    margin: 4px;
+  button {
+    height: 17px;
+    margin-top: 2px;
+    color: var(--black-500);
+    font-size: 13px;
+    background-color: transparent;
+    border: none;
     cursor: pointer;
   }
 `;
 
 export const Content = ({
   type,
+  author,
+  content,
   votes,
-  description,
-  tags,
-  modified,
-  created,
-  userAvatar,
-  userName,
-  userId,
-  userReputation,
-  userBadge,
+  createdAt,
+  updatedAt,
+  // tags,
 }) => {
-  console.log(type, modified);
+  const params = useParams();
+
+  const navigate = useNavigate();
+  const handleEditQuestion = () => {
+    navigate(`/edit/${params.id}`);
+  };
+
+  const handleDelete = () => {
+    fetchDelete(`http:///15.165.244.155:8080/questions/${params.id}`);
+    navigate('/');
+  };
+
   return (
     <ContentWrapper className={type + '-container'}>
       <Vote votes={votes} />
       <div className="main-content">
-        <p className="question">{description}</p>
-        {type === 'question' && tags && <Tags tags={tags} />}
+        <p className="text">{content}</p>
+        {/* {type === 'question' && tags && <Tags tags={tags} />} */}
         <Utils>
           <Options>
-            <div>Share</div>
-            <div>Edit</div>
-            <div>Delete</div>
+            <button>Share</button>
+            <button onClick={() => handleEditQuestion()}>Edit</button>
+            <button onClick={() => handleDelete()}>Delete</button>
           </Options>
-          {modified && (
+          {updatedAt && (
             <span className="modified-date">
-              edited {getTimeElapsed(modified)}
+              edited {getTimeElapsed(updatedAt)}
             </span>
           )}
-          <UserInfo
-            type={type}
-            created={created}
-            userAvatar={userAvatar}
-            userName={userName}
-            userId={userId}
-            userReputation={userReputation}
-            userBadge={userBadge}
-          />
+          <UserInfo type={type} createdAt={createdAt} author={author} />
         </Utils>
       </div>
     </ContentWrapper>

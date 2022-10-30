@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import sprites from '../assets/images/sprites.svg';
 import { getTimeElapsed } from '../utils/timeElapsed';
+import { AiOutlineUser } from 'react-icons/ai';
 
 const UserInfoContainer = styled.section`
   width: 200px;
@@ -18,8 +19,10 @@ const UserInfoContainer = styled.section`
     float: left;
     width: 32px;
     height: 32px;
+    background-color: #fff;
+    border-radius: 4px;
 
-    img {
+    svg {
       width: 32px;
       height: 32px;
       border-radius: 3px;
@@ -35,7 +38,7 @@ const UserInfoContainer = styled.section`
       color: var(--blue-600);
     }
 
-    .user-scores {
+    /* .user-scores {
       display: flex;
       margin-top: 2px;
 
@@ -70,48 +73,43 @@ const UserInfoContainer = styled.section`
         margin-right: 3px;
         margin-left: 2px;
       }
-    }
+    } */
   }
 `;
 
-export const UserInfo = ({
-  type,
-  created,
-  userAvatar,
-  userName,
-  userId,
-  userReputation,
-  userBadge,
-}) => {
+export const UserInfo = ({ type, createdAt, author }) => {
   return (
     <UserInfoContainer
       bgColor={type === 'question' ? 'rgb(217, 234, 247)' : 'transparent'}
     >
       <div className="asked-time">
         <span>
-          {type === 'question' ? 'asked' : 'answered'} {getTimeElapsed(created)}
+          {type === 'question' ? 'asked ' : 'answered '}
+          {getTimeElapsed(createdAt)}
         </span>
       </div>
       <div className="avatar-wrapper">
-        <img src={userAvatar} alt={userName + "'s avatar"} />
+        <AiOutlineUser size="32px" />
       </div>
       <div className="user-detail">
-        <a href={'https://stackoverflow.com/questions/7' + userId}>
-          {userName}
+        <a href={'https://stackoverflow.com/questions/7' + author.userId}>
+          {author.displayName}
         </a>
-        <ul className="user-scores">
+        {/* 아래는 유저 프로필 중 reputation 과 뱃지 관련 부분입니다. (우선순위가 낮아 일단 주석 처리 했습니다! - 추후 사용시 수정해서 사용) */}
+        {/* <ul className="user-scores">
           <li>
             <span className="reputation">{userReputation}</span>
           </li>
-          {Object.keys(userBadge).map((badgeColor) => {
-            return (
-              <li key={badgeColor}>
-                <span className={badgeColor + ' badge'}></span>
-                <span className="badge-count">{userBadge[badgeColor]}</span>
-              </li>
-            );
-          })}
-        </ul>
+          {userBadge &&
+            Object.keys(userBadge).map((badgeColor) => {
+              return (
+                <li key={badgeColor}>
+                  <span className={badgeColor + ' badge'}></span>
+                  <span className="badge-count">{userBadge[badgeColor]}</span>
+                </li>
+              );
+            })}
+        </ul> */}
       </div>
     </UserInfoContainer>
   );
