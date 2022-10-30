@@ -6,8 +6,6 @@ export const fetchCreate = (url, data) => {
   }).catch((err) => console.log(err.message));
 };
 
-/* 추후에 사용하기 위한 로직입니다. */
-/*
 export const fetchDelete = (url) => {
   fetch(url, {
     method: 'DELETE',
@@ -21,4 +19,3 @@ export const fetchPatch = (url, data) => {
     body: JSON.stringify(data),
   }).catch((err) => console.log(err.message));
 };
-*/
