@@ -34,12 +34,8 @@ export const fetchPatch = (url, data) => {
   }).catch((err) => console.log('Error', err.message));
 };
 
-/* 추후에 사용하기 위한 로직입니다. */
-/*
 export const fetchDelete = (url) => {
   axios(url, {
     method: 'delete',
-  })
-    .catch((err) => console.log('Error', err.message));
+  }).catch((err) => console.log('Error', err.message));
 };
-*/
