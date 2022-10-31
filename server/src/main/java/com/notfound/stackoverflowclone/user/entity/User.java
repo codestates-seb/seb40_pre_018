@@ -3,6 +3,7 @@ package com.notfound.stackoverflowclone.user.entity;
 import com.notfound.stackoverflowclone.answer.entity.Answer;
 import com.notfound.stackoverflowclone.audit.AuditingEntity;
 import com.notfound.stackoverflowclone.question.entity.Question;
+import com.notfound.stackoverflowclone.vote.entity.Vote;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,5 +41,7 @@ public class User extends AuditingEntity {
     @OneToMany(mappedBy = "author")
     private List<Answer> answers = new ArrayList<>();
 
-
+    @Builder.Default
+    @OneToMany(mappedBy = "author")
+    private List<Vote> votes = new ArrayList<>();
 }
