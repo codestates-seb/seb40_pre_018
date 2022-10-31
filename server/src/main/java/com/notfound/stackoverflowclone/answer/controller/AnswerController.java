@@ -41,7 +41,7 @@ public class AnswerController {
         answerService.deleteAnswer(answerId,userId);
     }
 
-    @PostMapping("/answers/{answer-id}")
+    @PostMapping("/answers/{answer-id}/votes")
     @ResponseStatus(HttpStatus.CREATED)
     public VoteDto.Response postAnswerVote(
             @RequestHeader(name = "Authorization") Long userId,
