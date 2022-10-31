@@ -5,6 +5,7 @@ import QuestionDetail from './pages/Questions/QuestionDetail';
 import AskQuestion from './pages/Questions/AskQuestion';
 import QuestionList from './pages/Questions/QuestionList';
 import EditQuestion from './pages/Questions/EditQuestion';
+import LogOut from './pages/LogOut';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           {/* Tags, Users, 답변 작성, 수정 페이지 라우팅은 여기 */}
         </Route>
         <Route path="/ask" element={<AskQuestion />} />
+        <Route path="/logout" element={<LogOut />} />
         {/* 로그인페이지 또는 회원가입페이지 라우팅은 여기 */}
       </Routes>
     </>
