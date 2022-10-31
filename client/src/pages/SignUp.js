@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -76,11 +77,17 @@ const SignUpFormContainer = styled.div`
     flex-direction: column;
     font-weight: 500;
   }
+  .isvalid {
+    font-size: 13px;
+    font-weight: 400;
+    color: red;
+    margin-bottom: 10px;
+  }
   .password-limit {
     font-size: small;
     font-weight: 400;
     color: var(--black-500);
-    margin: -7px 0px 20px 3px;
+    margin: 0px 0px 20px 3px;
   }
   .signup-policy {
     font-size: small;
@@ -97,34 +104,90 @@ const SignUpInputForm = styled.input`
   height: 16px;
   padding: 1.2em;
   margin-top: 5px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   border-radius: 3px;
   border: 1px solid var(--black-100);
 `;
 
 const SignUp = () => {
+  // 이름,이메일,비밀번호 전송
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // 유효성 검사
+  const [isValidName, setIsValidName] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidPassword, setisValidPassword] = useState(false);
+
+  // 회원가입 완료 후 로그인 페이지로 이동
   const navigate = useNavigate();
 
+  // DisplayName 유효성 검사 체크
+  const validationNameCheck = (nameVal) => {
+    if (nameVal.length >= 1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // email 유효성 검사 체크
+  const validationEmailCheck = (emailVal) => {
+    const emailRegex =
+      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    return emailRegex.test(emailVal);
+  };
+
+  // Password 유효성 검사 체크
+  const validationPasswordCheck = (passwordVal) => {
+    // 비밀번호 특수문자 검사를 위한 정규식 표현
+    const specialLetter = passwordVal.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+    // 특수문자 1자 이상, 전체 8자 이상일 것
+    const isValidPassword = passwordVal.length >= 8 && specialLetter >= 1;
+    if (isValidPassword) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // 이름
   const onNameHandler = (e) => {
-    setDisplayName(e.currentTarget.value);
-    console.log('name : ' + displayName);
+    let targetValue = e.currentTarget.value;
+    setDisplayName(targetValue);
+
+    if (validationNameCheck(targetValue)) {
+      setIsValidName(false);
+    } else {
+      setIsValidName(true);
+    }
   };
 
+  // 이메일
   const onEmailHandler = (e) => {
-    setEmail(e.currentTarget.value);
-    console.log('email : ' + email);
+    let targetValue = e.currentTarget.value;
+    setEmail(targetValue);
+    if (validationEmailCheck(targetValue)) {
+      setIsValidEmail(false);
+    } else {
+      setIsValidEmail(true);
+    }
   };
 
+  // 패스워드
   const onPasswordHandler = (e) => {
-    setPassword(e.currentTarget.value);
-    console.log('password : ' + password);
+    let targetValue = e.currentTarget.value;
+    setPassword(targetValue);
+    if (validationPasswordCheck(targetValue)) {
+      setisValidPassword(false);
+    } else {
+      setisValidPassword(true);
+    }
   };
 
+  // 회원가입 데이터 전송
   const signUpSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -135,12 +198,28 @@ const SignUp = () => {
           displayName,
           password,
         })
-        .then((response) =>
-          console.log('회원가입 완료 : ' + JSON.stringify(response.data))
+        .then((res) =>
+          console.log('회원가입 완료 : ' + JSON.stringify(res.data))
         )
-        .then((response) => navigate('/login'));
+        .then(() => navigate('/login'));
     } catch (e) {
-      console.log(e);
+      window.alert('일시적인 오류가 발생했습니다.');
+    }
+  };
+
+  // 회원가입 기능 구현
+  const onSignupHandler = (e) => {
+    e.preventDefault();
+    let validationName = validationNameCheck(displayName);
+    let validationEmail = validationEmailCheck(email);
+    let validationPassword = validationPasswordCheck(password);
+    if (validationName && validationEmail && validationPassword) {
+      signUpSubmit();
+    } else {
+      setIsValidName(!validationName);
+      setIsValidEmail(!validationEmail);
+      setisValidPassword(!validationPassword);
+      return;
     }
   };
 
@@ -185,6 +264,9 @@ const SignUp = () => {
               value={displayName}
               onChange={onNameHandler}
             ></SignUpInputForm>
+            {isValidName && (
+              <div className="isvalid">Please enter a valid Display name.</div>
+            )}
           </div>
           <div>
             Email
@@ -192,18 +274,27 @@ const SignUp = () => {
               value={email}
               onChange={onEmailHandler}
             ></SignUpInputForm>
+            {isValidEmail && (
+              <div className="isvalid">Please enter a valid email address.</div>
+            )}
           </div>
           <div className="password-box">
             Password
             <SignUpInputForm
               value={password}
+              type="password"
               onChange={onPasswordHandler}
             ></SignUpInputForm>
             <div className="password-limit">
+              {isValidPassword && (
+                <div className="isvalid">Please enter a valid Password.</div>
+              )}
               Passwords must contain at least eight characters, including at
-              least 1 letter and 1 number.
+              least 1 special letter and 1 number.
             </div>
           </div>
+          {/* Please enter a valid email address. */}
+
           {/* CAPTHA 부분
           <div>
             <p>Im not a robot</p>
@@ -213,7 +304,7 @@ const SignUp = () => {
             bgColor="var(--blue-500)"
             color="#fff"
             border="transparent"
-            onClick={signUpSubmit}
+            onClick={onSignupHandler}
           >
             Sign up
           </CommonButton>
