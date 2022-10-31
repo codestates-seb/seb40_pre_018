@@ -59,7 +59,10 @@ const BasicLogin = () => {
     // 비어있으면 empty메세지 출력
     if (email === '') emptyEmailSet(true);
     // 유효하지않으면 invalid 메세지 출력
-    else if (!emailRegex.test(email)) invalidEmailSet(true);
+    else if (!emailRegex.test(email)) {
+      emptyEmailSet(false);
+      invalidEmailSet(true);
+    }
 
     // 비어있으면 empty메세지 출력
     if (password === '') emptyPasswordSet(true);
@@ -69,6 +72,7 @@ const BasicLogin = () => {
       emptyEmailSet(false);
       emptyPasswordSet(false);
       invalidEmailSet(false);
+      //fetchLogin()
     }
   };
 
