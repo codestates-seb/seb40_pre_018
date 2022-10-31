@@ -1,5 +1,6 @@
 package com.notfound.stackoverflowclone.vote.dto;
 
+import com.notfound.stackoverflowclone.answer.dto.AnswerDto;
 import com.notfound.stackoverflowclone.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +15,7 @@ public class VoteDto {
     @AllArgsConstructor
     @Builder
     public static class Response {
-        private Long answerId;
+        private AnswerDto.Response answer;
         private UserDto.Response voter;
         private int amount;
         private LocalDateTime updatedAt;
