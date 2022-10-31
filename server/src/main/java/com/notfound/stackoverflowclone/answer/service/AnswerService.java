@@ -66,19 +66,19 @@ public class AnswerService {
     }
 
     public Vote saveVote(Long answerId, Long userId, Long questionId, int amount) {
-        Answer findAnswer = findVerifiedAnswer(answerId);
-        User findUser = userService.findVerifiedUser(userId);
-        Question findQuestion = questionService.findVerifiedQuestion(questionId);
-        Vote createdVote = createVote(findAnswer, findUser, findQuestion, amount);
+
+        Vote createdVote = createVote(answerId, userId, questionId, amount);
         return voteRepository.save(createdVote);
     }
 
-    private Vote createVote(Answer answer, User user, Question question, int amount) {
-
+    private Vote createVote(Long answerId, Long userId, Long questionId, int amount) {
+        Answer findAnswer = findVerifiedAnswer(answerId);
+        User findUser = userService.findVerifiedUser(userId);
+        Question findQuestion = questionService.findVerifiedQuestion(questionId);
         return Vote.builder()
-                .author(user)
-                .question(question)
-                .answer(answer)
+                .voter(findUser)
+                .question(findQuestion)
+                .answer(findAnswer)
                 .amount(amount)
                 .build();
     }

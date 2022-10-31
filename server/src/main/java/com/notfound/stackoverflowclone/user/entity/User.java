@@ -42,6 +42,6 @@ public class User extends AuditingEntity {
     private List<Answer> answers = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "voter")
     private List<Vote> votes = new ArrayList<>();
 }
