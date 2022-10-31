@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { fetchLogin } from '../../utils/api';
 import { CommonButton } from '../Buttons';
 import { Input } from '../InputStyles';
 
@@ -51,6 +52,7 @@ const BasicLogin = () => {
   const [emptyEmail, emptyEmailSet] = useState(false);
   const [emptyPassword, emptyPasswordSet] = useState(false);
   const [invalidEmail, invalidEmailSet] = useState(false);
+  const [loginFailed, loginFailedSet] = useState(false);
 
   const handeLogin = (email, password) => {
     // eslint-disable-next-line
@@ -72,7 +74,13 @@ const BasicLogin = () => {
       emptyEmailSet(false);
       emptyPasswordSet(false);
       invalidEmailSet(false);
-      //fetchLogin()
+
+      /* 아래 요청 코드는 추후 url과 응답 형태에 따라 수정될 수 있습니다.*/
+      // fetchLogin 실행시 반환값이 없을 경우 실패 메세지 출력
+      !fetchLogin('http://localhost:3001/login', { email, password })
+        ? loginFailedSet(true)
+        : // 로그인 성공시 로그인상태 변경 로직을 추가해야합니다.
+          loginFailedSet(false);
     }
   };
 
@@ -87,13 +95,13 @@ const BasicLogin = () => {
           onChange={(event) =>
             loginInfoSet({ ...loginInfo, email: event.target.value })
           }
-          border={emptyEmail ? '#d0390e' : null}
-          focusBorder={emptyEmail ? '#d0390e' : null}
-          shadow={emptyEmail ? 'rgb(246,224,224)' : null}
+          border={emptyEmail || loginFailed ? '#d0390e' : null}
+          focusBorder={emptyEmail || loginFailed ? '#d0390e' : null}
+          shadow={emptyEmail || loginFailed ? 'rgb(246,224,224)' : null}
         />
         {emptyEmail ? <p>Email cannot be empty.</p> : null}
         {invalidEmail ? <p>The email is not a valid email address.</p> : null}
-        {/* <p>The email or password is incorrect.</p> */}
+        {loginFailed ? <p>The email or password is incorrect.</p> : null}
       </div>
       <div className="login-password">
         <label htmlFor="email">Password</label>
@@ -104,11 +112,12 @@ const BasicLogin = () => {
           onChange={(event) =>
             loginInfoSet({ ...loginInfo, password: event.target.value })
           }
-          border={emptyEmail ? '#d0390e' : null}
-          focusBorder={emptyEmail ? '#d0390e' : null}
-          shadow={emptyEmail ? 'rgb(246,224,224)' : null}
+          border={emptyEmail || loginFailed ? '#d0390e' : null}
+          focusBorder={emptyEmail || loginFailed ? '#d0390e' : null}
+          shadow={emptyEmail || loginFailed ? 'rgb(246,224,224)' : null}
         />
         {emptyPassword ? <p>Password cannot be empty.</p> : null}
+        {loginFailed ? <p>The email or password is incorrect.</p> : null}
       </div>
       <div>
         <CommonButton
