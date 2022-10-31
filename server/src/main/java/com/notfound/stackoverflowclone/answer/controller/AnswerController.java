@@ -41,14 +41,13 @@ public class AnswerController {
         answerService.deleteAnswer(answerId,userId);
     }
 
-    @PostMapping("/questions/{question-id}/answers/{answer-id}")
+    @PostMapping("/answers/{answer-id}")
     @ResponseStatus(HttpStatus.CREATED)
     public VoteDto.Response postAnswerVote(
             @RequestHeader(name = "Authorization") Long userId,
             @PathVariable("answer-id") Long answerId,
-            @PathVariable("question-id") Long questionId,
             @Valid @RequestBody VoteDto.Patch patchDto){
         Vote vote = voteMapper.patchDtoToEntity(patchDto);
-        return voteMapper.entityToResponseDto(answerService.saveVote(answerId,userId,questionId,vote.getAmount()));
+        return voteMapper.entityToResponseDto(answerService.saveVote(answerId,userId,vote.getAmount()));
     }
 }

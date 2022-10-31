@@ -65,19 +65,17 @@ public class AnswerService {
         return findAnswer;
     }
 
-    public Vote saveVote(Long answerId, Long userId, Long questionId, int amount) {
+    public Vote saveVote(Long answerId, Long userId, int amount) {
 
-        Vote createdVote = createVote(answerId, userId, questionId, amount);
+        Vote createdVote = createVote(answerId, userId, amount);
         return voteRepository.save(createdVote);
     }
 
-    private Vote createVote(Long answerId, Long userId, Long questionId, int amount) {
+    private Vote createVote(Long answerId, Long userId, int amount) {
         Answer findAnswer = findVerifiedAnswer(answerId);
         User findUser = userService.findVerifiedUser(userId);
-        Question findQuestion = questionService.findVerifiedQuestion(questionId);
         return Vote.builder()
                 .voter(findUser)
-                .question(findQuestion)
                 .answer(findAnswer)
                 .amount(amount)
                 .build();
