@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { fetchCreate } from '../../utils/api';
 import { CommonButton } from '../Buttons';
 import { Input } from '../InputStyles';
 
@@ -28,6 +27,13 @@ const BasicContainer = styled.div`
     button {
       margin: 0;
     }
+
+    p {
+      margin: 2px;
+      padding: 2px;
+      color: #d0390e;
+      font-size: 12px;
+    }
   }
 
   .login-email {
@@ -40,13 +46,30 @@ const BasicContainer = styled.div`
 `;
 
 const BasicLogin = () => {
-  // 유효성 검사 필요함
-  const [loginEmail, loginEmailSet] = useState(null);
-  const [loginPassword, loginPasswordSet] = useState(null);
+  const initialInfo = { email: '', password: '' };
+  const [loginInfo, loginInfoSet] = useState(initialInfo);
+  const [emptyEmail, emptyEmailSet] = useState(false);
+  const [emptyPassword, emptyPasswordSet] = useState(false);
+  const [invalidEmail, invalidEmailSet] = useState(false);
 
   const handeLogin = (email, password) => {
-    // 추후 api와 url 변경이 필요함
-    fetchCreate('url', { email, password });
+    // eslint-disable-next-line
+    const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
+    // 비어있으면 empty메세지 출력
+    if (email === '') emptyEmailSet(true);
+    // 유효하지않으면 invalid 메세지 출력
+    else if (!emailRegex.test(email)) invalidEmailSet(true);
+
+    // 비어있으면 empty메세지 출력
+    if (password === '') emptyPasswordSet(true);
+
+    // 모두 비어있지 않으면서 유효한 이메일이면 로그인 요청
+    if (emailRegex.test(email) && password !== '') {
+      emptyEmailSet(false);
+      emptyPasswordSet(false);
+      invalidEmailSet(false);
+    }
   };
 
   return (
@@ -56,25 +79,33 @@ const BasicLogin = () => {
         <Input
           id="email"
           type="email"
-          value={loginEmail}
-          onChange={(event) => loginEmailSet(event.target.value)}
+          value={loginInfo.email}
+          onChange={(event) =>
+            loginInfoSet({ ...loginInfo, email: event.target.value })
+          }
         />
+        {emptyEmail ? <p>Email cannot be empty.</p> : null}
+        {invalidEmail ? <p>The email is not a valid email address.</p> : null}
+        {/* <p>The email or password is incorrect.</p> */}
       </div>
       <div className="login-password">
         <label htmlFor="email">Password</label>
         <Input
           id="password"
           type="password"
-          value={loginPassword}
-          onChange={(event) => loginPasswordSet(event.target.value)}
+          value={loginInfo.password}
+          onChange={(event) =>
+            loginInfoSet({ ...loginInfo, password: event.target.value })
+          }
         />
+        {emptyPassword ? <p>Password cannot be empty.</p> : null}
       </div>
       <div>
         <CommonButton
           bgColor="var(--blue-500)"
           color="#fff"
           border="transparent"
-          onClick={() => handeLogin(loginEmail, loginPassword)}
+          onClick={() => handeLogin(loginInfo.email, loginInfo.password)}
         >
           Log in
         </CommonButton>
