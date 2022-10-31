@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { CommonButton } from '../components/Buttons';
 
@@ -103,11 +103,27 @@ const SignUpInputForm = styled.input`
 `;
 
 const SignUp = () => {
-  const [displayName, setDisplayName] = useState('aaa');
-  const [email, setEmail] = useState('a@aa');
-  const [password, setPassword] = useState('aaaa');
+  const [displayName, setDisplayName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [userAccount, setUserAccount] = useState('');
+
+  const navigate = useNavigate();
+
+  const onNameHandler = (e) => {
+    setDisplayName(e.currentTarget.value);
+    console.log('name : ' + displayName);
+  };
+
+  const onEmailHandler = (e) => {
+    setEmail(e.currentTarget.value);
+    console.log('email : ' + email);
+  };
+
+  const onPasswordHandler = (e) => {
+    setPassword(e.currentTarget.value);
+    console.log('password : ' + password);
+  };
 
   const signUpSubmit = async (e) => {
     e.preventDefault();
@@ -119,7 +135,10 @@ const SignUp = () => {
           displayName,
           password,
         })
-        .then((response) => console.log('회원가입 완료 : ' + response.data));
+        .then((response) =>
+          console.log('회원가입 완료 : ' + JSON.stringify(response.data))
+        )
+        .then((response) => navigate('/login'));
     } catch (e) {
       console.log(e);
     }
@@ -162,15 +181,24 @@ const SignUp = () => {
         <SignUpFormContainer>
           <div>
             Display name
-            <SignUpInputForm></SignUpInputForm>
+            <SignUpInputForm
+              value={displayName}
+              onChange={onNameHandler}
+            ></SignUpInputForm>
           </div>
           <div>
             Email
-            <SignUpInputForm></SignUpInputForm>
+            <SignUpInputForm
+              value={email}
+              onChange={onEmailHandler}
+            ></SignUpInputForm>
           </div>
           <div className="password-box">
             Password
-            <SignUpInputForm></SignUpInputForm>
+            <SignUpInputForm
+              value={password}
+              onChange={onPasswordHandler}
+            ></SignUpInputForm>
             <div className="password-limit">
               Passwords must contain at least eight characters, including at
               least 1 letter and 1 number.
@@ -185,6 +213,7 @@ const SignUp = () => {
             bgColor="var(--blue-500)"
             color="#fff"
             border="transparent"
+            onClick={signUpSubmit}
           >
             Sign up
           </CommonButton>
