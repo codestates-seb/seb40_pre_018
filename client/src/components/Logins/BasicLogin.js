@@ -83,6 +83,9 @@ const BasicLogin = () => {
           onChange={(event) =>
             loginInfoSet({ ...loginInfo, email: event.target.value })
           }
+          border={emptyEmail ? '#d0390e' : null}
+          focusBorder={emptyEmail ? '#d0390e' : null}
+          shadow={emptyEmail ? 'rgb(246,224,224)' : null}
         />
         {emptyEmail ? <p>Email cannot be empty.</p> : null}
         {invalidEmail ? <p>The email is not a valid email address.</p> : null}
@@ -97,6 +100,9 @@ const BasicLogin = () => {
           onChange={(event) =>
             loginInfoSet({ ...loginInfo, password: event.target.value })
           }
+          border={emptyEmail ? '#d0390e' : null}
+          focusBorder={emptyEmail ? '#d0390e' : null}
+          shadow={emptyEmail ? 'rgb(246,224,224)' : null}
         />
         {emptyPassword ? <p>Password cannot be empty.</p> : null}
       </div>
