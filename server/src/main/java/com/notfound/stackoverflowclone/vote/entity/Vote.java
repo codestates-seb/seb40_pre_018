@@ -38,4 +38,8 @@ public class Vote extends AuditingEntity {
 
     @Range(min = -1, max = 1)
     private int amount;
+
+    public Long getAnswerId(){
+        return answer.getAnswerId();
+    }
 }
