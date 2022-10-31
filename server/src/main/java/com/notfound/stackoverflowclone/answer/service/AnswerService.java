@@ -76,7 +76,7 @@ public class AnswerService {
     private Vote createVote(Answer answer, User user, Question question, int amount) {
 
         return Vote.builder()
-                .user(user)
+                .author(user)
                 .question(question)
                 .answer(answer)
                 .amount(amount)

@@ -26,7 +26,7 @@ public class Vote extends AuditingEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User author;
 
     @ManyToOne
     @JoinColumn(name = "answer_id")
