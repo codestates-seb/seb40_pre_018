@@ -8,6 +8,8 @@ import com.notfound.stackoverflowclone.question.entity.Question;
 import com.notfound.stackoverflowclone.question.service.QuestionService;
 import com.notfound.stackoverflowclone.user.entity.User;
 import com.notfound.stackoverflowclone.user.service.UserService;
+import com.notfound.stackoverflowclone.vote.entity.Vote;
+import com.notfound.stackoverflowclone.vote.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +24,15 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final UserService userService;
     private final QuestionService questionService;
+    private final VoteRepository voteRepository;
 
-    public Answer saveAnswer(Answer answer, Long userId, Long questionId){
+    public Answer saveAnswer(Answer answer, Long userId, Long questionId) {
         User findUser = userService.findVerifiedUser(userId);
         Question findQuestion = questionService.findVerifiedQuestion(questionId);
         Answer madeAnswer = createAnswer(answer, findQuestion, findUser);
         return answerRepository.save(madeAnswer);
     }
+
     private Answer createAnswer(Answer answer, Question question, User user) {
         Answer createdAnswer = Answer.builder()
                 .content(answer.getContent()) //추후 answerDto.Post에 필드 추가시에 수정필요한부분
@@ -40,15 +44,51 @@ public class AnswerService {
         return createdAnswer;
     }
 
-    public void deleteAnswer(Long answerId, Long userId){
+    public void deleteAnswer(Long answerId, Long userId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         optionalAnswer.ifPresentOrElse(answer -> {
-                    if (!Objects.equals(answer.getAuthor().getUserId(), userId)) {
-                        throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
-                    }
-                    answerRepository.delete(answer);
-                },() -> {
+            if (!Objects.equals(answer.getAuthor().getUserId(), userId)) {
+                throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
+            }
+            answerRepository.delete(answer);
+        }, () -> {
             return;
-                });
+        });
     }
+
+    public Answer findVerifiedAnswer(long answerId) {
+        Optional<Answer> optionalAnswer =
+                answerRepository.findById(answerId);
+        Answer findAnswer =
+                optionalAnswer.orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        return findAnswer;
+    }
+
+    public Vote saveVote(Long answerId, Long userId, Long questionId, int amount) {
+        Answer findAnswer = findVerifiedAnswer(answerId);
+        User findUser = userService.findVerifiedUser(userId);
+        Question findQuestion = questionService.findVerifiedQuestion(questionId);
+        Vote createdVote = createVote(findAnswer, findUser, findQuestion, amount);
+        return voteRepository.save(createdVote);
+    }
+
+    private Vote createVote(Answer answer, User user, Question question, int amount) {
+
+        return Vote.builder()
+                .user(user)
+                .question(question)
+                .answer(answer)
+                .amount(amount)
+                .build();
+    }
+//추후에 필요하면 사용하고 아니면 지울예정
+//    public Vote findVerifiedVote(long voteId) {
+//        Optional<Vote> optionalVote =
+//                voteRepository.findById(voteId);
+//        Vote findVote =
+//                optionalVote.orElseThrow(() ->
+//                        new BusinessLogicException(ExceptionCode.VOTE_NOT_FOUND));
+//        return findVote;
+//    }
 }
