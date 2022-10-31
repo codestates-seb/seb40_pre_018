@@ -1,119 +1,96 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
-import { getDaysElapsed, getTimeElapsed } from '../../utils/timeElapsed';
-import { ReactComponent as VoteUpIcon } from '../../assets/images/voteUp.svg';
-import { ReactComponent as VoteDownIcon } from '../../assets/images/voteDown.svg';
+import { getDaysElapsed } from '../../utils/timeElapsed';
+import { CommonButton } from '../../components/Buttons';
+import { Content } from '../../components/Content';
+import { Editor } from '../../components/Editor';
+import { fetchCreate } from '../../utils/api';
 
-// Dummy Data: 질문 내용
-const QuestionData = {
-  74216860: {
-    title: 'ZeroSSL Renew SSL Certification',
-    description: `So, my SSL certificate is about to be expired soon (in 2 weeks). I have just successfully issued a renew certificate yesterday, but when I check my website, it still shows the old certificate. Is there a way to just use the new certificate like maybe deleting the existing one? And if the existing certificate expired, does it automatically use the new one?
-
-    Tried contacting the zeroSSL team but no answers.
-    `,
-    asked: '2022-10-27T04:36:53',
-    modified: '2022-10-27 09:11:32Z',
-    viewed: 5,
-    votes: 0,
-    tags: ['ssl', 'ssl-certificate', 'certificate', 'zerossl'],
-    userName: 'jyra',
-    userId: 20029765,
-    userAvatar:
-      'https://lh3.googleusercontent.com/a/ALm5wu05SozAqjV6AOH-pl2agcvsSQjxo_CGCIl3XEq3=k-s64',
-    userReputation: 1,
-    userBadge: { bronze: 1 },
-  },
-  61341913: {
-    title: 'Share react native components across repos',
-    description: `I have three react native projects each with their own repo.
-
-    They use very similar components, is there a way I can share these components across repo's, so I don't have to update each repo independently?
-    
-    Or can I create three different apps, from one repo? with only very slight changes to images and configs for each app.
-    `,
-    asked: '2020-04-21T10:59:06',
-    modified: '2022-10-28 03:40:20Z',
-    viewed: 253,
-    votes: 2,
-    tags: ['javascript', 'reactjs', 'git', 'react-native'],
-    userName: 'bomber',
-    userId: 1901521,
-    userAvatar: 'https://i.stack.imgur.com/OucX9.jpg?s=64&g=1',
-    userReputation: 9445,
-    userBadge: { gold: 22, silver: 84, bronze: 157 },
-  },
-};
-
-// Dummy Data: 답글 내용
-const AnswerData = {
-  74216860: [
+// // Dummy Data: 답변 더미 데이터
+const AData = {
+  1: [
     {
-      description: `You could do something like the below code.
+      content: `Solution 1: Separated npm package
+    In my project, I separated my core parts with each npm package.
 
-      Step-wise details:
-      
-      Split the text string around ** to create an array arr of string.
-      The string inside the **...** will be at odd indices in arr array.
-      So, wrap strings at odd indices with bold-styled Text component and other strings at even indices(i.e. which are outside the **...** block) with simple Text component.
-      Append these Text components to an array.
-      Render this array of Text components in another Text component to display all of them as a single component on the same line.`,
-      modified: '2022-10-27 13:34:52Z',
-      answered: '2022-10-27 12:48:24Z',
-      votes: 1,
-      userName: '',
-      userId: 7040601,
-      userAvatar:
-        'https://www.gravatar.com/avatar/8645047cc60a3d4cc3a43239b5b523bf?s=64&d=identicon&r=PG&f=1',
-      userReputation: 1996,
-      userBadge: { gold: 1, silver: 18, bronze: 26 },
+    Create npm package and put your shared components into that.
+    You can test immediately your shared component's function with npm link or specify your local package's absolute path with npm install.
+    If you want to manage your package more intuitive way, then you can publish your package to npm repository with private mode.
+    Solution 2: Depend on the environment variable
+    You can separate your running environment with react-native-config. With this package, created multiple environments .env or .env.production you can separate your runtime variables with ENVFILE=.env npm start or ENVFILE=.env.production npm start. Then in your javascript code, you can refer your each runtime settings.
+
+    import Config from 'react-native-config';
+
+    const isProduction = Config.environment === 'production';
+
+    <Image source={isProduction ? require(..production_image) : require(..development_image)} />
+    How to show your slight difference in your app depends on you. like Platform.os === 'ios'`,
+      modified: '2022-10-28 03:40:20Z',
+      answered: '2020-04-24 09:39:34Z',
+      vote: 2,
+      author: {
+        userId: 10199138,
+        displayName: 'MJ Studio',
+      },
+    },
+    {
+      content: `Refere this: https://github.com/luggit/react-native-config
+
+      You can create different builds : Production, staging, testing.
+
+      You can set multiple environment and generate build.`,
+      answered: '2020-04-24 08:16:42Z',
+      vote: 0,
+      author: {
+        userId: 11136807,
+        displayName: 'Vinit Bhavsar',
+      },
     },
   ],
-  61341913: [{}],
 };
 
-// 전체 감싸는 컨테이너
-const Container = styled.div`
+// 전체 감싸는 컨테이너 - 스타일링 및 배치용
+const Container = styled.article`
   padding: 24px;
   border-left: 1px solid var(--black-100);
   height: 100%;
+
+  .answer-container {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--black-075);
+  }
+
+  .submit-answer-btn {
+    margin: 10px 0 15px;
+  }
 `;
 
-// QuestionHeader와 그 내부 요소들
+// QuestionHeader와 그 내부 요소들 스타일링
 const QuestionHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  /* position: relative; */
 
   h1 {
     margin: 0 0 8px 0;
     font-size: 27px;
     font-weight: 400;
+
+    a {
+      color: var(--black-700);
+    }
+  }
+
+  .ask-question-btn {
+    display: block;
+    white-space: nowrap;
+    height: 37px;
   }
 `;
 
-// QuestionHeader내 AskQuestionBtn
-// SignupBtn을 변형 (그대로 쓰니 글자가 다음 줄로 넘어감ㅜ)
-const AskQuestionBtn = styled.button`
-  /* position: absolute; */
-  /* right: 0; */
-  text-align: left;
-  display: block;
-  margin-left: 12px;
-  padding: 0.8em;
-  background-color: var(--blue-500);
-  box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
-  border: 1px solid transparent;
-  border-radius: 3px;
-  color: white;
-  font-size: 13px;
-  white-space: nowrap;
-  height: 37px;
-  cursor: pointer;
-`;
-
-// QuestionHeader 아래 날짜 및 조회수
-const QuestionInfo = styled.div`
+// QuestionHeader 아래 날짜 및 조회수 정보 스타일링 및 컴포넌트
+const SubHeaderWrapper = styled.div`
   display: flex;
   padding-bottom: 8px;
   margin-bottom: 16px;
@@ -131,146 +108,29 @@ const QuestionInfo = styled.div`
   }
 `;
 
-// 메인 콘텐츠(헤더 아래 ~ 태그/작성자 정보(+댓글)) 컨테이너
-const QuestionContent = styled.div`
-  display: flex;
-  align-items: flex-start;
-`;
+const QuestionSubHeader = ({ createdAt, updatedAt, views }) => {
+  return (
+    <SubHeaderWrapper>
+      <div>
+        <span>Asked</span>
+        <time>{getDaysElapsed(createdAt)}</time>
+      </div>
+      {updatedAt && (
+        <div>
+          <span>Modified</span>
+          <time>{getDaysElapsed(updatedAt)}</time>
+        </div>
+      )}
+      <div>
+        <span>Viewed</span>
+        {views} times
+      </div>
+    </SubHeaderWrapper>
+  );
+};
 
-// 메인 콘텐츠 (질문 내용 ~ 답변 전까지)
-const MainContent = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-// 투표 버튼과 현재 투표 수
-const VoteContainer = styled.div`
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-right: 16px;
-
-  div {
-    text-align: center;
-    font-size: 21px;
-    color: var(--black-500);
-    font-weight: 400;
-  }
-
-  .voting-button {
-    height: 36px;
-    width: 36px;
-    margin: 2px;
-    display: flex;
-    padding: 0;
-    background: none;
-    border: none;
-
-    svg {
-      width: 36px;
-      height: 36px;
-    }
-  }
-`;
-
-// 질문 내용과 태그, 작성자 정보, (+ 댓글)
-const Question = styled.div`
-  p {
-    margin: 0;
-    font-size: 15px;
-    line-height: 22.5px;
-  }
-`;
-
-// 태그 리스트와 태그
-const Tags = styled.ul`
-  display: flex;
-  margin-top: 24px;
-  margin-bottom: 27px;
-
-  li {
-    margin-right: 4px;
-
-    span {
-      margin: 2px 2px 2px 0px;
-      padding: 0.4em 0.5em;
-      border-radius: 3px;
-      font-size: 12px;
-      color: var(--powder-700);
-      background-color: var(--powder-100);
-    }
-  }
-`;
-
-// 태그 하단 공유 ~ 작성자 정보 컨테이너
-const Utils = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  margin: 16px 0;
-  padding-top: 4px;
-
-  .modified-date {
-    font-size: 12px;
-    color: var(--blue-600);
-  }
-`;
-
-// 공유, 수정, 삭제 옵션들
-const Options = styled.div`
-  display: flex;
-  color: var(--black-500);
-  font-size: 13px;
-  margin: -4px;
-
-  div {
-    margin: 4px;
-    cursor: pointer;
-  }
-`;
-
-// 작성자 정보 박스(하늘색 박스)
-const UserInfo = styled.div`
-  width: 200px;
-  padding: 5px 6px 7px 7px;
-  border-radius: 3px;
-  background-color: rgb(217, 234, 247);
-  color: var(--black-500);
-
-  span {
-    font-size: 12px;
-  }
-
-  .avatar-wrapper {
-    float: left;
-    width: 32px;
-    height: 32px;
-
-    img {
-      width: 32px;
-      height: 32px;
-      border-radius: 3px;
-    }
-  }
-
-  .user-detail {
-    float: left;
-    margin-left: 8px;
-    font-size: 13px;
-
-    a {
-      color: var(--blue-600);
-    }
-
-    .user-scores {
-      margin-bottom: -4px;
-    }
-  }
-`;
-
-// 답변 컨테이너
-const AnswersContainer = styled.div`
+// 답변 목록 헤더 스타일링 및 컴포넌트
+const AnswersHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
   .answer-count {
@@ -286,132 +146,141 @@ const AnswersContainer = styled.div`
   }
 `;
 
-// 여기서부터!
-const QuestionDetail = () => {
-  const params = useParams();
-  const question = QuestionData[params.id];
-  const answer = AnswerData[params.id];
-
-  console.log(answer.length);
-  const handleSignUp = () => {
-    useNavigate('/login');
-  };
-
+const AnswersHeader = ({ count }) => {
   return (
-    <Container>
-      <QuestionHeader>
-        <h1>
-          <a
-            href={'https://stackoverflow.com/questions/' + params.id}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {question.title}
-          </a>
-        </h1>
-        <AskQuestionBtn onClick={handleSignUp}>Ask Question</AskQuestionBtn>
-      </QuestionHeader>
-      <QuestionInfo>
-        <div>
-          <span>Asked</span>
-          <time>{getDaysElapsed(question.asked)}</time>
-        </div>
-        <div>
-          <span>Modified</span>
-          <time>{getDaysElapsed(question.modified)}</time>
-        </div>
-        <div>
-          <span>Viewed</span>
-          {question.viewed} times
-        </div>
-      </QuestionInfo>
-      <QuestionContent>
-        <VoteContainer>
-          <button className="voting-button">
-            <VoteUpIcon fill="var(--black-200)" />
-          </button>
-          <div>{question.votes}</div>
-          <button className="voting-button">
-            <VoteDownIcon fill="var(--black-200)" />
-          </button>
-        </VoteContainer>
-        <MainContent>
-          <Question>
-            <p>{question.description}</p>
-          </Question>
-          <Tags>
-            {question.tags.map((tag) => {
-              return (
-                <li key={tag}>
-                  <span>{tag}</span>
-                </li>
-              );
-            })}
-          </Tags>
-          <Utils>
-            <Options>
-              <div>Share</div>
-              <div>Edit</div>
-              <div>Delete</div>
-            </Options>
-            <div className="modified-date">
-              {question.modified !== '' && (
-                <span>edited {getTimeElapsed(question.modified)}</span>
-              )}
-            </div>
-            <UserInfo>
-              <div>
-                <span>asked {getTimeElapsed(question.asked)}</span>
-              </div>
-              <div className="avatar-wrapper">
-                <img
-                  src={question.userAvatar}
-                  alt={question.userName + "'s avatar"}
-                />
-              </div>
-              <div className="user-detail">
-                <a
-                  href={
-                    'https://stackoverflow.com/questions/7' + question.userId
-                  }
-                >
-                  {question.userName}
-                </a>
-                <div className="user-scores">
-                  <span>{question.userReputation}</span>
-                  <span>
-                    {Object.keys(question.userBadge).map((badge) => {
-                      return (
-                        <span key={badge} className={badge}>
-                          {question.userBadge[badge]}
-                        </span>
-                      );
-                    })}
-                  </span>
-                </div>
-              </div>
-            </UserInfo>
-          </Utils>
-        </MainContent>
-      </QuestionContent>
-      <AnswersContainer>
-        <div className="answers">
-          <h2 className="answer-count">
-            {answer.length > 0 &&
-              (answer.length > 1
-                ? `${answer.length} answers`
-                : `${answer.length} answer`)}
-          </h2>
-        </div>
-        <div className="new-answer">
-          <h2>Your Answer</h2>
-        </div>
-      </AnswersContainer>
-    </Container>
+    <AnswersHeaderWrapper>
+      <h2 className="answer-count">
+        {count > 0 && count + (count === 1 ? ' answer' : ' answers')}
+      </h2>
+    </AnswersHeaderWrapper>
   );
 };
 
-// edited 4 hours ago
-// edited 54 secs ago
+// 답변 작성란 헤더 스타일링
+const YourAnswerHeader = styled.h2`
+  padding-top: 20px;
+  margin: 0 0 1em;
+  font-size: 1.46153846rem;
+  font-weight: 400;
+  line-height: 1.3;
+`;
+
+// 여기서부터!
+const QuestionDetail = () => {
+  // dummy data - 답변 (안쓰게 되면 지울 예정입니다!)
+  const answerData = AData[1];
+
+  const params = useParams();
+  const url = 'http://15.165.244.155:8080/questions/' + [params.id];
+  const [questionData, setQuestionData] = useState(null);
+  const [yourAnswer, setYourAnswer] = useState('');
+  const [isPending, setIsPending] = useState(false);
+
+  const navigate = useNavigate();
+  const handleAskQuestion = () => {
+    navigate('/ask');
+  };
+
+  const handleAnswerSubmit = () => {
+    const data = { content: yourAnswer };
+    fetchCreate(
+      `http://15.165.244.155:8080/questions/${params.id}/answers`,
+      data
+    );
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsPending(true);
+      try {
+        const res = await axios(url);
+        setQuestionData(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+      setIsPending(false);
+    };
+    fetchData();
+  }, [url]);
+
+  if (isPending) return <div>질문 불러오는 중...</div>;
+  if (questionData === null) return <div>Question Not Found</div>;
+  if (questionData) {
+    console.log(questionData);
+    return (
+      <Container>
+        <QuestionHeader>
+          <h1>
+            <a
+              href={
+                'https://stackoverflow.com/questions/' + questionData.questionId
+              }
+              target="_blank"
+              rel="noreferrer"
+            >
+              {questionData.title}
+            </a>
+          </h1>
+          <CommonButton
+            bgColor="var(--blue-500)"
+            color="#fff"
+            border="transparent"
+            onClick={() => {
+              handleAskQuestion();
+            }}
+            className="ask-question-btn"
+          >
+            Ask Question
+          </CommonButton>
+        </QuestionHeader>
+        <QuestionSubHeader
+          createdAt={questionData.createdAt}
+          updatedAt={questionData.updatedAt}
+          views={questionData.views}
+        />
+        <Content
+          type="question"
+          author={questionData.author}
+          content={questionData.content}
+          votes={questionData.vote}
+          createdAt={questionData.createdAt}
+          updatedAt={questionData.updatedAt}
+          // tags={ans.tags}
+        />
+        {answerData.length > 0 && (
+          <>
+            <AnswersHeader count={answerData.length} />
+            {answerData.map((ans) => {
+              return (
+                <Content
+                  key={'answer' + ans.author.userId}
+                  type="answer"
+                  author={ans.author}
+                  content={ans.content}
+                  votes={ans.vote}
+                  createdAt={ans.answered}
+                  updatedAt={ans.modified}
+                  // tags={ans.tags}
+                />
+              );
+            })}
+          </>
+        )}
+
+        <YourAnswerHeader>Your Answer</YourAnswerHeader>
+        <Editor value={yourAnswer} onChangeHandler={setYourAnswer} />
+        <CommonButton
+          bgColor="var(--blue-500)"
+          color="#fff"
+          border="transparent"
+          className="submit-answer-btn"
+          onClick={() => handleAnswerSubmit()}
+        >
+          Post Your Answer
+        </CommonButton>
+      </Container>
+    );
+  }
+};
 
 export default QuestionDetail;
