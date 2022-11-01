@@ -1,10 +1,12 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { CommonButton } from '../components/Buttons';
+import { CommonButton } from '../../components/Buttons';
+import SocialLogin from '../../components/Logins/SocialLogin';
+import SingUpLeftSide from './SingUpLeftSide';
 
 // 회원가입 페이지 컨테이너
 const SinUpPage = styled.section`
@@ -14,40 +16,17 @@ const SinUpPage = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--black-025);
+  background-color: var(--black-050);
 
-  .signup-left-container {
-    margin-right: 40px;
-
-    > h1 {
-      font-weight: 400;
-      color: var(--black-800);
-    }
-
-    li {
-      margin-bottom: 24px;
-      font-size: 15px;
-      color: var(--black-800);
-    }
-
-    .signup-term {
-      font-size: small;
-      > div {
-        margin-bottom: 5px;
-        color: var(--black-500);
-      }
-      a {
-        color: var(--blue-600);
-      }
-    }
-  }
   /* signUp 전체 박스 */
   .signup-right-contianer {
-    width: 310px;
+    max-width: 288px;
   }
   /* 소셜가입 버튼 박스 */
   .social-btn-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
   }
   .signup-footer {
@@ -71,11 +50,12 @@ const SignUpFormContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   background-color: white;
+  border-radius: 5px;
   padding: 24px;
   div {
     display: flex;
     flex-direction: column;
-    font-weight: 500;
+    font-weight: 400;
   }
   .isvalid {
     font-size: 13px;
@@ -83,10 +63,22 @@ const SignUpFormContainer = styled.div`
     color: red;
     margin-bottom: 10px;
   }
-  .password-limit {
-    font-size: small;
+  .checkbox-input {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    font-size: 13px;
     font-weight: 400;
-    color: var(--black-500);
+    color: var(--black-700);
+    > input {
+      cursor: pointer;
+    }
+  }
+  .password-limit {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--black-400);
     margin: 0px 0px 20px 3px;
   }
   .signup-policy {
@@ -101,10 +93,10 @@ const SignUpFormContainer = styled.div`
 
 const SignUpInputForm = styled.input`
   width: auto;
-  height: 16px;
+  height: 14px;
   padding: 1.2em;
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   border-radius: 3px;
   border: 1px solid var(--black-100);
 `;
@@ -124,6 +116,26 @@ const SignUp = () => {
   // 회원가입 완료 후 로그인 페이지로 이동
   const navigate = useNavigate();
 
+  // 회원가입 데이터 전송
+  const signUpSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await axios
+        .post(`http://15.165.244.155:8080/users/`, {
+          email,
+          displayName,
+          password,
+        })
+        .then((res) =>
+          console.log('회원가입 완료 : ' + JSON.stringify(res.data))
+        )
+        .then(() => navigate('/login'));
+    } catch (e) {
+      window.alert('오류가 발생했습니다.');
+    }
+  };
+
   // DisplayName 유효성 검사 체크
   const validationNameCheck = (nameVal) => {
     if (nameVal.length >= 1) {
@@ -135,14 +147,15 @@ const SignUp = () => {
 
   // email 유효성 검사 체크
   const validationEmailCheck = (emailVal) => {
-    const emailRegex =
+    const emailRegex = // 이메일 형식 정규표현식
       /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
     return emailRegex.test(emailVal);
   };
 
   // Password 유효성 검사 체크
   const validationPasswordCheck = (passwordVal) => {
-    // 비밀번호 특수문자 검사를 위한 정규식 표현
+    // 비밀번호 특수문자 검사를 위한 정규 표현식
     const specialLetter = passwordVal.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
     // 특수문자 1자 이상, 전체 8자 이상일 것
     const isValidPassword = passwordVal.length >= 8 && specialLetter >= 1;
@@ -187,26 +200,6 @@ const SignUp = () => {
     }
   };
 
-  // 회원가입 데이터 전송
-  const signUpSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await axios
-        .post(`http://15.165.244.155:8080/users/`, {
-          email,
-          displayName,
-          password,
-        })
-        .then((res) =>
-          console.log('회원가입 완료 : ' + JSON.stringify(res.data))
-        )
-        .then(() => navigate('/login'));
-    } catch (e) {
-      window.alert('일시적인 오류가 발생했습니다.');
-    }
-  };
-
   // 회원가입 기능 구현
   const onSignupHandler = (e) => {
     e.preventDefault();
@@ -226,37 +219,12 @@ const SignUp = () => {
   return (
     <SinUpPage>
       {/* 좌측 컨테이너 */}
-      <div className="signup-left-container">
-        <h1>Join the Stack Overflow community</h1>
-        <ul>
-          <li>Get unstuck — ask a question</li>
-          <li>Unlock new privileges like voting and commenting</li>
-          <li>Save your favorite tags, filters, and jobs</li>
-          <li>Earn reputation and badges</li>
-        </ul>
-        <div className="signup-term">
-          <div>
-            Collaborate and share knowledge with a private group for FREE.
-          </div>
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://stackoverflow.co/teams/?utm_source=so-owned&utm_medium=product&utm_campaign=free-50&utm_content=public-sign-up"
-          >
-            Get Stack Overflow for Teams free for up to 50 users.
-          </a>
-        </div>
-      </div>
+      <SingUpLeftSide />
       {/* 우측 컨테이너 */}
       <form className="signup-right-contianer">
-        {/* 소셜 회원가입 미정
         <div className="social-btn-container">
-          <CommonButton>Sign up with google</CommonButton>
-          <CommonButton>Sign up with GitHub</CommonButton>
-          <CommonButton onClick={signUpSubmit}>
-            Sign up with Facebook
-          </CommonButton>
-        </div> */}
+          <SocialLogin />
+        </div>
         <SignUpFormContainer>
           <div>
             Display name
@@ -291,14 +259,13 @@ const SignUp = () => {
               )}
               Passwords must contain at least eight characters, including at
               least 1 special letter and 1 number.
+              <div className="checkbox-input">
+                <input type="checkbox"></input>
+                Opt-in to receive occasional product updates, user research
+                invitations, company announcements, and digests.
+              </div>
             </div>
           </div>
-          {/* Please enter a valid email address. */}
-
-          {/* CAPTHA 부분
-          <div>
-            <p>Im not a robot</p>
-          </div> */}
           <div></div>
           <CommonButton
             bgColor="var(--blue-500)"

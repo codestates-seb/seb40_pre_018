@@ -5,7 +5,7 @@ import QuestionDetail from './pages/Questions/QuestionDetail';
 import AskQuestion from './pages/Questions/AskQuestion';
 import QuestionList from './pages/Questions/QuestionList';
 import EditQuestion from './pages/Questions/EditQuestion';
-import SignUp from './pages/SignUp';
+import SignUp from './pages/SignUp/SignUp';
 import Login from './pages/Login';
 
 function App() {
