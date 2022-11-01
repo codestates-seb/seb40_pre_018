@@ -81,7 +81,7 @@ const Qusetions = ({ questions }) => {
   const navigate = useNavigate();
   // 질문 제목 클릭 시 페이지 이동 구현
   const detailQuestionView = (questionId) => {
-    navigate(`/${questionId}`);
+    navigate(`questions/${questionId}`);
   };
 
   // 질문 작성 시간 구현

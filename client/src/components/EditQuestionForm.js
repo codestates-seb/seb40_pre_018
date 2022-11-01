@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { CommonButton } from './Buttons';
+import { Input, Textarea } from './InputStyles';
 
 const EditFormContainer = styled.div`
   display: flex;
@@ -19,28 +20,6 @@ const EditFormContainer = styled.div`
     font-size: 16px;
     font-weight: bold;
   }
-
-  input,
-  textarea {
-    width: 100%;
-    margin-top: 5px;
-    padding: 8px 9px;
-    background-color: #fff;
-    color: hsl(210, 8%, 5%);
-    border: 1px solid var(--black-200);
-    border-radius: 3px;
-    outline: none;
-
-    &:focus {
-      box-shadow: 0px 0px 0px 4px var(--powder-200);
-      border-color: var(--blue-600);
-    }
-  }
-
-  textarea#edit-body {
-    height: 300px;
-    resize: vertical;
-  }
 `;
 
 const EditQuestionForm = ({ question, handleEdit }) => {
@@ -51,21 +30,21 @@ const EditQuestionForm = ({ question, handleEdit }) => {
     <EditFormContainer>
       <div className="edit-title-form">
         <label htmlFor="edit-title">Title</label>
-        <input
+        <Input
           id="edit-title"
           type="text"
           value={editTitle}
           onChange={(event) => editTitleSet(event.target.value)}
-        ></input>
+        />
       </div>
       <div className="edit-body-form">
         <label htmlFor="edit-body">Body</label>
-        <textarea
+        <Textarea
           id="edit-body"
           type="text"
           value={editBody}
           onChange={(event) => editBodySet(event.target.value)}
-        ></textarea>
+        />
       </div>
       <div className="body-preview">{editBody}</div>
       <div className="edit-buttons">

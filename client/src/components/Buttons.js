@@ -62,3 +62,21 @@ export const BottomBtn = styled.button`
   height: 35px;
   border: 0;
 `;
+
+export const SocialButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => props.bgColor || '#fff'};
+  padding: 10px;
+  margin: 4px 0;
+  border: 1px solid ${(props) => props.border || 'var(--black-100)'};
+  border-radius: 5px;
+  font-size: 13px;
+  color: ${(props) => props.color || 'var(--black-700)'};
+  outline: none;
+
+  > svg {
+    margin-right: 5px;
+  }
+`;
