@@ -88,7 +88,7 @@ export const Content = ({
       location.reload();
     }
   };
-ß
+
   return (
     <ContentWrapper className={type + '-container'}>
       <Vote votes={votes} />
