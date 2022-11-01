@@ -132,7 +132,7 @@ const SignUp = () => {
         )
         .then(() => navigate('/login'));
     } catch (e) {
-      window.alert('오류가 발생했습니다.');
+      window.alert('오류가 발생했습니다. 입력 사항을 확인해 주세요.');
     }
   };
 
