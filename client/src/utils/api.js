@@ -37,5 +37,8 @@ export const fetchPatch = (url, data) => {
 export const fetchDelete = (url) => {
   axios(url, {
     method: 'delete',
+    headers: {
+      Authorization: '1',
+    },
   }).catch((err) => console.log('Error', err.message));
 };
