@@ -24,3 +24,9 @@ server:
   servlet:
     encoding:
       force-response: true # MockMVC 테스트에서 응답에 한글이 깨지는 현상 해결 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#application-properties.server.server.servlet.encoding.force-response
+
+jwt:
+  key:
+    secret: ${JWT_SECRET_KEY_STACK}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
