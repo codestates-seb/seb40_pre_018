@@ -8,8 +8,6 @@ import com.notfound.stackoverflowclone.question.entity.Question;
 import com.notfound.stackoverflowclone.question.service.QuestionService;
 import com.notfound.stackoverflowclone.user.entity.User;
 import com.notfound.stackoverflowclone.user.service.UserService;
-import com.notfound.stackoverflowclone.vote.entity.Vote;
-import com.notfound.stackoverflowclone.vote.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,6 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final UserService userService;
     private final QuestionService questionService;
-    private final VoteRepository voteRepository;
 
     public Answer saveAnswer(Answer answer, Long userId, Long questionId) {
         User findUser = userService.findVerifiedUser(userId);
@@ -65,21 +62,7 @@ public class AnswerService {
         return findAnswer;
     }
 
-    public Vote saveVote(Long answerId, Long userId, int amount) {
 
-        Vote createdVote = createVote(answerId, userId, amount);
-        return voteRepository.save(createdVote);
-    }
-
-    private Vote createVote(Long answerId, Long userId, int amount) {
-        Answer findAnswer = findVerifiedAnswer(answerId);
-        User findUser = userService.findVerifiedUser(userId);
-        return Vote.builder()
-                .voter(findUser)
-                .answer(findAnswer)
-                .amount(amount)
-                .build();
-    }
 //추후에 필요하면 사용하고 아니면 지울예정
 //    public Vote findVerifiedVote(long voteId) {
 //        Optional<Vote> optionalVote =
