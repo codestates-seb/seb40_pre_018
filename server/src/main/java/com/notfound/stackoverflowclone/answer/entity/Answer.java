@@ -35,4 +35,9 @@ public class Answer extends AuditingEntity {
     @Builder.Default
     @OneToMany(mappedBy = "answer")
     private List<Vote> votes = new ArrayList<>();
+
+    public int getVote(){
+        Integer sum = votes.stream().mapToInt(Vote::getAmount).sum();
+        return sum;
+    }
 }
