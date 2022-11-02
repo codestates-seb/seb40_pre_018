@@ -16,12 +16,4 @@ public class VoteDto {
         private UserDto.Response voter;
         private int amount;
     }
-
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class Post{
-        private int amount;
-    }
 }
