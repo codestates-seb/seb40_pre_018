@@ -93,4 +93,19 @@ public class JwtTokenizer {
 
         return key;
     }
+
+    private Claims parseToken(String token) {
+        Key key = getKeyFromBase64EncodedKey(encodeBase64SecretKey(this.secretKey));
+        String jws = token.replace("Bearer ", "");
+
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(jws)
+                .getBody();
+    }
+
+    public Long getUserId(String token) {
+        return parseToken(token).get("userId", Long.class);
+    }
 }
