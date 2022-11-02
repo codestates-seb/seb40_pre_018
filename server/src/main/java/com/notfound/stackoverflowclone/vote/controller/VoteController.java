@@ -1,9 +1,9 @@
 package com.notfound.stackoverflowclone.vote.controller;
 
-import com.notfound.stackoverflowclone.answer.service.AnswerService;
 import com.notfound.stackoverflowclone.vote.dto.VoteDto;
 import com.notfound.stackoverflowclone.vote.entity.Vote;
 import com.notfound.stackoverflowclone.vote.mapper.VoteMapper;
+import com.notfound.stackoverflowclone.vote.service.VoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @Validated
 @RequiredArgsConstructor
 public class VoteController {
-    private final AnswerService answerService;
+    private final VoteService voteService;
     private final VoteMapper voteMapper;
 
     @PostMapping("/answers/{answer-id}/votes")
@@ -26,6 +26,6 @@ public class VoteController {
             @PathVariable("answer-id") Long answerId,
             @Valid @RequestBody VoteDto.Patch patchDto){
         Vote vote = voteMapper.patchDtoToEntity(patchDto);
-        return voteMapper.entityToResponseDto(answerService.saveVote(answerId,userId,vote.getAmount()));
+        return voteMapper.entityToResponseDto(voteService.saveVote(answerId,userId,vote.getAmount()));
     }
 }
