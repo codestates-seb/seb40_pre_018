@@ -12,12 +12,9 @@ public class VoteHelper {
     private final AnswerService answerService;
 
     public int voteCalculator(Long answerId){
-        int sum=0;
         Answer answer = answerService.findVerifiedAnswer(answerId);
         List<Vote> votes = answer.getVotes();
-        for (Vote vote : votes) {
-            sum += vote.getAmount();
-        }
+        Integer sum = votes.stream().mapToInt(Vote::getAmount).reduce(0, Integer::sum);
         return sum;
     }
 }
