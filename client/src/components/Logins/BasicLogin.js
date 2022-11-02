@@ -49,7 +49,7 @@ const BasicContainer = styled.div`
   }
 `;
 
-const BasicLogin = () => {
+const BasicLogin = ({ toast }) => {
   const initialInfo = { email: '', password: '' };
   const [loginInfo, loginInfoSet] = useState(initialInfo);
   const [emptyEmail, emptyEmailSet] = useState(false);
@@ -87,6 +87,7 @@ const BasicLogin = () => {
           navigate('/');
         })
         .catch(() => {
+          toast.error('The email or password is incorrect.');
           loginFailedSet(true);
         });
     }
