@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface VoteMapper {
-    Vote patchDtoToEntity(VoteDto.Patch patchDto);
+    Vote postDtoToEntity(VoteDto.Post postDto);
 
     VoteDto.Response entityToResponseDto(Vote vote);
 }

@@ -21,7 +21,7 @@ public class VoteDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class Patch{
+    public static class Post{
         private int amount;
     }
 }

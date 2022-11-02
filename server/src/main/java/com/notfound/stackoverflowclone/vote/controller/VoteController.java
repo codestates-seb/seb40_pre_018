@@ -24,8 +24,8 @@ public class VoteController {
     public VoteDto.Response postAnswerVote(
             @RequestHeader(name = "Authorization") Long userId,
             @PathVariable("answer-id") Long answerId,
-            @Valid @RequestBody VoteDto.Patch patchDto){
-        Vote vote = voteMapper.patchDtoToEntity(patchDto);
+            @Valid @RequestBody VoteDto.Post postDto){
+        Vote vote = voteMapper.postDtoToEntity(postDto);
         return voteMapper.entityToResponseDto(voteService.saveVote(answerId,userId,vote.getAmount()));
     }
 }
