@@ -36,12 +36,12 @@ export const getTimeElapsed = (dateObj) => {
 
   // 60초 미만은 초 단위로 반환합니다.
   if (seconds < 60)
-    return seconds === 1 ? `${seconds} second ago` : `${seconds} seconds ago`;
+    return seconds === 1 ? `${seconds} sec ago` : `${seconds} secs ago`;
 
   // 60분 미만은 분 단위로 반환합니다.
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60)
-    return minutes === 1 ? `${minutes} minute ago` : `${minutes} minutes ago`;
+    return minutes === 1 ? `${minutes} min ago` : `${minutes} mins ago`;
 
   // 24시간 미만은 시간 단위로 반환합니다.
   const hours = Math.floor(minutes / 60);
