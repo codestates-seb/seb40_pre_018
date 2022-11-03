@@ -1,5 +1,6 @@
 package com.notfound.stackoverflowclone.question.controller;
 
+import com.notfound.stackoverflowclone.auth.jwt.JwtTokenizer;
 import com.notfound.stackoverflowclone.dto.MultiResponseDto;
 import com.notfound.stackoverflowclone.question.dto.QuestionDto;
 import com.notfound.stackoverflowclone.question.entity.Question;
@@ -19,13 +20,14 @@ import java.util.Optional;
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper mapper;
+    private final JwtTokenizer jwtTokenizer;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    QuestionDto.Response postQuestion(@RequestHeader(name = "Authorization") Long userId,
+    QuestionDto.Response postQuestion(@RequestHeader(name = "Authorization") String token,
                                       @RequestBody QuestionDto.Post requestDto) {
         Question question = mapper.postDtoToEntity(requestDto);
-        return mapper.entityToResponseDto(questionService.saveQuestion(question, userId));
+        return mapper.entityToResponseDto(questionService.saveQuestion(question, jwtTokenizer.getUserId(token)));
     }
 
     @GetMapping("/{question-id}")
@@ -47,7 +49,7 @@ public class QuestionController {
     @DeleteMapping("/{question-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteQuestion(@PathVariable(name = "question-id") Long questionId,
-                        @RequestHeader(name = "Authorization") Long userId) {
-        questionService.deleteQuestion(questionId, userId);
+                        @RequestHeader(name = "Authorization") String token) {
+        questionService.deleteQuestion(questionId, jwtTokenizer.getUserId(token));
     }
 }

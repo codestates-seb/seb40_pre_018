@@ -19,7 +19,7 @@ const UserInfoContainer = styled.section`
     float: left;
     width: 32px;
     height: 32px;
-    background-color: #fff;
+    background-color: var(--black-050);
     border-radius: 4px;
 
     svg {

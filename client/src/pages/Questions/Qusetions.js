@@ -22,9 +22,10 @@ const QusetionContainer = styled.div`
 
   .question-title {
     font-size: 17px;
-    font-weight: 700;
+    font-weight: 500;
     color: var(--blue-500);
     margin-bottom: 0.4rem;
+    font-family: 'Noto Sans KR', sans-serif;
     cursor: pointer;
   }
   .question-content {
@@ -80,16 +81,14 @@ const Qusetions = ({ questions }) => {
   const navigate = useNavigate();
   // 질문 제목 클릭 시 페이지 이동 구현
   const detailQuestionView = (questionId) => {
-    navigate(`/${questionId}`);
+    navigate(`questions/${questionId}`);
   };
 
   // 질문 작성 시간 구현
   const getCreatedAt = (time) => {
     let getTime = getTimeElapsed(time);
-    console.log(getTime);
     if (getTime.split(' ')[0] > 24 && getTime.split(' ')[1] === 'hours') {
       getTime = getDaysElapsed(time);
-      console.log(getTime);
     }
     return getTime;
   };

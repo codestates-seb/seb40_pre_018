@@ -3,7 +3,6 @@ package com.notfound.stackoverflowclone.user.entity;
 import com.notfound.stackoverflowclone.answer.entity.Answer;
 import com.notfound.stackoverflowclone.audit.AuditingEntity;
 import com.notfound.stackoverflowclone.question.entity.Question;
-import com.notfound.stackoverflowclone.vote.entity.Vote;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,9 +21,10 @@ public class User extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     private String displayName;
@@ -40,4 +40,7 @@ public class User extends AuditingEntity {
     @Builder.Default
     @OneToMany(mappedBy = "author")
     private List<Answer> answers = new ArrayList<>();
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 }
