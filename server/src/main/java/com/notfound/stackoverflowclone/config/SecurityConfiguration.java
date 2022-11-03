@@ -57,7 +57,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(POST, "/auth/login").permitAll()
                         .antMatchers(POST, "/users").permitAll()
-                        .antMatchers(GET, "/users/**").permitAll()
+                        .antMatchers(GET, "/users/*").permitAll()
                         .antMatchers(POST, "/questions").hasRole("USER")
                         .antMatchers(GET, "/questions/*").permitAll()
                         .antMatchers(DELETE, "/questions/*").hasRole("USER")
