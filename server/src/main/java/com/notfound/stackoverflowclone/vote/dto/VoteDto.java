@@ -14,7 +14,10 @@ public class VoteDto {
     public static class Response {
         private Long answerId;
         private UserDto.Response voter;
+        private int voteCount;
         private int amount;
+        private boolean isUpVoter;
+        private boolean isDownVoter;
     }
     public static class Post{
     }
