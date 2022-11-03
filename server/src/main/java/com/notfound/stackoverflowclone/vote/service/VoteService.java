@@ -5,7 +5,9 @@ import com.notfound.stackoverflowclone.answer.repository.AnswerRepository;
 import com.notfound.stackoverflowclone.answer.service.AnswerService;
 import com.notfound.stackoverflowclone.user.entity.User;
 import com.notfound.stackoverflowclone.user.service.UserService;
+import com.notfound.stackoverflowclone.vote.dto.VoteDto;
 import com.notfound.stackoverflowclone.vote.entity.Vote;
+import com.notfound.stackoverflowclone.vote.mapper.VoteMapper;
 import com.notfound.stackoverflowclone.vote.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,17 +23,32 @@ public class VoteService {
     public final UserService userService;
     public final AnswerRepository answerRepository;
     public final AnswerService answerService;
-    public Vote saveVote(Long answerId, Long userId, int amount) {
+    public final VoteMapper voteMapper;
+    public VoteDto.Response saveVote(Long answerId, Long userId, int amount) {
         Answer findAnswer = answerService.findVerifiedAnswer(answerId);
         User findUser = userService.findVerifiedUser(userId);
         List<Vote> votes = voteRepository.findAllByVoterAndAnswer(findUser,findAnswer);
         if(votes.isEmpty()){
-            voteRepository.deleteAll(votes);
-            return Vote.builder().voter(null).build();
+            Vote createdVote = createVote(findAnswer, findUser, amount);
+            voteRepository.save(createdVote);
+            return VoteDto.Response.builder()
+                    .voterId(userId)
+                    .voteCount(findAnswer.getVoteCount())
+                    .isUpVoter(amount==1)
+                    .isDownVoter(amount==-1)
+                    .answerId(answerId)
+                    .amount(amount)
+                    .build();
         }
         else{
-            Vote createdVote = createVote(findAnswer, findUser, amount);
-            return voteRepository.save(createdVote);
+            voteRepository.deleteAll(votes);
+            return VoteDto.Response.builder()
+                    .voteCount(findAnswer.getVoteCount())
+                    .isUpVoter(false)
+                    .isDownVoter(false)
+                    .answerId(answerId)
+                    .voterId(userId)
+                    .build();
         }
     }
 
