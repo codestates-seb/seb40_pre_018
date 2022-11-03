@@ -36,7 +36,7 @@ public class Answer extends AuditingEntity {
     @OneToMany(mappedBy = "answer")
     private List<Vote> votes = new ArrayList<>();
 
-    public int getVote(){
+    public int getVoteCount(){
         Integer sum = votes.stream().mapToInt(Vote::getAmount).sum();
         return sum;
     }
