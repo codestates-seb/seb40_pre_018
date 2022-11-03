@@ -3,27 +3,26 @@ import styled from 'styled-components';
 export const PostSum = styled.div`
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
-  width: 170px;
-  padding: 23px;
-  margin-bottom: 4px;
+  width: 140px;
+  padding: 30px 20px 30px 30px;
   text-align: left;
   font-size: 13px;
 
   span {
     padding: 2px;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .post-votes {
-    color: var(--black-700);
+    color: var(--fc-dark);
   }
   .post-answers {
-    color: var(--black-400);
+    color: var(--fc-light);
   }
   .post-views {
-    color: var(--black-400);
+    color: var(--yellow-900);
   }
 `;
 
