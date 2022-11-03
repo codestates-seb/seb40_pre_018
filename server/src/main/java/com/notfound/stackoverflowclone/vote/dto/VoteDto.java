@@ -17,6 +17,4 @@ public class VoteDto {
         private boolean isUpVoter;
         private boolean isDownVoter;
     }
-    public static class Post{
-    }
 }

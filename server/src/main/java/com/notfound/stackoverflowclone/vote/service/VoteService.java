@@ -7,7 +7,6 @@ import com.notfound.stackoverflowclone.user.entity.User;
 import com.notfound.stackoverflowclone.user.service.UserService;
 import com.notfound.stackoverflowclone.vote.dto.VoteDto;
 import com.notfound.stackoverflowclone.vote.entity.Vote;
-import com.notfound.stackoverflowclone.vote.mapper.VoteMapper;
 import com.notfound.stackoverflowclone.vote.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ public class VoteService {
     public final UserService userService;
     public final AnswerRepository answerRepository;
     public final AnswerService answerService;
-    public final VoteMapper voteMapper;
     public VoteDto.Response saveAnswerVote(Long answerId, Long userId, int amount) {
         Answer findAnswer = answerService.findVerifiedAnswer(answerId);
         User findUser = userService.findVerifiedUser(userId);
