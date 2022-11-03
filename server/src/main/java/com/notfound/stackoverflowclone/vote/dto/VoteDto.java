@@ -1,6 +1,5 @@
 package com.notfound.stackoverflowclone.vote.dto;
 
-import com.notfound.stackoverflowclone.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +12,7 @@ public class VoteDto {
     @Builder
     public static class Response {
         private Long answerId;
-        private UserDto.Response voter;
+        private Long voterId;
         private int voteCount;
         private int amount;
         private boolean isUpVoter;
