@@ -4,6 +4,7 @@ import { Vote } from './Vote';
 import { UserInfo } from './UserInfo';
 import { getTimeElapsed } from '../utils/timeElapsed';
 import { fetchDelete } from '../utils/api';
+import { ContentViewer } from './ContentViewer';
 // import { Tags } from './Tags';
 
 const ContentWrapper = styled.section`
@@ -93,7 +94,7 @@ export const Content = ({
     <ContentWrapper className={type + '-container'}>
       <Vote votes={votes} />
       <div className="main-content">
-        <p className="text">{content}</p>
+        <ContentViewer content={content} />
         {/* {type === 'question' && tags && <Tags tags={tags} />} */}
         <Utils>
           <Options>
