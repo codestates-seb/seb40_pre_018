@@ -4,8 +4,8 @@ import { initialState } from '../initialState';
 
 const loginReducer = (state = initialState, action) => {
   if (action.type === LOG_IN) {
-    addLocalStorage(action.token);
-    return { ...state, token: action.token };
+    addLocalStorage(action.payload);
+    return { ...state, user: action.payload };
   } else {
     return state;
   }
