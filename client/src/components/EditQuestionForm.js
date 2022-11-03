@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { CommonButton } from './Buttons';
-import { Input, Textarea } from './InputStyles';
+import { ContentViewer } from './ContentViewer';
+import { Input } from './InputStyles';
+import TextEditor from './TextEditor';
 
 const EditFormContainer = styled.div`
   display: flex;
@@ -18,7 +20,20 @@ const EditFormContainer = styled.div`
   .edit-body-form {
     flex-direction: column;
     font-size: 16px;
-    font-weight: bold;
+
+    label {
+      font-weight: 700;
+    }
+  }
+
+  .edit-body-form {
+    label {
+      margin-bottom: 5px;
+    }
+  }
+
+  #save-button {
+    margin-left: 0;
   }
 `;
 
@@ -39,16 +54,12 @@ const EditQuestionForm = ({ question, handleEdit }) => {
       </div>
       <div className="edit-body-form">
         <label htmlFor="edit-body">Body</label>
-        <Textarea
-          id="edit-body"
-          type="text"
-          value={editBody}
-          onChange={(event) => editBodySet(event.target.value)}
-        />
+        <TextEditor onChangeHandler={editBodySet} initialValue={editBody} />
+        <ContentViewer content={editBody} />
       </div>
-      <div className="body-preview">{editBody}</div>
       <div className="edit-buttons">
         <CommonButton
+          id="save-button"
           bgColor="var(--blue-500)"
           color="#fff"
           border="transparent"
