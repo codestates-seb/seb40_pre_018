@@ -16,4 +16,6 @@ public class VoteDto {
         private UserDto.Response voter;
         private int amount;
     }
+    public static class Post{
+    }
 }
