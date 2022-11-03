@@ -37,7 +37,6 @@ public class VoteService {
                     .isUpVoter(amount==1)
                     .isDownVoter(amount==-1)
                     .answerId(answerId)
-                    .amount(amount)
                     .build();
         }
         else{
