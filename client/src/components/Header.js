@@ -68,8 +68,7 @@ const HeaderContainer = styled.header`
 `;
 
 const Header = () => {
-  const { token } = useSelector((state) => state.loginReducer);
-
+  const { user } = useSelector((state) => state.loginReducer);
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -88,7 +87,7 @@ const Header = () => {
             <span className="logo-img hide">Stack Overflow</span>
           </Link>
         </h1>
-        {!token ? (
+        {!user ? (
           <ul className="gnb">
             <li>About</li>
             <li>Products</li>
@@ -100,7 +99,7 @@ const Header = () => {
           </ul>
         )}
         <Search />
-        {!token ? (
+        {!user ? (
           <div className="button-container">
             <CommonButton onClick={handleLogin} border="var(--powder-500)">
               Log in
