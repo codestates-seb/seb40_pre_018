@@ -16,8 +16,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Table(uniqueConstraints = {
-        @UniqueConstraint(name = "CantVoteAnswerTwice", columnNames = {"user_id", "answer_id"}),
-        @UniqueConstraint(name = "CantVoteQuestionTwice", columnNames = {"user_id", "question_id"})
+        @UniqueConstraint(name = "CantVoteAnswerTwice", columnNames = {"voter_id", "answer_id"}),
+        @UniqueConstraint(name = "CantVoteQuestionTwice", columnNames = {"voter_id", "question_id"})
 })
 public class Vote extends AuditingEntity {
     @Id
@@ -25,8 +25,8 @@ public class Vote extends AuditingEntity {
     private Long voteId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "voter_id")
+    private User voter;
 
     @ManyToOne
     @JoinColumn(name = "answer_id")
@@ -38,4 +38,8 @@ public class Vote extends AuditingEntity {
 
     @Range(min = -1, max = 1)
     private int amount;
+
+    public Long getAnswerId(){
+        return answer.getAnswerId();
+    }
 }

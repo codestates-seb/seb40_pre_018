@@ -32,7 +32,7 @@ public class AnswerController {
         return mapper.entityToResponseDto(answerService.saveAnswer(answer, jwtTokenizer.getUserId(token), questionId));
     }
 
-    @DeleteMapping("/questions/{question-id}/answers/{answer-id}")
+    @DeleteMapping("/answers/{answer-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteAnswer(@PathVariable(name = "answer-id") Long answerId,
                       @RequestHeader(name = "Authorization") String token){

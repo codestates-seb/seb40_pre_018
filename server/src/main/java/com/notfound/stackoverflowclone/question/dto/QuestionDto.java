@@ -21,7 +21,7 @@ public class QuestionDto {
         private String title;
         private String content;
         private Long views;
-        private int vote;
+        private int voteCount;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }
@@ -36,7 +36,7 @@ public class QuestionDto {
         private String title;
         private String content;
         private Long views;
-        private int vote;
+        private int voteCount;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private List<AnswerDto.Response> answers;

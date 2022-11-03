@@ -23,12 +23,13 @@ public class AnswerService {
     private final UserService userService;
     private final QuestionService questionService;
 
-    public Answer saveAnswer(Answer answer, Long userId, Long questionId){
+    public Answer saveAnswer(Answer answer, Long userId, Long questionId) {
         User findUser = userService.findVerifiedUser(userId);
         Question findQuestion = questionService.findVerifiedQuestion(questionId);
         Answer madeAnswer = createAnswer(answer, findQuestion, findUser);
         return answerRepository.save(madeAnswer);
     }
+
     private Answer createAnswer(Answer answer, Question question, User user) {
         Answer createdAnswer = Answer.builder()
                 .content(answer.getContent()) //추후 answerDto.Post에 필드 추가시에 수정필요한부분
@@ -40,15 +41,35 @@ public class AnswerService {
         return createdAnswer;
     }
 
-    public void deleteAnswer(Long answerId, Long userId){
+    public void deleteAnswer(Long answerId, Long userId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         optionalAnswer.ifPresentOrElse(answer -> {
-                    if (!Objects.equals(answer.getAuthor().getUserId(), userId)) {
-                        throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
-                    }
-                    answerRepository.delete(answer);
-                },() -> {
+            if (!Objects.equals(answer.getAuthor().getUserId(), userId)) {
+                throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
+            }
+            answerRepository.delete(answer);
+        }, () -> {
             return;
-                });
+        });
     }
+
+    public Answer findVerifiedAnswer(long answerId) {
+        Optional<Answer> optionalAnswer =
+                answerRepository.findById(answerId);
+        Answer findAnswer =
+                optionalAnswer.orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        return findAnswer;
+    }
+
+
+//추후에 필요하면 사용하고 아니면 지울예정
+//    public Vote findVerifiedVote(long voteId) {
+//        Optional<Vote> optionalVote =
+//                voteRepository.findById(voteId);
+//        Vote findVote =
+//                optionalVote.orElseThrow(() ->
+//                        new BusinessLogicException(ExceptionCode.VOTE_NOT_FOUND));
+//        return findVote;
+//    }
 }
