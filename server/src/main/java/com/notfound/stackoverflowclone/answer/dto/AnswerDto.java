@@ -20,6 +20,8 @@ public class AnswerDto {
         private String content;
         private UserDto.Response author;
         private int voteCount;
+        private boolean isUpVoter;
+        private boolean isDownVoter;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }
