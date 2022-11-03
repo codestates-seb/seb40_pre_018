@@ -4,6 +4,8 @@ import { ReactComponent as InboxIcon } from '../../assets/images/inbox-icon.svg'
 import { ReactComponent as AchieveIcon } from '../../assets/images/achieve-icon.svg';
 import { ReactComponent as HelpIcon } from '../../assets/images/help-icon.svg';
 import { ReactComponent as SwitcherIcon } from '../../assets/images/switcher-icon.svg';
+import UserProfile from './UserProfile';
+import { useState } from 'react';
 
 const UtileMenuContainer = styled.div`
   display: flex;
@@ -11,19 +13,27 @@ const UtileMenuContainer = styled.div`
   .util-menu-container {
     display: flex;
     padding-right: 12px;
-    li {
+    > li {
+      position: relative;
       display: flex;
       align-items: center;
       margin: 0 10px;
       cursor: pointer;
 
-      svg {
+      > svg {
         fill: var(--black-600);
       }
     }
 
     .profile {
       margin: 0 12px;
+
+      > button {
+        display: flex;
+        align-items: center;
+        border: none;
+        background: none;
+      }
       .avatar {
         display: block;
         width: 24px;
@@ -42,12 +52,20 @@ const UtileMenuContainer = styled.div`
 `;
 
 const UtilMenu = () => {
+  const [toggle, toggleSet] = useState(false);
+
+  const handleToggle = () => {
+    toggleSet(!toggle);
+  };
   return (
     <UtileMenuContainer>
       <ul className="util-menu-container">
         <li className="profile">
-          <AiOutlineUser className="avatar" />
-          <span className="reputation">1</span>
+          <button onClick={handleToggle}>
+            <AiOutlineUser className="avatar" />
+            <span className="reputation">1</span>
+          </button>
+          {toggle ? <UserProfile /> : null}
         </li>
         <li>
           <InboxIcon />
