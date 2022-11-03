@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { getDaysElapsed } from '../../utils/timeElapsed';
 import { CommonButton } from '../../components/Buttons';
 import { Content } from '../../components/Content';
-import { Editor } from '../../components/Editor';
 import { fetchCreate } from '../../utils/api';
 import NotFound from '../../components/NotFound';
+import TextEditor from '../../components/TextEditor';
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
 const Container = styled.article`
@@ -226,7 +226,7 @@ const QuestionDetail = () => {
         )}
 
         <YourAnswerHeader>Your Answer</YourAnswerHeader>
-        <Editor value={yourAnswer} onChangeHandler={setYourAnswer} />
+        <TextEditor onChangeHandler={setYourAnswer} />
         <CommonButton
           bgColor="var(--blue-500)"
           color="#fff"
