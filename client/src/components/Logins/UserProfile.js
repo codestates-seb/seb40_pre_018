@@ -3,6 +3,7 @@ import { AiOutlineUser } from 'react-icons/ai';
 import { MdLogout } from 'react-icons/md';
 import { CommonButton } from '../Buttons';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const ProfileContainer = styled.div`
   display: flex;
@@ -52,12 +53,14 @@ const ProfileContainer = styled.div`
 
 const UserProfile = () => {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.loginReducer);
+
   return (
     <ProfileContainer>
       <div className="user-avatar">
         <AiOutlineUser className="user-avatar-icon" />
       </div>
-      <div className="user-name">hello</div>
+      <div className="user-name">{user.displayName}</div>
       <CommonButton
         className="logout-button"
         color="var(--orange-400)"
