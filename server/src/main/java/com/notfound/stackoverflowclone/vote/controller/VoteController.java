@@ -21,13 +21,13 @@ public class VoteController {
     public VoteDto.Response postAnswerUpVote(
             @RequestHeader(name = "Authorization") String token,
             @PathVariable("answer-id") Long answerId){
-        return voteService.saveVote(answerId,jwtTokenizer.getUserId(token),1);
+        return voteService.saveAnswerVote(answerId,jwtTokenizer.getUserId(token),1);
     }
     @PostMapping("/answers/{answer-id}/downvotes")
     @ResponseStatus(HttpStatus.CREATED)
     public VoteDto.Response postAnswerDownVote(
             @RequestHeader(name = "Authorization") String token,
             @PathVariable("answer-id") Long answerId){
-        return voteService.saveVote(answerId, jwtTokenizer.getUserId(token),-1);
+        return voteService.saveAnswerVote(answerId, jwtTokenizer.getUserId(token),-1);
     }
 }

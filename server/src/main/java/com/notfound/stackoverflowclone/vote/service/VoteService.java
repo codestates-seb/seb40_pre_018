@@ -24,7 +24,7 @@ public class VoteService {
     public final AnswerRepository answerRepository;
     public final AnswerService answerService;
     public final VoteMapper voteMapper;
-    public VoteDto.Response saveVote(Long answerId, Long userId, int amount) {
+    public VoteDto.Response saveAnswerVote(Long answerId, Long userId, int amount) {
         Answer findAnswer = answerService.findVerifiedAnswer(answerId);
         User findUser = userService.findVerifiedUser(userId);
         List<Vote> votes = voteRepository.findAllByVoterAndAnswer(findUser,findAnswer);
