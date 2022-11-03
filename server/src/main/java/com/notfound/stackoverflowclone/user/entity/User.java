@@ -21,9 +21,10 @@ public class User extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     private String displayName;
@@ -40,5 +41,6 @@ public class User extends AuditingEntity {
     @OneToMany(mappedBy = "author")
     private List<Answer> answers = new ArrayList<>();
 
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 }

@@ -16,13 +16,14 @@ const LeftAside = styled.aside`
   position: sticky;
   top: 50px;
   height: 100%;
-  width: 164px;
+  min-width: 164px;
   padding-top: 24px;
   margin-bottom: 8px;
 `;
 
 const RightAside = styled.aside`
   width: 300px;
+  height: 100%;
   display: block;
   margin-top: 30px;
   padding-right: 24px;
@@ -33,7 +34,7 @@ const RightAside = styled.aside`
     display: block;
     text-align: left;
     align-items: center;
-    height: 374px;
+    height: auto;
     background-color: var(--yellow-050);
     border-radius: 3px;
     border: 1px solid var(--yellow-200);

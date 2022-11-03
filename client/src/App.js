@@ -7,6 +7,7 @@ import QuestionList from './pages/Questions/QuestionList';
 import EditQuestion from './pages/Questions/EditQuestion';
 import SignUp from './pages/SignUp/SignUp';
 import Login from './pages/Login';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="edit/:id" element={<EditQuestion />}></Route>
           {/* Tags, Users, 답변 작성, 수정 페이지 라우팅은 여기 */}
         </Route>
+        <Route path="*" element={<NotFound />}></Route>
         <Route path="/ask" element={<AskQuestion />} />
         <Route path="/login" element={<Login />} />
         {/* 로그인페이지 또는 회원가입페이지 라우팅은 여기 */}
