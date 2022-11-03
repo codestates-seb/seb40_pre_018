@@ -2,8 +2,7 @@ package com.notfound.stackoverflowclone.vote.service;
 
 import com.notfound.stackoverflowclone.answer.entity.Answer;
 import com.notfound.stackoverflowclone.answer.repository.AnswerRepository;
-import com.notfound.stackoverflowclone.exception.BusinessLogicException;
-import com.notfound.stackoverflowclone.exception.ExceptionCode;
+import com.notfound.stackoverflowclone.answer.service.AnswerService;
 import com.notfound.stackoverflowclone.user.entity.User;
 import com.notfound.stackoverflowclone.user.service.UserService;
 import com.notfound.stackoverflowclone.vote.entity.Vote;
@@ -12,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -21,27 +20,26 @@ public class VoteService {
     public final VoteRepository voteRepository;
     public final UserService userService;
     public final AnswerRepository answerRepository;
+    public final AnswerService answerService;
     public Vote saveVote(Long answerId, Long userId, int amount) {
-
-        Vote createdVote = createVote(answerId, userId, amount);
-        return voteRepository.save(createdVote);
+        Answer findAnswer = answerService.findVerifiedAnswer(answerId);
+        User findUser = userService.findVerifiedUser(userId);
+        List<Vote> votes = voteRepository.findAllByVoterAndAnswer(findUser,findAnswer);
+        if(votes.isEmpty()){
+            voteRepository.deleteAll(votes);
+            return Vote.builder().voter(null).build();
+        }
+        else{
+            Vote createdVote = createVote(findAnswer, findUser, amount);
+            return voteRepository.save(createdVote);
+        }
     }
 
-    private Vote createVote(Long answerId, Long userId, int amount) {
-        Answer findAnswer = findVerifiedAnswer(answerId);
-        User findUser = userService.findVerifiedUser(userId);
+    private Vote createVote(Answer answer, User user, int amount) {
         return Vote.builder()
-                .voter(findUser)
-                .answer(findAnswer)
+                .voter(user)
+                .answer(answer)
                 .amount(amount)
                 .build();
-    }
-    public Answer findVerifiedAnswer(long answerId) {
-        Optional<Answer> optionalAnswer =
-                answerRepository.findById(answerId);
-        Answer findAnswer =
-                optionalAnswer.orElseThrow(() ->
-                        new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
-        return findAnswer;
     }
 }
