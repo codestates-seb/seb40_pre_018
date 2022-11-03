@@ -31,7 +31,7 @@ public class VoteService {
             voteRepository.save(createdVote);
             return VoteDto.Response.builder()
                     .voterId(userId)
-                    .voteCount(findAnswer.getVoteCount())
+                    .voteCount(voteRepository.countAllByAnswer(findAnswer))
                     .isUpVoter(amount==1)
                     .isDownVoter(amount==-1)
                     .answerId(answerId)
@@ -40,7 +40,7 @@ public class VoteService {
         else{
             voteRepository.deleteAll(votes);
             return VoteDto.Response.builder()
-                    .voteCount(findAnswer.getVoteCount())
+                    .voteCount(voteRepository.countAllByAnswer(findAnswer))
                     .isUpVoter(false)
                     .isDownVoter(false)
                     .answerId(answerId)
