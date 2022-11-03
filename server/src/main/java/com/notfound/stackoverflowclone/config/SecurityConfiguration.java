@@ -64,9 +64,9 @@ public class SecurityConfiguration {
                         .antMatchers(GET, "/questions/*").permitAll()
                         .antMatchers(DELETE, "/questions/*").hasRole("USER")
                         .antMatchers(POST, "/questions/*/answers").hasRole("USER")
-                        .antMatchers(DELETE, "/questions/*/answers/*").hasRole("USER")
-                        .antMatchers(POST,"/answers/{answer-id}/upvotes").hasRole("USER")
-                        .antMatchers(POST,"/answers/{answer-id}/downvotes").hasRole("USER")
+                        .antMatchers(DELETE, "/answers/*").hasRole("USER")
+                        .antMatchers(POST,"/answers/*/upvotes").hasRole("USER")
+                        .antMatchers(POST,"/answers/*/downvotes").hasRole("USER")
                         .anyRequest().denyAll()
                 );
         return http.build();
