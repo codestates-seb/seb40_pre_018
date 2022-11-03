@@ -64,7 +64,7 @@ public class QuestionService {
     }
 
     public Page<Question> findQuestionSearchByTitleOrContent(String title, String content, int page, int size) {
-        return questionRepository.findAllByTitleLikeOrContentLike(title, content,
+        return questionRepository.findAllByTitleContainsOrContentContains(title, content,
                 PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 }

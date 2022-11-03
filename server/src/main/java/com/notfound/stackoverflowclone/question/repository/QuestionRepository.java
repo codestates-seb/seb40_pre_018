@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-    Page<Question> findAllByTitleLikeOrContentLike(String title, String content, Pageable pageable);
+    Page<Question> findAllByTitleContainsOrContentContains(String title, String content, Pageable pageable);
 }
