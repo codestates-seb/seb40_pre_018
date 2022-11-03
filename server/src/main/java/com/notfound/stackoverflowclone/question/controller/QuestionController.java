@@ -52,4 +52,15 @@ public class QuestionController {
                         @RequestHeader(name = "Authorization") String token) {
         questionService.deleteQuestion(questionId, jwtTokenizer.getUserId(token));
     }
+
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    MultiResponseDto<QuestionDto.Response>
+    searchQuestionsByTitleOrContent(@RequestParam(name = "q") String searchText,
+                                    @RequestParam(required = false, defaultValue = "1") Integer page,
+                                    @RequestParam(required = false, defaultValue = "15") Integer size) {
+        Page<Question> questionPage =
+                questionService.findQuestionSearchByTitleOrContent(searchText, searchText, page - 1, size);
+        return MultiResponseDto.of(mapper.entityListToResponseDtoList(questionPage.getContent()), questionPage);
+    }
 }
