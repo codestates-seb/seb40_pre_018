@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { AiOutlineUser } from 'react-icons/ai';
 import { MdLogout } from 'react-icons/md';
 import { CommonButton } from '../Buttons';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileContainer = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ const ProfileContainer = styled.div`
 `;
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   return (
     <ProfileContainer>
       <div className="user-avatar">
@@ -61,6 +63,7 @@ const UserProfile = () => {
         color="var(--orange-400)"
         border="var(--orange-400)"
         bgColor="var(--orange-050)"
+        onClick={() => navigate('/logout')}
       >
         <MdLogout className="logout-icon" />
         Log Out
