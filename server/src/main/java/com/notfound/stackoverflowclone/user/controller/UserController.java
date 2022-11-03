@@ -1,5 +1,6 @@
 package com.notfound.stackoverflowclone.user.controller;
 
+import com.notfound.stackoverflowclone.auth.jwt.JwtTokenizer;
 import com.notfound.stackoverflowclone.user.dto.UserDto;
 import com.notfound.stackoverflowclone.user.entity.User;
 import com.notfound.stackoverflowclone.user.mapper.UserMapper;
@@ -20,8 +21,8 @@ public class UserController {
     private final UserService userService;
     private final UserMapper mapper;
 
+    private final JwtTokenizer jwtTokenizer;
 
-//회원가입
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto.Response postUser(@Valid @RequestBody UserDto.Post requestDto){
@@ -36,5 +37,11 @@ public class UserController {
             @PathVariable("user-id") @Positive Long userId){
         User user = userService.findVerifiedUser(userId);
         return mapper.EntityToResponseDto(user);
+    }
+
+    @GetMapping("/profile")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto.Response getProfile(@RequestHeader(name = "Authorization") String token) {
+        return mapper.EntityToResponseDto(userService.findVerifiedUser(jwtTokenizer.getUserId(token)));
     }
 }
