@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { fetchLogin } from '../../utils/api';
 import { CommonButton } from '../Buttons';
 import { Input } from '../InputStyles';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/actions';
+import { useNavigate } from 'react-router-dom';
 
 const BasicContainer = styled.div`
   width: 100%;
@@ -46,13 +49,15 @@ const BasicContainer = styled.div`
   }
 `;
 
-const BasicLogin = () => {
+const BasicLogin = ({ toast }) => {
   const initialInfo = { email: '', password: '' };
   const [loginInfo, loginInfoSet] = useState(initialInfo);
   const [emptyEmail, emptyEmailSet] = useState(false);
   const [emptyPassword, emptyPasswordSet] = useState(false);
   const [invalidEmail, invalidEmailSet] = useState(false);
   const [loginFailed, loginFailedSet] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handeLogin = (email, password) => {
     // eslint-disable-next-line
@@ -75,12 +80,16 @@ const BasicLogin = () => {
       emptyPasswordSet(false);
       invalidEmailSet(false);
 
-      /* 아래 요청 코드는 추후 url과 응답 형태에 따라 수정될 수 있습니다.*/
-      // fetchLogin 실행시 반환값이 없을 경우 실패 메세지 출력
-      !fetchLogin('http://localhost:3001/login', { email, password })
-        ? loginFailedSet(true)
-        : // 로그인 성공시 로그인상태 변경 로직을 추가해야합니다.
+      fetchLogin('http://15.165.244.155:8080/auth/login', { email, password })
+        .then((res) => {
           loginFailedSet(false);
+          dispatch(login(res.headers.authorization));
+          navigate('/');
+        })
+        .catch(() => {
+          toast.error('The email or password is incorrect.');
+          loginFailedSet(true);
+        });
     }
   };
 
