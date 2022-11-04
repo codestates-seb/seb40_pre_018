@@ -51,4 +51,23 @@ public class QuestionDto {
         private String content;
     }
 
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Patch {
+        private Long questionId;
+        private String title;
+        private String content;
+
+        public void setQuestionId(Long questionId) {this.questionId = questionId;}
+
+//        public void setQuestionId(Long questionId) {this.questionId = questionId; }
+//
+//        public void setQestionId(Long questionId) {
+//        }
+    }
+
+
+
 }

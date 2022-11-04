@@ -29,11 +29,19 @@ public class QuestionService {
         return questionRepository.save(madeQuestion);
     }
 
+    public Question updateQuestion(Question question) {
+
+        Question madeQuestion = findVerifiedQuestion(question.getQuestionId());
+
+        return questionRepository.save(madeQuestion);
+    }
+
     private Question createQuestion(Question question, User user) {
         question.setAuthor(user);
         user.getQuestions().add(question);
         return question;
     }
+
 
     public Question findVerifiedQuestion(Long questionId) {
         return questionRepository.findById(questionId)
@@ -45,6 +53,7 @@ public class QuestionService {
         findQuestion.setViews(findQuestion.getViews() + 1);
         return findQuestion;
     }
+
 
     public Page<Question> findQuestions(int page, int size) {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));

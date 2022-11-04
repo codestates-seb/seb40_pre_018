@@ -35,6 +35,20 @@ public class QuestionController {
     QuestionDto.DetailResponse getQuestion(@PathVariable("question-id") Long questionId) {
         return mapper.entityToDetailResponseDto(questionService.findViewedQuestion(questionId));
     }
+    @PatchMapping("/{question-id")
+    @ResponseStatus(HttpStatus.OK)
+    QuestionDto.Response patchQuestion(@PathVariable("question-id") Long questionId,
+//                                              @RequestHeader(name = "Authorization") String token,
+                                              @RequestBody QuestionDto.Patch requestDto) {
+        requestDto.setQuestionId(questionId);
+        Question question = mapper.patchDtoToEntity(requestDto);
+
+        return mapper.entityToResponseDto(questionService.updateQuestion(question));
+    }
+
+
+
+
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
