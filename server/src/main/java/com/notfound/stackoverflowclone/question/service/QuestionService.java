@@ -50,7 +50,7 @@ public class QuestionService {
     }
 
     public QuestionDto.DetailResponse findQuestionWithDto(Long questionId, Long userId) {
-        Question findQuestion = findVerifiedQuestion(questionId);
+        Question findQuestion = findViewedQuestion(questionId);
         QuestionDto.DetailResponse response = questionMapper.entityToDetailResponseDto(findQuestion);
         if (userId != null) {
             response.setIsUpVoter(findQuestion.getVotes().stream()
