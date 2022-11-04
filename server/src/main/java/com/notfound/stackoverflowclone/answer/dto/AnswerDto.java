@@ -2,16 +2,14 @@ package com.notfound.stackoverflowclone.answer.dto;
 
 
 import com.notfound.stackoverflowclone.user.dto.UserDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class AnswerDto {
     @Getter
+    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
