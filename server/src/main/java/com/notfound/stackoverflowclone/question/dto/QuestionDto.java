@@ -35,6 +35,10 @@ public class QuestionDto {
         private String content;
         private Long views;
         private int voteCount;
+        @Builder.Default
+        private Boolean isUpVoter = false;
+        @Builder.Default
+        private Boolean isDownVoter = false;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private List<AnswerDto.Response> answers;
