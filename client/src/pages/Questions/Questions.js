@@ -106,7 +106,7 @@ const Qusetions = ({ questions }) => {
         <>
           <div className="container">
             <PostSummary
-              voteNum={questions.vote}
+              voteNum={questions.voteCount}
               answerNum={questions.answers}
               viewNum={questions.views}
             />

@@ -40,8 +40,6 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .headers().frameOptions().sameOrigin()
-                .and()
                 .csrf().disable()
                 .cors(withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -65,6 +63,8 @@ public class SecurityConfiguration {
                         .antMatchers(DELETE, "/questions/*").hasRole("USER")
                         .antMatchers(POST, "/questions/*/answers").hasRole("USER")
                         .antMatchers(DELETE, "/answers/*").hasRole("USER")
+                        .antMatchers(POST,"/questions/*/upvotes").hasRole("USER")
+                        .antMatchers(POST,"/questions/*/downvotes").hasRole("USER")
                         .antMatchers(POST,"/answers/*/upvotes").hasRole("USER")
                         .antMatchers(POST,"/answers/*/downvotes").hasRole("USER")
                         .anyRequest().denyAll()
@@ -81,7 +81,9 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "HEAD"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
