@@ -118,10 +118,9 @@ const SignUp = () => {
 
   // 회원가입 데이터 전송
   const signUpSubmit = async () => {
-    setLoading(true);
     try {
       const response = await axios
-        .post(`http://15.165.244.155:8080/users/`, {
+        .post(`http://15.165.244.155:8080/users`, {
           email,
           displayName,
           password,
@@ -151,7 +150,7 @@ const SignUp = () => {
 
   // Password 유효성 검사 체크
   const validationPasswordCheck = (passwordVal) => {
-    // 전체 8자 이상일 것
+    // 전체 8자 이상이어야 합니다.
     const isValidPassword = passwordVal.length >= 8;
     if (isValidPassword) {
       return true;
@@ -251,7 +250,8 @@ const SignUp = () => {
               {isValidPassword && (
                 <div className="isvalid">Please enter a valid Password.</div>
               )}
-              Passwords must contain at least eight characters.
+              Passwords must contain at least eight characters, including at
+              least 1 special letter and 1 number.
               <div className="checkbox-input">
                 <input type="checkbox"></input>
                 Opt-in to receive occasional product updates, user research
