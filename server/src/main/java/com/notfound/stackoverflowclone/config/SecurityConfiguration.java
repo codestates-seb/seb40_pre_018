@@ -63,6 +63,8 @@ public class SecurityConfiguration {
                         .antMatchers(DELETE, "/questions/*").hasRole("USER")
                         .antMatchers(POST, "/questions/*/answers").hasRole("USER")
                         .antMatchers(DELETE, "/answers/*").hasRole("USER")
+                        .antMatchers(POST,"/questions/*/upvotes").hasRole("USER")
+                        .antMatchers(POST,"/questions/*/downvotes").hasRole("USER")
                         .antMatchers(POST,"/answers/*/upvotes").hasRole("USER")
                         .antMatchers(POST,"/answers/*/downvotes").hasRole("USER")
                         .anyRequest().denyAll()
@@ -81,6 +83,7 @@ public class SecurityConfiguration {
         configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "HEAD"));
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

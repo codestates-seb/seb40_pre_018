@@ -10,7 +10,18 @@ public class VoteDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class Response {
+    public static class QuestionResponse {
+        private Long questionId;
+        private Long voterId;
+        private int voteCount;
+        private boolean isUpVoter;
+        private boolean isDownVoter;
+    }
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class AnswerResponse {
         private Long answerId;
         private Long voterId;
         private int voteCount;

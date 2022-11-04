@@ -117,21 +117,16 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   // 회원가입 데이터 전송
-  const signUpSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const signUpSubmit = async () => {
     try {
       const response = await axios
-        .post(`http://15.165.244.155:8080/users/`, {
+        .post(`http://15.165.244.155:8080/users`, {
           email,
           displayName,
           password,
         })
-        .then((res) =>
-          console.log('회원가입 완료 : ' + JSON.stringify(res.data))
-        )
         .then(() => navigate('/login'));
-    } catch (e) {
+    } catch (error) {
       window.alert('오류가 발생했습니다. 입력 사항을 확인해 주세요.');
     }
   };
@@ -155,10 +150,8 @@ const SignUp = () => {
 
   // Password 유효성 검사 체크
   const validationPasswordCheck = (passwordVal) => {
-    // 비밀번호 특수문자 검사를 위한 정규 표현식
-    const specialLetter = passwordVal.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-    // 특수문자 1자 이상, 전체 8자 이상일 것
-    const isValidPassword = passwordVal.length >= 8 && specialLetter >= 1;
+    // 전체 8자 이상이어야 합니다.
+    const isValidPassword = passwordVal.length >= 8;
     if (isValidPassword) {
       return true;
     } else {
