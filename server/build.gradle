@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
 	id 'java'
 }
 
@@ -18,13 +19,53 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	set('snippetsDir', file("build/generated-snippets"))
+}
+
+configurations {
+	asccidoctorExtensions
+}
+
 dependencies {
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	asccidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	tasks.name('test') {
+		outputs.dir snippetsDir
+		useJUnitPlatform()
+	}
+
+	tasks.named('asciidoctor') {
+		configurations "asciidoctorExtensions"
+		inputs.dir snippetsDir
+		dependsOn test
+	}
+
+	task copyDocument(type: Copy) {
+		dependsOn asccidoctor
+		from file("${asccidoctor.outputDir}")
+		into file("src/main/resources/static/docs")
+	}
+
+	build {
+		dependsOn copyDocument
+	}
+
+	bootJar {
+		dependsOn copyDocument
+		from ("${asccidoctor.outputDir}") {
+			into 'static/docs'
+		}
+
+	}
 
 	// mapstruct
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
