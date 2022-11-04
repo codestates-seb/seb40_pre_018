@@ -90,7 +90,7 @@ const TextEditor = ({ onChangeHandler, initialValue }) => {
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />
-        {isError && <AlertIcon fill="var(--red-400)" class="alert-icon" />}
+        {isError && <AlertIcon fill="var(--red-400)" className="alert-icon" />}
       </EditorWrapper>
       {isError && (
         <ErrorMessage>
