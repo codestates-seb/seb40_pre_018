@@ -117,8 +117,7 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   // 회원가입 데이터 전송
-  const signUpSubmit = async (e) => {
-    e.preventDefault();
+  const signUpSubmit = async () => {
     setLoading(true);
     try {
       const response = await axios
@@ -127,11 +126,8 @@ const SignUp = () => {
           displayName,
           password,
         })
-        .then((res) =>
-          console.log('회원가입 완료 : ' + JSON.stringify(res.data))
-        )
         .then(() => navigate('/login'));
-    } catch (e) {
+    } catch (error) {
       window.alert('오류가 발생했습니다. 입력 사항을 확인해 주세요.');
     }
   };
@@ -155,10 +151,8 @@ const SignUp = () => {
 
   // Password 유효성 검사 체크
   const validationPasswordCheck = (passwordVal) => {
-    // 비밀번호 특수문자 검사를 위한 정규 표현식
-    const specialLetter = passwordVal.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-    // 특수문자 1자 이상, 전체 8자 이상일 것
-    const isValidPassword = passwordVal.length >= 8 && specialLetter >= 1;
+    // 전체 8자 이상일 것
+    const isValidPassword = passwordVal.length >= 8;
     if (isValidPassword) {
       return true;
     } else {
@@ -257,8 +251,7 @@ const SignUp = () => {
               {isValidPassword && (
                 <div className="isvalid">Please enter a valid Password.</div>
               )}
-              Passwords must contain at least eight characters, including at
-              least 1 special letter and 1 number.
+              Passwords must contain at least eight characters.
               <div className="checkbox-input">
                 <input type="checkbox"></input>
                 Opt-in to receive occasional product updates, user research
