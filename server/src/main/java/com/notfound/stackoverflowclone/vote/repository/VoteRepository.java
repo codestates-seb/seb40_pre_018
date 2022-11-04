@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface VoteRepository extends JpaRepository<Vote, Long> {
     List<Vote> findAllByVoterAndAnswer(User user, Answer answer);
-    int countAllByAnswer(Answer answer);
+    List<Vote> findAllByAnswer(Answer answer);
 }
