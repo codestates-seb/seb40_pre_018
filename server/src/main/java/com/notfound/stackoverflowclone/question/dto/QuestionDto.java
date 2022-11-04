@@ -2,10 +2,7 @@ package com.notfound.stackoverflowclone.question.dto;
 
 import com.notfound.stackoverflowclone.answer.dto.AnswerDto;
 import com.notfound.stackoverflowclone.user.dto.UserDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +24,7 @@ public class QuestionDto {
     }
 
     @Getter
+    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
@@ -37,6 +35,10 @@ public class QuestionDto {
         private String content;
         private Long views;
         private int voteCount;
+        @Builder.Default
+        private Boolean isUpVoter = false;
+        @Builder.Default
+        private Boolean isDownVoter = false;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private List<AnswerDto.Response> answers;

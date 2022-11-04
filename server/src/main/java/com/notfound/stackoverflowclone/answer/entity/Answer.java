@@ -33,11 +33,10 @@ public class Answer extends AuditingEntity {
     private String content;
 
     @Builder.Default
-    @OneToMany(mappedBy = "answer")
+    @OneToMany(mappedBy = "answer", cascade = {CascadeType.REMOVE})
     private List<Vote> votes = new ArrayList<>();
 
     public int getVoteCount(){
-        Integer sum = votes.stream().mapToInt(Vote::getAmount).sum();
-        return sum;
+        return votes.stream().mapToInt(Vote::getAmount).sum();
     }
 }

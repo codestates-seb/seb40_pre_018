@@ -3,6 +3,7 @@ package com.notfound.stackoverflowclone.question.entity;
 import com.notfound.stackoverflowclone.answer.entity.Answer;
 import com.notfound.stackoverflowclone.audit.AuditingEntity;
 import com.notfound.stackoverflowclone.user.entity.User;
+import com.notfound.stackoverflowclone.vote.entity.Vote;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,4 +39,12 @@ public class Question extends AuditingEntity {
     @Builder.Default
     @OneToMany(mappedBy = "question", cascade = {CascadeType.REMOVE})
     private List<Answer> answers = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.REMOVE})
+    private List<Vote> votes = new ArrayList<>();
+
+    public int getVoteCount() {
+        return this.votes.stream().mapToInt(Vote::getAmount).sum();
+    }
 }
