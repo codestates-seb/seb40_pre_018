@@ -83,7 +83,7 @@ const QuestionList = () => {
   const onVotedHandler = () => {
     let newArr = [...questions];
     let voteResult = newArr.sort((a, b) => {
-      return a.questionId - b.questionId;
+      return a.voteCount - b.voteCount;
     });
     setQuestion(voteResult);
   };
