@@ -22,7 +22,6 @@ import java.util.List;
 public class VoteService {
     public final VoteRepository voteRepository;
     public final UserService userService;
-    public final AnswerRepository answerRepository;
     public final AnswerService answerService;
     public final QuestionService questionService;
 
