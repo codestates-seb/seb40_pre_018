@@ -53,6 +53,7 @@ const ProfileContainer = styled.div`
 
 const UserProfile = () => {
   const navigate = useNavigate();
+
   const { user } = useSelector((state) => state.loginReducer);
 
   return (

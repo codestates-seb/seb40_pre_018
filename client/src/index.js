@@ -4,10 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import GlobalStyle from './assets/style/GlobalStyle';
 import { Provider } from 'react-redux';
-import { legacy_createStore as createStore } from 'redux';
-import rootReducer from './redux/reducer';
-
-const store = createStore(rootReducer);
+import store from './redux/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { fetchLogin } from '../../utils/api';
 import { CommonButton } from '../Buttons';
 import { Input } from '../InputStyles';
-import { useDispatch } from 'react-redux';
-import { login } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAction } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
 
 const BasicContainer = styled.div`
@@ -49,15 +48,25 @@ const BasicContainer = styled.div`
   }
 `;
 
-const BasicLogin = ({ toast }) => {
+const BasicLogin = () => {
   const initialInfo = { email: '', password: '' };
   const [loginInfo, loginInfoSet] = useState(initialInfo);
   const [emptyEmail, emptyEmailSet] = useState(false);
   const [emptyPassword, emptyPasswordSet] = useState(false);
   const [invalidEmail, invalidEmailSet] = useState(false);
   const [loginFailed, loginFailedSet] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.loginReducer);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+      loginFailedSet(false);
+    }
+  }, [user]);
 
   const handeLogin = (email, password) => {
     // eslint-disable-next-line
@@ -80,16 +89,7 @@ const BasicLogin = ({ toast }) => {
       emptyPasswordSet(false);
       invalidEmailSet(false);
 
-      fetchLogin('http://15.165.244.155:8080/auth/login', { email, password })
-        .then((res) => {
-          loginFailedSet(false);
-          dispatch(login(res.headers.authorization));
-          navigate('/');
-        })
-        .catch(() => {
-          toast.error('The email or password is incorrect.');
-          loginFailedSet(true);
-        });
+      dispatch(loginAction({ email, password }));
     }
   };
 

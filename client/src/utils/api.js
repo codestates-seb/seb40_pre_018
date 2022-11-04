@@ -1,15 +1,5 @@
 import axios from 'axios';
 
-export const fetchLogin = (url, data) => {
-  return axios(url, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data,
-  });
-};
-
 export const fetchCreate = (url, data) => {
   axios(url, {
     method: 'post',

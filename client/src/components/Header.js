@@ -68,8 +68,9 @@ const HeaderContainer = styled.header`
 `;
 
 const Header = () => {
-  const { user } = useSelector((state) => state.loginReducer);
   const navigate = useNavigate();
+
+  const { user } = useSelector((state) => state.loginReducer);
 
   const handleLogin = () => {
     navigate('/login');
