@@ -32,8 +32,10 @@ public class QuestionController {
 
     @GetMapping("/{question-id}")
     @ResponseStatus(HttpStatus.OK)
-    QuestionDto.DetailResponse getQuestion(@PathVariable("question-id") Long questionId) {
-        return mapper.entityToDetailResponseDto(questionService.findViewedQuestion(questionId));
+    QuestionDto.DetailResponse getQuestion(@PathVariable("question-id") Long questionId,
+                                           @RequestHeader(name = "Authorization", required = false) String token) {
+        return questionService.findQuestionWithDto(questionId,
+                        token != null ? jwtTokenizer.getUserId(token) : null);
     }
 
     @GetMapping
