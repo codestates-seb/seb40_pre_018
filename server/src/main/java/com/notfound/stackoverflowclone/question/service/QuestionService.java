@@ -57,11 +57,11 @@ public class QuestionService {
                     findQuestion.getAnswers().stream()
                             .map(answer -> {
                                 AnswerDto.Response responseDto = answerMapper.entityToResponseDto(answer);
-                                responseDto.setUpVoter(answer.getVotes().stream()
+                                responseDto.setIsUpVoter(answer.getVotes().stream()
                                         .filter(vote -> vote.getAmount() == 1)
                                         .map(vote -> vote.getVoter().getUserId()).collect(Collectors.toList())
                                         .contains(userId));
-                                responseDto.setDownVoter(answer.getVotes().stream()
+                                responseDto.setIsDownVoter(answer.getVotes().stream()
                                         .filter(vote -> vote.getAmount() == -1)
                                         .map(vote -> vote.getVoter().getUserId()).collect(Collectors.toList())
                                         .contains(userId));
