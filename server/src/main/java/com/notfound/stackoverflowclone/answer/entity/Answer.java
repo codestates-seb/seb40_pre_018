@@ -3,9 +3,12 @@ package com.notfound.stackoverflowclone.answer.entity;
 import com.notfound.stackoverflowclone.audit.AuditingEntity;
 import com.notfound.stackoverflowclone.question.entity.Question;
 import com.notfound.stackoverflowclone.user.entity.User;
+import com.notfound.stackoverflowclone.vote.entity.Vote;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,4 +31,13 @@ public class Answer extends AuditingEntity {
 
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "answer")
+    private List<Vote> votes = new ArrayList<>();
+
+    public int getVoteCount(){
+        Integer sum = votes.stream().mapToInt(Vote::getAmount).sum();
+        return sum;
+    }
 }

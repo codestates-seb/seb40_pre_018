@@ -4,6 +4,7 @@ export const getDaysElapsed = (dateObj) => {
   const date = new Date(dateObj.replace(/"/g, "'"));
   const now = new Date();
   var days = Math.floor((now.getTime() - date.getTime()) / 8.64e7);
+
   // 31일 미만은 날짜 단위로 반환합니다.
   if (days < 31) {
     if (days === 0) return 'today';
@@ -35,18 +36,17 @@ export const getTimeElapsed = (dateObj) => {
   const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
   // 60초 미만은 초 단위로 반환합니다.
-  if (seconds < 60)
-    return seconds === 1 ? `${seconds} second ago` : `${seconds} seconds ago`;
-
+  if (seconds < 60) {
+    if (seconds < 1) return '1 sec ago';
+    return seconds + (seconds === 1 ? ` sec ago` : ` secs ago`);
+  }
   // 60분 미만은 분 단위로 반환합니다.
   const minutes = Math.floor(seconds / 60);
-  if (minutes < 60)
-    return minutes === 1 ? `${minutes} minute ago` : `${minutes} minutes ago`;
+  if (minutes < 60) return minutes + (minutes === 1 ? ` min ago` : ` mins ago`);
 
   // 24시간 미만은 시간 단위로 반환합니다.
   const hours = Math.floor(minutes / 60);
-  if (hours < 24)
-    return hours === 1 ? `${hours} hour ago` : `${hours} hours ago`;
+  if (hours < 24) return hours + (hours === 1 ? ` hour ago` : ` hours ago`);
 
   // 2일 이하는 일 단위로 반환합니다.
   const days = Math.floor(hours / 24);
@@ -59,7 +59,9 @@ export const getTimeElapsed = (dateObj) => {
   // 3일 이상은 날짜와 시간을 반환합니다.
   const month = date.toLocaleString('default', { month: 'short' });
   const day = date.getDate() + 1;
-  const hourMinute = date.getHours() + ':' + date.getMinutes();
+  const hour = date.getHours();
+  let minute = date.getMinutes();
+  if (minute < 10) minute = '0' + minute;
 
-  return `${month} ${day} at ${hourMinute}`;
+  return `${month} ${day} at ${hour}:${minute}`;
 };

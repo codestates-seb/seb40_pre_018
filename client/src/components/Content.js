@@ -4,6 +4,7 @@ import { Vote } from './Vote';
 import { UserInfo } from './UserInfo';
 import { getTimeElapsed } from '../utils/timeElapsed';
 import { fetchDelete } from '../utils/api';
+import { ContentViewer } from './ContentViewer';
 // import { Tags } from './Tags';
 
 const ContentWrapper = styled.section`
@@ -17,6 +18,7 @@ const ContentWrapper = styled.section`
       margin: 0;
       font-size: 15px;
       line-height: 22.5px;
+      padding-top: 4px;
     }
   }
 `;
@@ -33,6 +35,7 @@ const Utils = styled.div`
   .modified-date {
     font-size: 12px;
     color: var(--blue-600);
+    padding-top: 7px;
   }
 `;
 
@@ -46,6 +49,7 @@ const Options = styled.div`
   button {
     height: 17px;
     margin-top: 2px;
+    padding-top: 7px;
     color: var(--black-500);
     font-size: 13px;
     background-color: transparent;
@@ -61,30 +65,41 @@ export const Content = ({
   votes,
   createdAt,
   updatedAt,
+  id,
   // tags,
 }) => {
   const params = useParams();
 
   const navigate = useNavigate();
-  const handleEditQuestion = () => {
-    navigate(`/edit/${params.id}`);
+  const handleEdit = () => {
+    type === 'question'
+      ? navigate(`/edit/${params.id}`)
+      : console.log('질문 수정');
+    // 답변 수정 - 중요도 중간이므로 추후 추가(일단 console.log('질문 수정'))
   };
 
   const handleDelete = () => {
-    fetchDelete(`http:///15.165.244.155:8080/questions/${params.id}`);
-    navigate('/');
+    if (type === 'question') {
+      fetchDelete(`http://15.165.244.155:8080/questions/${id}`);
+      location.href = '/';
+    } else if (type === 'answer') {
+      fetchDelete(
+        `http://15.165.244.155:8080/questions/${params.id}/answers/${id}`
+      );
+      location.reload();
+    }
   };
 
   return (
     <ContentWrapper className={type + '-container'}>
       <Vote votes={votes} />
       <div className="main-content">
-        <p className="text">{content}</p>
+        <ContentViewer content={content} />
         {/* {type === 'question' && tags && <Tags tags={tags} />} */}
         <Utils>
           <Options>
             <button>Share</button>
-            <button onClick={() => handleEditQuestion()}>Edit</button>
+            <button onClick={() => handleEdit()}>Edit</button>
             <button onClick={() => handleDelete()}>Delete</button>
           </Options>
           {updatedAt && (

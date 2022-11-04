@@ -19,7 +19,9 @@ public class AnswerDto {
         private Long answerId;
         private String content;
         private UserDto.Response author;
-        private int vote;
+        private int voteCount;
+        private boolean isUpVoter;
+        private boolean isDownVoter;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }
