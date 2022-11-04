@@ -53,6 +53,14 @@ public class QuestionService {
         Question findQuestion = findVerifiedQuestion(questionId);
         QuestionDto.DetailResponse response = questionMapper.entityToDetailResponseDto(findQuestion);
         if (userId != null) {
+            response.setIsUpVoter(findQuestion.getVotes().stream()
+                    .filter(vote -> vote.getAmount() == 1)
+                    .map(vote -> vote.getVoter().getUserId()).collect(Collectors.toList())
+                    .contains(userId));
+            response.setIsDownVoter(findQuestion.getVotes().stream()
+                    .filter(vote -> vote.getAmount() == -1)
+                    .map(vote -> vote.getVoter().getUserId()).collect(Collectors.toList())
+                    .contains(userId));
             response.setAnswers(
                     findQuestion.getAnswers().stream()
                             .map(answer -> {
