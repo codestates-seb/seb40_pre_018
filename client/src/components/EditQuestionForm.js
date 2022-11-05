@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { CommonButton } from './Buttons';
+import { ContentViewer } from './ContentViewer';
+import { Input } from './InputStyles';
+import TextEditor from './TextEditor';
 
 const EditFormContainer = styled.div`
   display: flex;
@@ -17,29 +20,20 @@ const EditFormContainer = styled.div`
   .edit-body-form {
     flex-direction: column;
     font-size: 16px;
-    font-weight: bold;
-  }
 
-  input,
-  textarea {
-    width: 100%;
-    margin-top: 5px;
-    padding: 8px 9px;
-    background-color: #fff;
-    color: hsl(210, 8%, 5%);
-    border: 1px solid var(--black-200);
-    border-radius: 3px;
-    outline: none;
-
-    &:focus {
-      box-shadow: 0px 0px 0px 4px var(--powder-200);
-      border-color: var(--blue-600);
+    label {
+      font-weight: 700;
     }
   }
 
-  textarea#edit-body {
-    height: 300px;
-    resize: vertical;
+  .edit-body-form {
+    label {
+      margin-bottom: 5px;
+    }
+  }
+
+  #save-button {
+    margin-left: 0;
   }
 `;
 
@@ -51,25 +45,21 @@ const EditQuestionForm = ({ question, handleEdit }) => {
     <EditFormContainer>
       <div className="edit-title-form">
         <label htmlFor="edit-title">Title</label>
-        <input
+        <Input
           id="edit-title"
           type="text"
           value={editTitle}
           onChange={(event) => editTitleSet(event.target.value)}
-        ></input>
+        />
       </div>
       <div className="edit-body-form">
         <label htmlFor="edit-body">Body</label>
-        <textarea
-          id="edit-body"
-          type="text"
-          value={editBody}
-          onChange={(event) => editBodySet(event.target.value)}
-        ></textarea>
+        <TextEditor onChangeHandler={editBodySet} initialValue={editBody} />
+        <ContentViewer content={editBody} />
       </div>
-      <div className="body-preview">{editBody}</div>
       <div className="edit-buttons">
         <CommonButton
+          id="save-button"
           bgColor="var(--blue-500)"
           color="#fff"
           border="transparent"

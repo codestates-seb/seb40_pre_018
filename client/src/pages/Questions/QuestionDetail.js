@@ -1,55 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { getDaysElapsed } from '../../utils/timeElapsed';
 import { CommonButton } from '../../components/Buttons';
 import { Content } from '../../components/Content';
-import { Editor } from '../../components/Editor';
 import { fetchCreate } from '../../utils/api';
-
-// // Dummy Data: 답변 더미 데이터
-const AData = {
-  1: [
-    {
-      content: `Solution 1: Separated npm package
-    In my project, I separated my core parts with each npm package.
-
-    Create npm package and put your shared components into that.
-    You can test immediately your shared component's function with npm link or specify your local package's absolute path with npm install.
-    If you want to manage your package more intuitive way, then you can publish your package to npm repository with private mode.
-    Solution 2: Depend on the environment variable
-    You can separate your running environment with react-native-config. With this package, created multiple environments .env or .env.production you can separate your runtime variables with ENVFILE=.env npm start or ENVFILE=.env.production npm start. Then in your javascript code, you can refer your each runtime settings.
-
-    import Config from 'react-native-config';
-
-    const isProduction = Config.environment === 'production';
-
-    <Image source={isProduction ? require(..production_image) : require(..development_image)} />
-    How to show your slight difference in your app depends on you. like Platform.os === 'ios'`,
-      modified: '2022-10-28 03:40:20Z',
-      answered: '2020-04-24 09:39:34Z',
-      vote: 2,
-      author: {
-        userId: 10199138,
-        displayName: 'MJ Studio',
-      },
-    },
-    {
-      content: `Refere this: https://github.com/luggit/react-native-config
-
-      You can create different builds : Production, staging, testing.
-
-      You can set multiple environment and generate build.`,
-      answered: '2020-04-24 08:16:42Z',
-      vote: 0,
-      author: {
-        userId: 11136807,
-        displayName: 'Vinit Bhavsar',
-      },
-    },
-  ],
-};
+import NotFound from '../../components/NotFound';
+import TextEditor from '../../components/TextEditor';
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
 const Container = styled.article`
@@ -167,14 +125,14 @@ const YourAnswerHeader = styled.h2`
 
 // 여기서부터!
 const QuestionDetail = () => {
-  // dummy data - 답변 (안쓰게 되면 지울 예정입니다!)
-  const answerData = AData[1];
-
   const params = useParams();
   const url = 'http://15.165.244.155:8080/questions/' + [params.id];
   const [questionData, setQuestionData] = useState(null);
   const [yourAnswer, setYourAnswer] = useState('');
   const [isPending, setIsPending] = useState(false);
+
+  const [state, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
 
   const navigate = useNavigate();
   const handleAskQuestion = () => {
@@ -187,6 +145,8 @@ const QuestionDetail = () => {
       `http://15.165.244.155:8080/questions/${params.id}/answers`,
       data
     );
+    setYourAnswer('');
+    location.reload();
   };
 
   useEffect(() => {
@@ -194,19 +154,18 @@ const QuestionDetail = () => {
       setIsPending(true);
       try {
         const res = await axios(url);
-        setQuestionData(res.data);
+        setQuestionData({ ...res.data });
       } catch (err) {
         console.error(err);
       }
       setIsPending(false);
     };
     fetchData();
-  }, [url]);
+  }, [url, state]);
 
-  if (isPending) return <div>질문 불러오는 중...</div>;
-  if (questionData === null) return <div>Question Not Found</div>;
+  if (isPending && questionData === null) return <div>질문 불러오는 중...</div>;
+  if (questionData === null) return <NotFound />;
   if (questionData) {
-    console.log(questionData);
     return (
       <Container>
         <QuestionHeader>
@@ -242,24 +201,30 @@ const QuestionDetail = () => {
           type="question"
           author={questionData.author}
           content={questionData.content}
-          votes={questionData.vote}
+          votes={questionData.voteCount}
           createdAt={questionData.createdAt}
           updatedAt={questionData.updatedAt}
+          id={questionData.questionId}
+          reRender={forceUpdate}
           // tags={ans.tags}
         />
-        {answerData.length > 0 && (
+        {questionData.answers.length > 0 && (
           <>
-            <AnswersHeader count={answerData.length} />
-            {answerData.map((ans) => {
+            <AnswersHeader count={questionData.answers.length} />
+            {questionData.answers.map((answer) => {
               return (
                 <Content
-                  key={'answer' + ans.author.userId}
+                  key={'answer' + answer.answerId}
                   type="answer"
-                  author={ans.author}
-                  content={ans.content}
-                  votes={ans.vote}
-                  createdAt={ans.answered}
-                  updatedAt={ans.modified}
+                  author={answer.author}
+                  content={answer.content}
+                  votes={answer.voteCount}
+                  upVoter={answer.upVoter}
+                  downVoter={answer.downVoter}
+                  createdAt={answer.createdAt}
+                  updatedAt={answer.updatedAt}
+                  id={answer.answerId}
+                  reRender={forceUpdate}
                   // tags={ans.tags}
                 />
               );
@@ -268,7 +233,7 @@ const QuestionDetail = () => {
         )}
 
         <YourAnswerHeader>Your Answer</YourAnswerHeader>
-        <Editor value={yourAnswer} onChangeHandler={setYourAnswer} />
+        <TextEditor onChangeHandler={setYourAnswer} />
         <CommonButton
           bgColor="var(--blue-500)"
           color="#fff"
@@ -283,4 +248,4 @@ const QuestionDetail = () => {
   }
 };
 
-export default QuestionDetail;
+export default React.memo(QuestionDetail);

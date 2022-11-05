@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AskBtn, BottomBtn, SortBtn } from '../../components/Buttons';
-import Qusetions from './Qusetions';
+import Questions from './Questions';
 
 const QuestionListPage = styled.div`
   height: 100%;
@@ -68,6 +68,26 @@ const QuestionList = () => {
     fetchData();
   }, [size, page]);
 
+  // const
+
+  // 정렬 탭 기능 구현
+  // 최신 정렬
+  const onNewestHandler = () => {
+    let newArr = [...questions];
+    let newestResult = newArr.sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+    setQuestion(newestResult);
+  };
+  // 투표 순 정렬
+  const onVotedHandler = () => {
+    let newArr = [...questions];
+    let voteResult = newArr.sort((a, b) => {
+      return a.voteCount - b.voteCount;
+    });
+    setQuestion(voteResult);
+  };
+
   // 최하단 페이지 이동버튼 이벤트 구현
   const pageHandle = (pageValue) => {
     if (pageValue === 'Next') {
@@ -100,20 +120,21 @@ const QuestionList = () => {
               askHandle();
             }}
           >
-            Ask Qusetions
+            Ask Questions
           </AskBtn>
         </QuestionHeader>
+        {/* 정렬 탭 */}
         <SortContainer>
           <h4> {totalNum} questions</h4>
           <div>
-            <SortBtn>newest</SortBtn>
-            <SortBtn>voted</SortBtn>
+            <SortBtn onClick={onNewestHandler}>newest</SortBtn>
+            <SortBtn onClick={onVotedHandler}>voted</SortBtn>
           </div>
         </SortContainer>
         <div>
           {questions.map((question, index) => {
             return (
-              <Qusetions
+              <Questions
                 key={question.questionId}
                 questions={question}
                 userName={question.author}

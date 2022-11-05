@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { CommonButton } from './Buttons';
 import { RecommendBody, RecommendTitle } from './Recommends';
+import TextEditor from './TextEditor';
 
 const QCFormCommon = styled.div`
   .qc-form {
@@ -35,7 +36,6 @@ const QCFormCommon = styled.div`
       }
 
       > div:last-child {
-        display: flex;
         width: 100%;
 
         input {
@@ -105,13 +105,8 @@ const AskQuestionForm = ({
                 Minimum 20 characters.
               </label>
             </div>
-            <div className="qc-form-body">
-              <input
-                id="qc-body"
-                type="text"
-                value={askBody}
-                onChange={(event) => askBodySet(event.target.value)}
-              ></input>
+            <div className="qc-form-body" id="qc-body">
+              <TextEditor onChangeHandler={askBodySet} />
             </div>
           </div>
           <RecommendBody />

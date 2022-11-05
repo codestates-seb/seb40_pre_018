@@ -1,10 +1,16 @@
 package com.notfound.stackoverflowclone.question.service;
 
+import com.notfound.stackoverflowclone.answer.dto.AnswerDto;
+import com.notfound.stackoverflowclone.answer.mapper.AnswerMapper;
 import com.notfound.stackoverflowclone.exception.BusinessLogicException;
 import com.notfound.stackoverflowclone.exception.ExceptionCode;
+import com.notfound.stackoverflowclone.question.dto.QuestionDto;
 import com.notfound.stackoverflowclone.question.entity.Question;
+import com.notfound.stackoverflowclone.question.mapper.QuestionMapper;
 import com.notfound.stackoverflowclone.question.repository.QuestionRepository;
+import com.notfound.stackoverflowclone.user.dto.UserDto;
 import com.notfound.stackoverflowclone.user.entity.User;
+import com.notfound.stackoverflowclone.user.mapper.UserMapper;
 import com.notfound.stackoverflowclone.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -22,6 +29,8 @@ import java.util.Optional;
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final UserService userService;
+    private final QuestionMapper questionMapper;
+    private final AnswerMapper answerMapper;
 
     public Question saveQuestion(Question question, Long userId) {
         User findUser = userService.findVerifiedUser(userId);
@@ -38,6 +47,37 @@ public class QuestionService {
     public Question findVerifiedQuestion(Long questionId) {
         return questionRepository.findById(questionId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
+    }
+
+    public QuestionDto.DetailResponse findQuestionWithDto(Long questionId, Long userId) {
+        Question findQuestion = findViewedQuestion(questionId);
+        QuestionDto.DetailResponse response = questionMapper.entityToDetailResponseDto(findQuestion);
+        if (userId != null) {
+            response.setIsUpVoter(findQuestion.getVotes().stream()
+                    .filter(vote -> vote.getAmount() == 1)
+                    .map(vote -> vote.getVoter().getUserId()).collect(Collectors.toList())
+                    .contains(userId));
+            response.setIsDownVoter(findQuestion.getVotes().stream()
+                    .filter(vote -> vote.getAmount() == -1)
+                    .map(vote -> vote.getVoter().getUserId()).collect(Collectors.toList())
+                    .contains(userId));
+            response.setAnswers(
+                    findQuestion.getAnswers().stream()
+                            .map(answer -> {
+                                AnswerDto.Response responseDto = answerMapper.entityToResponseDto(answer);
+                                responseDto.setIsUpVoter(answer.getVotes().stream()
+                                        .filter(vote -> vote.getAmount() == 1)
+                                        .map(vote -> vote.getVoter().getUserId()).collect(Collectors.toList())
+                                        .contains(userId));
+                                responseDto.setIsDownVoter(answer.getVotes().stream()
+                                        .filter(vote -> vote.getAmount() == -1)
+                                        .map(vote -> vote.getVoter().getUserId()).collect(Collectors.toList())
+                                        .contains(userId));
+                                return responseDto;
+                            }).collect(Collectors.toList())
+            );
+        }
+        return response;
     }
 
     public Question findViewedQuestion(Long questionId) {
@@ -63,4 +103,8 @@ public class QuestionService {
         });
     }
 
+    public Page<Question> findQuestionSearchByTitleOrContent(String title, String content, int page, int size) {
+        return questionRepository.findAllByTitleContainsOrContentContains(title, content,
+                PageRequest.of(page, size, Sort.by("questionId").descending()));
+    }
 }

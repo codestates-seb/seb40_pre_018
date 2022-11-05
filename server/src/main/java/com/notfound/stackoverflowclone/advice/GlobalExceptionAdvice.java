@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Arrays;
 
 @RestControllerAdvice
 @Slf4j
@@ -64,6 +67,7 @@ public class GlobalExceptionAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleException(Exception e) {
         log.error("error : ", e);
-        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
+//        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
+        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, e.toString());
     }
 }
