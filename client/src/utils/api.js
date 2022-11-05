@@ -1,12 +1,12 @@
 import axios from 'axios';
+import { getLocalStorage } from '../utils/localStorage';
 
 export const fetchCreate = (url, data) => {
   axios(url, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJJZCI6MSwiZW1haWwiOiJxd2VAcXdlLmNvbSIsInN1YiI6InF3ZUBxd2UuY29tIiwiaWF0IjoxNjY3NTQxMTEyLCJleHAiOjE3MzA2MTMxMTJ9.weJGE_crrKtLnSWEf4xcsbcd8w-sR2fAnb4ZieIH4vyR0LDM9KEhxTo3NEYhNf-2',
+      Authorization: getLocalStorage().token,
     },
     data,
   }).catch((err) => console.log('Error', err.message));
@@ -17,7 +17,7 @@ export const fetchPatch = (url, data) => {
     method: 'patch',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: '1',
+      Authorization: getLocalStorage().token,
     },
     data,
   }).catch((err) => console.log('Error', err.message));
@@ -27,7 +27,7 @@ export const fetchDelete = (url) => {
   axios(url, {
     method: 'delete',
     headers: {
-      Authorization: '1',
+      Authorization: getLocalStorage().token,
     },
   }).catch((err) => console.log('Error', err.message));
 };
