@@ -54,6 +54,7 @@ const BasicLogin = () => {
   const [emptyEmail, emptyEmailSet] = useState(false);
   const [emptyPassword, emptyPasswordSet] = useState(false);
   const [invalidEmail, invalidEmailSet] = useState(false);
+  const [invalidPassword, invalidPasswordSet] = useState(false);
   const [loginFailed, loginFailedSet] = useState(false);
 
   const navigate = useNavigate();
@@ -71,10 +72,11 @@ const BasicLogin = () => {
   const handeLogin = (email, password) => {
     // eslint-disable-next-line
     const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    const passwordRegex = /^[A-Za-z\d!@#$%^&*()_+~\-=]{8,40}$/;
 
     // 비어있으면 empty메세지 출력
     if (email === '') emptyEmailSet(true);
-    // 유효하지않으면 invalid 메세지 출력
+    // 유효하지않으면(이메일 형식) invalid 메세지 출력
     else if (!emailRegex.test(email)) {
       emptyEmailSet(false);
       invalidEmailSet(true);
@@ -82,9 +84,13 @@ const BasicLogin = () => {
 
     // 비어있으면 empty메세지 출력
     if (password === '') emptyPasswordSet(true);
-
-    // 모두 비어있지 않으면서 유효한 이메일이면 로그인 요청
-    if (emailRegex.test(email) && password !== '') {
+    // 유효하지않으면(8자 이상) invalid 메세지 출력
+    else if (!passwordRegex.test(password)) {
+      emptyPasswordSet(false);
+      invalidPasswordSet(true);
+    }
+    // 유효한 이메일과 패스워드이면 로그인 요청
+    if (emailRegex.test(email) && passwordRegex.test(password)) {
       emptyEmailSet(false);
       emptyPasswordSet(false);
       invalidEmailSet(false);
@@ -126,6 +132,9 @@ const BasicLogin = () => {
           shadow={emptyEmail || loginFailed ? 'rgb(246,224,224)' : null}
         />
         {emptyPassword ? <p>Password cannot be empty.</p> : null}
+        {invalidPassword ? (
+          <p>The password must be at least 8 characters long.</p>
+        ) : null}
         {loginFailed ? <p>The email or password is incorrect.</p> : null}
       </div>
       <div>
