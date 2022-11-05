@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { fetchLogin } from '../../utils/api';
 import { CommonButton } from '../Buttons';
 import { Input } from '../InputStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAction } from '../../redux/actions';
+import { useNavigate } from 'react-router-dom';
 
 const BasicContainer = styled.div`
   width: 100%;
@@ -54,6 +56,18 @@ const BasicLogin = () => {
   const [invalidEmail, invalidEmailSet] = useState(false);
   const [loginFailed, loginFailedSet] = useState(false);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.loginReducer);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+      loginFailedSet(false);
+    }
+  }, [user]);
+
   const handeLogin = (email, password) => {
     // eslint-disable-next-line
     const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -75,12 +89,7 @@ const BasicLogin = () => {
       emptyPasswordSet(false);
       invalidEmailSet(false);
 
-      /* 아래 요청 코드는 추후 url과 응답 형태에 따라 수정될 수 있습니다.*/
-      // fetchLogin 실행시 반환값이 없을 경우 실패 메세지 출력
-      !fetchLogin('http://localhost:3001/login', { email, password })
-        ? loginFailedSet(true)
-        : // 로그인 성공시 로그인상태 변경 로직을 추가해야합니다.
-          loginFailedSet(false);
+      dispatch(loginAction({ email, password }));
     }
   };
 
