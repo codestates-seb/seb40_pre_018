@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { CommonButton } from '../components/Buttons';
 import faviconSprite from '../assets/images/faviconSprite.png';
 import { useNavigate } from 'react-router-dom';
+import { removeLocalStroage } from '../utils/localStorage';
 
 // 연결된 서비스 목록
 const serviceList = [
@@ -131,7 +132,7 @@ const LogOut = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // 로그아웃 기능 구현 필요
+    removeLocalStroage();
     navigate('/');
   };
   const handleCancel = () => {
