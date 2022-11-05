@@ -47,11 +47,6 @@ public class QuestionController {
         return mapper.entityToDetailResponseDto(questionService.findViewedQuestion(questionId));
     }
 
-
-
-
-
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     MultiResponseDto<QuestionDto.Response>
