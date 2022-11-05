@@ -8,6 +8,7 @@ import { AskBtn, BottomBtn, SortBtn } from '../../components/Buttons';
 import Questions from './Questions';
 
 const QuestionListPage = styled.div`
+  width: calc(100% - 164px - 324px);
   height: 100%;
   display: flex;
   padding: 10px 24px 20px 0;

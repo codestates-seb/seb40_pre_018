@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
 const Container = styled.article`
-  width: 100%;
+  width: calc(100% - 164px - 324px);
   padding: 24px;
   border-left: 1px solid var(--black-100);
   height: 100%;
