@@ -123,7 +123,7 @@ export const Content = ({
           <Options>
             <button>Share</button>
             <button onClick={() => handleEdit()}>Edit</button>
-            {user.userId === author.userId && (
+            {user?.userId === author.userId && (
               <button onClick={() => handleDelete()}>Delete</button>
             )}
           </Options>
