@@ -6,7 +6,7 @@ import { getDaysElapsed } from '../../utils/timeElapsed';
 import { CommonButton } from '../../components/Buttons';
 import { Content } from '../../components/Content';
 // import { fetchCreate } from '../../utils/api';
-import TextEditor from '../../components/TextEditor';
+import AnswerForm from '../../components/AnswerForm';
 import { useSelector } from 'react-redux';
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
@@ -129,7 +129,7 @@ const QuestionDetail = () => {
   const params = useParams();
   const url = 'http://15.165.244.155:8080/questions/' + [params.id];
   const [questionData, setQuestionData] = useState(null);
-  const [yourAnswer, setYourAnswer] = useState('');
+  // const [yourAnswer, setYourAnswer] = useState('');
   const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
@@ -137,9 +137,9 @@ const QuestionDetail = () => {
     navigate('/ask');
   };
 
-  const handleAnswerSubmit = () => {
-    const data = { content: yourAnswer };
-    setYourAnswer('');
+  const handleAnswerSubmit = (body) => {
+    const data = { content: body };
+    // setYourAnswer('');
     axios(`http://15.165.244.155:8080/questions/${params.id}/answers`, {
       method: 'post',
       headers: {
@@ -244,16 +244,7 @@ const QuestionDetail = () => {
         )}
 
         <YourAnswerHeader>Your Answer</YourAnswerHeader>
-        <TextEditor onChangeHandler={setYourAnswer} />
-        <CommonButton
-          bgColor="var(--blue-500)"
-          color="#fff"
-          border="transparent"
-          className="submit-answer-btn"
-          onClick={() => handleAnswerSubmit()}
-        >
-          Post Your Answer
-        </CommonButton>
+        <AnswerForm onClickHandler={handleAnswerSubmit} />
       </Container>
     );
   }
