@@ -14,8 +14,8 @@ public class VoteDto {
         private Long questionId;
         private Long voterId;
         private int voteCount;
-        private boolean isUpVoter;
-        private boolean isDownVoter;
+        private Boolean isUpVoter;
+        private Boolean isDownVoter;
     }
     @Getter
     @NoArgsConstructor
