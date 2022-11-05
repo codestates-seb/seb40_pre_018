@@ -17,7 +17,7 @@ export const loginAction = createAsyncThunk(
         authorization: response.headers.authorization,
       },
     });
-    console.log(getProfile.data);
+
     return { ...getProfile.data, token: response.headers.authorization };
   }
 );
