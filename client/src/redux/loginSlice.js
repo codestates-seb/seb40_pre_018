@@ -11,6 +11,7 @@ const loginSlice = createSlice({
     logOut: (state) => {
       state.user = null;
       removeLocalStroage();
+      toast('See you next time👋');
     },
   },
   extraReducers: (builder) => {
@@ -20,10 +21,13 @@ const loginSlice = createSlice({
     builder.addCase(loginAction.fulfilled, (state, action) => {
       state.user = action.payload;
       addLocalStorage(state.user);
+      toast(`Hello! ${state.user.displayName}👋`);
     });
     builder.addCase(loginAction.rejected, (state) => {
       state.status = 'Fail';
-      toast.error('The email or password is incorrect.');
+      toast.error('The email or password is incorrect.', {
+        className: 'toast-message',
+      });
     });
   },
 });
