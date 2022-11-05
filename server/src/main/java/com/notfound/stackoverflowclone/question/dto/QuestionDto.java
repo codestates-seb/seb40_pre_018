@@ -4,6 +4,7 @@ import com.notfound.stackoverflowclone.answer.dto.AnswerDto;
 import com.notfound.stackoverflowclone.user.dto.UserDto;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -49,7 +50,9 @@ public class QuestionDto {
     @AllArgsConstructor
     @Builder
     public static class Post {
+        @NotBlank
         private String title;
+        @NotBlank
         private String content;
     }
 
