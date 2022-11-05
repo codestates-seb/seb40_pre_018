@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import axios from 'axios';
+import { getLocalStorage } from '../utils/localStorage';
 import { ReactComponent as VoteUpIcon } from '../assets/images/voteUp.svg';
 import { ReactComponent as VoteDownIcon } from '../assets/images/voteDown.svg';
-import { fetchCreate } from '../utils/api';
 
 const VoteContainer = styled.div`
   width: auto;
@@ -29,32 +30,77 @@ const VoteContainer = styled.div`
     svg {
       width: 36px;
       height: 36px;
+      transition: fill 0.1s ease-in-out;
     }
   }
 `;
 
-// eslint-disable-next-line no-unused-vars
-export const Vote = ({ type, id, votes, upVoter, downVoter, reRender }) => {
+export const Vote = ({
+  type,
+  id,
+  votes,
+  isUpVoter,
+  isDownVoter,
+  questionData,
+  updateData,
+}) => {
+  const fetchVote = async (url) => {
+    axios(url, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getLocalStorage().token,
+      },
+    })
+      .then((res) => {
+        updateData(
+          type === 'question'
+            ? {
+                ...questionData,
+                voteCount: res.data.voteCount,
+                isUpVoter: res.data.isUpVoter,
+                isDownVoter: res.data.isDownVoter,
+              }
+            : {
+                ...questionData,
+                answers: questionData.answers.map((el) => {
+                  if (el.answerId === id) {
+                    el = {
+                      ...el,
+                      voteCount: res.data.voteCount,
+                      isUpVoter: res.data.isUpVoter,
+                      isDownVoter: res.data.isDownVoter,
+                    };
+                  }
+                  return el;
+                }),
+              }
+        );
+      })
+      .catch((err) => console.error('Error', err.message));
+  };
+
   const onUpVote = () => {
     const url = `http://15.165.244.155:8080/${type}s/${id}/upvotes`;
-    fetchCreate(url);
-    reRender();
+    fetchVote(url);
   };
 
   const onDownVote = () => {
     const url = `http://15.165.244.155:8080/${type}s/${id}/downvotes`;
-    fetchCreate(url);
-    reRender();
+    fetchVote(url);
   };
+
   return (
     <VoteContainer>
       <button className="voting-button" onClick={onUpVote}>
-        <VoteUpIcon fill={upVoter ? 'var(--orange-400)' : 'var(--black-200)'} />
+        <VoteUpIcon
+          fill={isUpVoter ? 'var(--orange-400)' : 'var(--black-200)'}
+        />
       </button>
       <div>{votes}</div>
       <button className="voting-button" onClick={onDownVote}>
         <VoteDownIcon
-          fill={downVoter ? 'var(--orange-400)' : 'var(--black-200)'}
+          fill={isDownVoter ? 'var(--orange-400)' : 'var(--black-200)'}
         />
       </button>
     </VoteContainer>

@@ -63,12 +63,13 @@ export const Content = ({
   author,
   content,
   votes,
-  upVoter,
-  downVoter,
+  isUpVoter,
+  isDownVoter,
   createdAt,
   updatedAt,
   id,
-  reRender,
+  questionData,
+  updateData,
   // tags,
 }) => {
   const params = useParams();
@@ -99,9 +100,10 @@ export const Content = ({
         type={type}
         id={id}
         votes={votes}
-        upVoter={upVoter}
-        downVoter={downVoter}
-        reRender={reRender}
+        isUpVoter={isUpVoter}
+        isDownVoter={isDownVoter}
+        questionData={questionData}
+        updateData={updateData}
       />
       <div className="main-content">
         <ContentViewer content={content} />

@@ -131,9 +131,6 @@ const QuestionDetail = () => {
   const [yourAnswer, setYourAnswer] = useState('');
   const [isPending, setIsPending] = useState(false);
 
-  const [state, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
-
   const navigate = useNavigate();
   const handleAskQuestion = () => {
     navigate('/ask');
@@ -161,7 +158,7 @@ const QuestionDetail = () => {
       setIsPending(false);
     };
     fetchData();
-  }, [url, state]);
+  }, [url]);
 
   if (isPending && questionData === null) return <div>질문 불러오는 중...</div>;
   if (questionData === null) return <NotFound />;
@@ -202,10 +199,13 @@ const QuestionDetail = () => {
           author={questionData.author}
           content={questionData.content}
           votes={questionData.voteCount}
+          isUpVoter={questionData.isUpVoter}
+          isDownVoter={questionData.isDownVoter}
           createdAt={questionData.createdAt}
           updatedAt={questionData.updatedAt}
           id={questionData.questionId}
-          reRender={forceUpdate}
+          questionData={questionData}
+          updateData={setQuestionData}
           // tags={ans.tags}
         />
         {questionData.answers.length > 0 && (
@@ -219,12 +219,13 @@ const QuestionDetail = () => {
                   author={answer.author}
                   content={answer.content}
                   votes={answer.voteCount}
-                  upVoter={answer.upVoter}
-                  downVoter={answer.downVoter}
+                  isUpVoter={answer.isUpVoter}
+                  isDownVoter={answer.isDownVoter}
                   createdAt={answer.createdAt}
                   updatedAt={answer.updatedAt}
                   id={answer.answerId}
-                  reRender={forceUpdate}
+                  questionData={questionData}
+                  updateData={setQuestionData}
                   // tags={ans.tags}
                 />
               );
