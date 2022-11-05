@@ -38,11 +38,27 @@ public class QuestionService {
         return questionRepository.save(madeQuestion);
     }
 
+    public Question updateQuestion(Question newQuestion, Long userId) {
+        Question question = findVerifiedQuestion(newQuestion.getQuestionId());
+
+        if (!question.getAuthor().getUserId().equals(userId)) {
+            throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
+        }
+
+        question.setTitle(newQuestion.getTitle());
+        question.setContent(newQuestion.getContent());
+
+
+        return question;
+    }
+
     private Question createQuestion(Question question, User user) {
         question.setAuthor(user);
         user.getQuestions().add(question);
+
         return question;
     }
+
 
     public Question findVerifiedQuestion(Long questionId) {
         return questionRepository.findById(questionId)
@@ -85,6 +101,7 @@ public class QuestionService {
         findQuestion.setViews(findQuestion.getViews() + 1);
         return findQuestion;
     }
+
 
     public Page<Question> findQuestions(int page, int size) {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));

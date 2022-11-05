@@ -10,6 +10,8 @@ import java.util.List;
 public interface QuestionMapper {
     Question postDtoToEntity(QuestionDto.Post postDto);
 
+    Question patchDtoToEntity(QuestionDto.Patch patchDto);
+
     QuestionDto.Response entityToResponseDto(Question question);
 
     List<QuestionDto.Response> entityListToResponseDtoList(List<Question> questions);
