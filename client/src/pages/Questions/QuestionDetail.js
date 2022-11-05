@@ -6,7 +6,6 @@ import { getDaysElapsed } from '../../utils/timeElapsed';
 import { CommonButton } from '../../components/Buttons';
 import { Content } from '../../components/Content';
 import { fetchCreate } from '../../utils/api';
-import NotFound from '../../components/NotFound';
 import TextEditor from '../../components/TextEditor';
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
@@ -153,6 +152,7 @@ const QuestionDetail = () => {
         const res = await axios(url);
         setQuestionData({ ...res.data });
       } catch (err) {
+        navigate('/notfound');
         console.error(err);
       }
       setIsPending(false);
@@ -161,7 +161,6 @@ const QuestionDetail = () => {
   }, [url]);
 
   if (isPending && questionData === null) return <div>질문 불러오는 중...</div>;
-  if (questionData === null) return <NotFound />;
   if (questionData) {
     return (
       <Container>
