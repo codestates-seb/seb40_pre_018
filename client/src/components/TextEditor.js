@@ -67,9 +67,8 @@ const TextEditor = ({ onChangeHandler, initialValue }) => {
     const data = editorRef.current.getInstance().getMarkdown();
     onChangeHandler(data); // Props로 받은 setState에 data 전달
     checkLength(data); // 데이터의 길이를 검사해서 유효성 검사
-    bodyLength < 30 ? setIsError(true) : setIsError(false);
+    bodyLength <= 30 ? setIsError(true) : setIsError(false);
   };
-
   return (
     <div>
       <EditorWrapper focus={isFocused} error={isError}>
