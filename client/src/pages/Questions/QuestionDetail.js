@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import { getDaysElapsed } from '../../utils/timeElapsed';
 import { CommonButton } from '../../components/Buttons';
 import { Content } from '../../components/Content';
-import { fetchCreate } from '../../utils/api';
+// import { fetchCreate } from '../../utils/api';
 import TextEditor from '../../components/TextEditor';
+import { useSelector } from 'react-redux';
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
 const Container = styled.article`
@@ -124,6 +125,7 @@ const YourAnswerHeader = styled.h2`
 
 // 여기서부터!
 const QuestionDetail = () => {
+  const { user } = useSelector((state) => state.loginReducer);
   const params = useParams();
   const url = 'http://15.165.244.155:8080/questions/' + [params.id];
   const [questionData, setQuestionData] = useState(null);
@@ -137,12 +139,21 @@ const QuestionDetail = () => {
 
   const handleAnswerSubmit = () => {
     const data = { content: yourAnswer };
-    fetchCreate(
-      `http://15.165.244.155:8080/questions/${params.id}/answers`,
-      data
-    );
     setYourAnswer('');
-    location.reload();
+    axios(`http://15.165.244.155:8080/questions/${params.id}/answers`, {
+      method: 'post',
+      headers: {
+        Authorization: user.token,
+      },
+      data,
+    })
+      .then((res) => {
+        setQuestionData({
+          ...questionData,
+          answers: [...questionData.answers, res.data],
+        });
+      })
+      .catch((err) => console.error(err));
   };
 
   useEffect(() => {
