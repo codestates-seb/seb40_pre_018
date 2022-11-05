@@ -5,9 +5,8 @@ import styled from 'styled-components';
 import { getDaysElapsed } from '../../utils/timeElapsed';
 import { CommonButton } from '../../components/Buttons';
 import { Content } from '../../components/Content';
-import { fetchCreate } from '../../utils/api';
-import NotFound from '../../components/NotFound';
-import TextEditor from '../../components/TextEditor';
+// import { fetchCreate } from '../../utils/api';
+import AnswerForm from '../../components/AnswerForm';
 import { useSelector } from 'react-redux';
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
@@ -145,7 +144,7 @@ const QuestionDetail = () => {
   const params = useParams();
   const url = 'http://15.165.244.155:8080/questions/' + [params.id];
   const [questionData, setQuestionData] = useState(null);
-  const [yourAnswer, setYourAnswer] = useState('');
+  // const [yourAnswer, setYourAnswer] = useState('');
   const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
@@ -156,14 +155,23 @@ const QuestionDetail = () => {
     else navigate('/login');
   };
 
-  const handleAnswerSubmit = () => {
-    const data = { content: yourAnswer };
-    fetchCreate(
-      `http://15.165.244.155:8080/questions/${params.id}/answers`,
-      data
-    );
-    setYourAnswer('');
-    location.reload();
+  const handleAnswerSubmit = (body) => {
+    const data = { content: body };
+    // setYourAnswer('');
+    axios(`http://15.165.244.155:8080/questions/${params.id}/answers`, {
+      method: 'post',
+      headers: {
+        Authorization: user.token,
+      },
+      data,
+    })
+      .then((res) => {
+        setQuestionData({
+          ...questionData,
+          answers: [...questionData.answers, res.data],
+        });
+      })
+      .catch((err) => console.error(err));
   };
 
   useEffect(() => {
@@ -173,6 +181,7 @@ const QuestionDetail = () => {
         const res = await axios(url);
         setQuestionData({ ...res.data });
       } catch (err) {
+        navigate('/notfound');
         console.error(err);
       }
       setIsPending(false);
@@ -181,7 +190,6 @@ const QuestionDetail = () => {
   }, [url]);
 
   if (isPending && questionData === null) return <div>질문 불러오는 중...</div>;
-  if (questionData === null) return <NotFound />;
   if (questionData) {
     return (
       <Container>
@@ -259,16 +267,7 @@ const QuestionDetail = () => {
         )}
 
         <YourAnswerHeader>Your Answer</YourAnswerHeader>
-        <TextEditor onChangeHandler={setYourAnswer} />
-        <CommonButton
-          bgColor="var(--blue-500)"
-          color="#fff"
-          border="transparent"
-          className="submit-answer-btn"
-          onClick={() => handleAnswerSubmit()}
-        >
-          Post Your Answer
-        </CommonButton>
+        <AnswerForm onClickHandler={handleAnswerSubmit} />
       </Container>
     );
   }

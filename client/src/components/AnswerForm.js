@@ -1,7 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { ReactComponent as AlertIcon } from '../assets/images/alert.svg';
 import { Editor } from '@toast-ui/react-editor';
+import { CommonButton } from './Buttons';
+import { useSelector } from 'react-redux';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
 // 코드 하이라이팅 용도
@@ -52,28 +56,42 @@ const ErrorMessage = styled.p`
   font-size: 12px;
 `;
 
-const TextEditor = ({ onChangeHandler, initialValue }) => {
-  const editorRef = useRef(); // DOM 선택용
-  const [isFocused, setIsFocused] = useState(false);
-  const [bodyLength, setBodyLength] = useState(0);
-  const [isError, setIsError] = useState(false);
+const LoginAlert = styled.span`
+  font-size: 15px;
+  font-weight: 400;
+  margin-left: 10px;
 
-  // body 길이 검사하는 함수
-  const checkLength = (body) => {
-    setBodyLength(body.length);
+  .link {
+    color: var(--blue-600);
+  }
+`;
+
+const AnswerForm = ({ initialValue, onClickHandler }) => {
+  const editorRef = useRef();
+  const { user } = useSelector((state) => state.loginReducer);
+  const [isFocused, setIsFocused] = useState(false);
+  const [body, setBody] = useState('');
+  const [isError, setIsError] = useState(false);
+  const bodyLength = body.length;
+  const isValid = user && bodyLength >= 30;
+
+  const onSubmit = () => {
+    !isError && onClickHandler(body);
+    editorRef.current.getInstance().setMarkdown('');
+    setIsError(false);
   };
 
   const onChange = () => {
     const data = editorRef.current.getInstance().getMarkdown();
-    onChangeHandler(data); // Props로 받은 setState에 data 전달
-    checkLength(data); // 데이터의 길이를 검사해서 유효성 검사
-    bodyLength <= 30 ? setIsError(true) : setIsError(false);
+    data.length <= 29 ? setIsError(true) : setIsError(false);
+    setBody(data);
   };
+
   return (
     <div>
       <EditorWrapper focus={isFocused} error={isError}>
         <Editor
-          ref={editorRef} // DOM 선택용
+          ref={editorRef}
           initialValue={initialValue || ' '}
           height="250px"
           autofocus={false}
@@ -96,8 +114,29 @@ const TextEditor = ({ onChangeHandler, initialValue }) => {
           Body must be at least 30 characters; you entered {bodyLength}
         </ErrorMessage>
       )}
+      <CommonButton
+        bgColor="var(--blue-500)"
+        color="#fff"
+        border="transparent"
+        className="submit-answer-btn"
+        onClick={onSubmit}
+        disabled={!isValid}
+      >
+        Post Your Answer
+      </CommonButton>
+      {!user && (
+        <LoginAlert>
+          <Link to="/signup" className="link">
+            Sign up
+          </Link>
+          &nbsp;or&nbsp;
+          <Link to="/login" className="link">
+            Log in
+          </Link>
+        </LoginAlert>
+      )}
     </div>
   );
 };
 
-export default TextEditor;
+export default AnswerForm;

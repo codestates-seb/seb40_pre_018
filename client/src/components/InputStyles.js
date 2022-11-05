@@ -13,7 +13,7 @@ const commonInput = css`
 
   &:focus {
     box-shadow: 0px 0px 0px 4px
-      ${(props) => props.shadow || 'var(--powder-200)'};
+      ${(props) => props.shadow || 'var(--powder-100)'};
     border-color: ${(props) => props.focusBorder || 'var(--blue-600)'};
   }
 `;
