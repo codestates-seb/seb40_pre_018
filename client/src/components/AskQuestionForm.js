@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { CommonButton } from './Buttons';
 import { RecommendBody, RecommendTitle } from './Recommends';
 import TextEditor from './TextEditor';
+import { Input } from './InputStyles';
 
 const QCFormCommon = styled.div`
   .qc-form {
@@ -32,19 +33,6 @@ const QCFormCommon = styled.div`
             font-weight: normal;
             font-size: 13px;
           }
-        }
-      }
-
-      > div:last-child {
-        width: 100%;
-
-        input {
-          width: 100%;
-          padding: 8px 9px;
-          background-color: #fff;
-          color: hsl(210, 8%, 5%);
-          border: 1px solid var(--black-200);
-          border-radius: 3px;
         }
       }
 
@@ -81,13 +69,12 @@ const AskQuestionForm = ({
               </label>
             </div>
             <div>
-              <input
-                id="title"
+              <Input
                 type="text"
                 placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
                 value={askTitle}
                 onChange={(event) => askTitleSet(event.target.value)}
-              ></input>
+              />
             </div>
           </div>
           <RecommendTitle />
