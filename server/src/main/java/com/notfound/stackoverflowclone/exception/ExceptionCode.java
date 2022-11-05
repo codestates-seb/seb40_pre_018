@@ -10,6 +10,7 @@ public enum ExceptionCode {
     QUESTION_NOT_FOUND(404, "Question not found"),
     USER_UNAUTHORIZED(403, "User unauthorized"),
     ANSWER_NOT_FOUND(404,"Answer not found"),
+    CONTENT_NOT_CHANGED(411, "Content not changed"),
     ;
     private final int status;
     private final String message;

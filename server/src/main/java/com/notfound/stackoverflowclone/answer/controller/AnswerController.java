@@ -32,6 +32,17 @@ public class AnswerController {
         return mapper.entityToResponseDto(answerService.saveAnswer(answer, jwtTokenizer.getUserId(token), questionId));
     }
 
+    @PatchMapping("/answers{answer-id}")
+    @ResponseStatus(HttpStatus.OK)
+    public AnswerDto.Response patchAnswer(
+            @RequestHeader(name = "Authorization") String token,
+            @PathVariable("answer-id") @Positive Long answerId,
+            @Valid @RequestBody AnswerDto.Patch patchDto) {
+        patchDto.setAnswerId(answerId);
+        Answer answer = mapper.patchDtoToEntity(patchDto);
+        return mapper.entityToResponseDto(answerService.updateAnswer(answer, jwtTokenizer.getUserId(token)));
+    }
+
     @DeleteMapping("/answers/{answer-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteAnswer(@PathVariable(name = "answer-id") Long answerId,

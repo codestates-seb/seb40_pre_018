@@ -34,4 +34,16 @@ public class AnswerDto {
         @NotBlank(message = "Content is missing.")
         private String content;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Patch {
+        private Long answerId;
+        @NotBlank(message = "Content is missing.")
+        private String content;
+        public void setAnswerId(Long answerId) {this.answerId = answerId;}
+    }
+
 }

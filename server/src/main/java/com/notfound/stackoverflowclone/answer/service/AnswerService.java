@@ -30,6 +30,21 @@ public class AnswerService {
         return answerRepository.save(madeAnswer);
     }
 
+    public Answer updateAnswer(Answer newAnswer, Long userId) {
+        Answer answer = findVerifiedAnswer(newAnswer.getAnswerId());
+
+        if (!answer.getAuthor().getUserId().equals(userId)) {
+            throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
+        }
+        if (answer.getContent().equals(newAnswer.getContent())) {
+            throw new BusinessLogicException(ExceptionCode.CONTENT_NOT_CHANGED);
+        }
+        answer.setContent(newAnswer.getContent());
+
+        return answer;
+    }
+
+
     private Answer createAnswer(Answer answer, Question question, User user) {
         Answer createdAnswer = Answer.builder()
                 .content(answer.getContent()) //추후 answerDto.Post에 필드 추가시에 수정필요한부분
