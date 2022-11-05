@@ -51,10 +51,15 @@ const ProfileContainer = styled.div`
   }
 `;
 
-const UserProfile = () => {
+const UserProfile = ({ toggle, toggleSet }) => {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.loginReducer);
+
+  const handleLogout = () => {
+    toggleSet(!toggle);
+    navigate('/logout');
+  };
 
   return (
     <ProfileContainer>
@@ -67,7 +72,7 @@ const UserProfile = () => {
         color="var(--orange-400)"
         border="var(--orange-400)"
         bgColor="var(--orange-050)"
-        onClick={() => navigate('/logout')}
+        onClick={handleLogout}
       >
         <MdLogout className="logout-icon" />
         Log Out

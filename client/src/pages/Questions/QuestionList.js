@@ -2,15 +2,15 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AskBtn, BottomBtn, SortBtn } from '../../components/Buttons';
 import Questions from './Questions';
 
 const QuestionListPage = styled.div`
+  width: calc(100% - 164px - 324px);
   height: 100%;
-  /* position: relative; */
-  width: 75%;
   display: flex;
   padding: 10px 24px 20px 0;
   border-left: 1px solid var(--black-075);
@@ -24,6 +24,11 @@ const QuestionHeader = styled.header`
   justify-content: space-between;
   font-size: 15px;
   color: var(--black-700);
+
+  > h1 {
+    font-weight: 500;
+    font-size: 27px;
+  }
 `;
 
 const SortContainer = styled.div`
@@ -33,6 +38,10 @@ const SortContainer = styled.div`
   margin-left: 24px;
   font-size: 17px;
   color: var(--black-600);
+
+  > h4 {
+    font-weight: 500;
+  }
 `;
 
 const FooterBtnContainer = styled.div`
@@ -76,7 +85,9 @@ const QuestionList = () => {
       setLoading(false);
     };
     fetchData();
-  }, [size, page, searchInput]);
+  }, [size, page]);
+
+  // const
 
   // 정렬 탭 기능 구현
   // 최신 정렬
@@ -114,8 +125,11 @@ const QuestionList = () => {
   };
 
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.loginReducer);
+
   const askHandle = () => {
-    navigate('/ask');
+    if (user) navigate('/ask');
+    else navigate('/login');
   };
 
   return (

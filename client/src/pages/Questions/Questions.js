@@ -7,29 +7,44 @@ import { getTimeElapsed, getDaysElapsed } from '../../utils/timeElapsed';
 
 // 질문 폼 전체 컨테이너
 const QuestionContainer = styled.div`
-  .questions {
+  .container {
     width: 100%;
+    display: flex;
+    border-top: 1px solid var(--black-075);
+    padding: 16px;
+  }
+
+  .questions {
+    width: calc(100% - 140px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
   }
-  .container {
-    display: flex;
-    border-top: 1px solid var(--black-075);
+
+  .question-title,
+  .question-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    hyphens: auto;
+    overflow-wrap: break-word;
   }
 
   .question-title {
+    width: 100%;
     font-size: 17px;
     font-weight: 400;
     color: var(--blue-600);
-    padding: 10px 0 5px 0;
     font-family: 'Noto Sans KR', sans-serif;
     cursor: pointer;
   }
   .question-content {
+    width: 100%;
     color: var(--black-700);
-    padding: 5px 0;
+    margin: 5px 0;
     font-size: 14px;
   }
 `;
