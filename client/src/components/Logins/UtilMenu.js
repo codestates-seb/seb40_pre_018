@@ -78,7 +78,9 @@ const UtilMenu = () => {
               <VscTriangleUp className="triangle" />
             )}
           </button>
-          {toggle ? <UserProfile /> : null}
+          {toggle ? (
+            <UserProfile toggle={toggle} toggleSet={toggleSet} />
+          ) : null}
         </li>
         <li>
           <InboxIcon />
