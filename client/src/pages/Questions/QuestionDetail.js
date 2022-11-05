@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { getDaysElapsed } from '../../utils/timeElapsed';
@@ -131,6 +131,9 @@ const QuestionDetail = () => {
   const [yourAnswer, setYourAnswer] = useState('');
   const [isPending, setIsPending] = useState(false);
 
+  const [state, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+
   const navigate = useNavigate();
   const handleAskQuestion = () => {
     navigate('/ask');
@@ -151,16 +154,16 @@ const QuestionDetail = () => {
       setIsPending(true);
       try {
         const res = await axios(url);
-        setQuestionData(res.data);
+        setQuestionData({ ...res.data });
       } catch (err) {
         console.error(err);
       }
       setIsPending(false);
     };
     fetchData();
-  }, [url]);
+  }, [url, state]);
 
-  if (isPending) return <div>질문 불러오는 중...</div>;
+  if (isPending && questionData === null) return <div>질문 불러오는 중...</div>;
   if (questionData === null) return <NotFound />;
   if (questionData) {
     return (
@@ -198,10 +201,11 @@ const QuestionDetail = () => {
           type="question"
           author={questionData.author}
           content={questionData.content}
-          votes={questionData.vote}
+          votes={questionData.voteCount}
           createdAt={questionData.createdAt}
           updatedAt={questionData.updatedAt}
           id={questionData.questionId}
+          reRender={forceUpdate}
           // tags={ans.tags}
         />
         {questionData.answers.length > 0 && (
@@ -214,10 +218,13 @@ const QuestionDetail = () => {
                   type="answer"
                   author={answer.author}
                   content={answer.content}
-                  votes={answer.vote}
+                  votes={answer.voteCount}
+                  upVoter={answer.upVoter}
+                  downVoter={answer.downVoter}
                   createdAt={answer.createdAt}
                   updatedAt={answer.updatedAt}
                   id={answer.answerId}
+                  reRender={forceUpdate}
                   // tags={ans.tags}
                 />
               );
@@ -241,4 +248,4 @@ const QuestionDetail = () => {
   }
 };
 
-export default QuestionDetail;
+export default React.memo(QuestionDetail);

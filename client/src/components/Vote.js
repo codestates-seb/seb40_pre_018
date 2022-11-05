@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { ReactComponent as VoteUpIcon } from '../assets/images/voteUp.svg';
 import { ReactComponent as VoteDownIcon } from '../assets/images/voteDown.svg';
+import { fetchCreate } from '../utils/api';
 
 const VoteContainer = styled.div`
   width: auto;
@@ -32,15 +33,29 @@ const VoteContainer = styled.div`
   }
 `;
 
-export const Vote = ({ votes }) => {
+// eslint-disable-next-line no-unused-vars
+export const Vote = ({ type, id, votes, upVoter, downVoter, reRender }) => {
+  const onUpVote = () => {
+    const url = `http://15.165.244.155:8080/${type}s/${id}/upvotes`;
+    fetchCreate(url);
+    reRender();
+  };
+
+  const onDownVote = () => {
+    const url = `http://15.165.244.155:8080/${type}s/${id}/downvotes`;
+    fetchCreate(url);
+    reRender();
+  };
   return (
     <VoteContainer>
-      <button className="voting-button">
-        <VoteUpIcon fill="var(--black-200)" />
+      <button className="voting-button" onClick={onUpVote}>
+        <VoteUpIcon fill={upVoter ? 'var(--orange-400)' : 'var(--black-200)'} />
       </button>
       <div>{votes}</div>
-      <button className="voting-button">
-        <VoteDownIcon fill="var(--black-200)" />
+      <button className="voting-button" onClick={onDownVote}>
+        <VoteDownIcon
+          fill={downVoter ? 'var(--orange-400)' : 'var(--black-200)'}
+        />
       </button>
     </VoteContainer>
   );

@@ -5,7 +5,8 @@ export const fetchCreate = (url, data) => {
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: '1',
+      Authorization:
+        'Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJJZCI6MSwiZW1haWwiOiJxd2VAcXdlLmNvbSIsInN1YiI6InF3ZUBxd2UuY29tIiwiaWF0IjoxNjY3NTQxMTEyLCJleHAiOjE3MzA2MTMxMTJ9.weJGE_crrKtLnSWEf4xcsbcd8w-sR2fAnb4ZieIH4vyR0LDM9KEhxTo3NEYhNf-2',
     },
     data,
   }).catch((err) => console.log('Error', err.message));

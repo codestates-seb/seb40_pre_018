@@ -63,9 +63,12 @@ export const Content = ({
   author,
   content,
   votes,
+  upVoter,
+  downVoter,
   createdAt,
   updatedAt,
   id,
+  reRender,
   // tags,
 }) => {
   const params = useParams();
@@ -92,7 +95,14 @@ export const Content = ({
 
   return (
     <ContentWrapper className={type + '-container'}>
-      <Vote votes={votes} />
+      <Vote
+        type={type}
+        id={id}
+        votes={votes}
+        upVoter={upVoter}
+        downVoter={downVoter}
+        reRender={reRender}
+      />
       <div className="main-content">
         <ContentViewer content={content} />
         {/* {type === 'question' && tags && <Tags tags={tags} />} */}
