@@ -130,7 +130,7 @@ const AnswerForm = ({ initialValue, onClickHandler }) => {
           <Link to="/signup" className="link">
             Sign up
           </Link>
-          or
+          &nbsp;or&nbsp;
           <Link to="/login" className="link">
             Log in
           </Link>
