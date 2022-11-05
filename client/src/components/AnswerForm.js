@@ -76,9 +76,7 @@ const AnswerForm = ({ initialValue, onClickHandler }) => {
   const isValid = user && bodyLength >= 30;
 
   const onSubmit = () => {
-    if (!isError) {
-      onClickHandler(body);
-    }
+    !isError && onClickHandler(body);
   };
 
   const onChange = () => {
