@@ -70,9 +70,9 @@ const AnswerForm = ({ initialValue, onClickHandler }) => {
   const editorRef = useRef();
   const { user } = useSelector((state) => state.loginReducer);
   const [isFocused, setIsFocused] = useState(false);
-  const [bodyLength, setBodyLength] = useState(0);
+  const [body, setBody] = useState('');
   const [isError, setIsError] = useState(false);
-  const [body, setBody] = useState(false);
+  const bodyLength = body.length;
   const isValid = user && bodyLength >= 30;
 
   const onSubmit = () => {
@@ -83,9 +83,8 @@ const AnswerForm = ({ initialValue, onClickHandler }) => {
 
   const onChange = () => {
     const data = editorRef.current.getInstance().getMarkdown();
+    data.length <= 29 ? setIsError(true) : setIsError(false);
     setBody(data);
-    setBodyLength(data.length);
-    bodyLength <= 30 ? setIsError(true) : setIsError(false);
   };
 
   return (
