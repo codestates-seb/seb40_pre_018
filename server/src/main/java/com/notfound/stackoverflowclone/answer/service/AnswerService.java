@@ -30,15 +30,15 @@ public class AnswerService {
         return answerRepository.save(madeAnswer);
     }
 
-    public Answer updateAnswer(Answer newAnswer, Long userId) {
-        Answer answer = findVerifiedAnswer(newAnswer.getAnswerId());
+    public Answer updateAnswer(Answer newAnswer, Long userId, Long answerId) {
+        Answer answer = findVerifiedAnswer(answerId);
 
         if (!answer.getAuthor().getUserId().equals(userId)) {
             throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
         }
-        if (answer.getContent().equals(newAnswer.getContent())) {
-            throw new BusinessLogicException(ExceptionCode.CONTENT_NOT_CHANGED);
-        }
+//        if (answer.getContent().equals(newAnswer.getContent())) {
+//            throw new BusinessLogicException(ExceptionCode.CONTENT_NOT_CHANGED);
+//        // 질문 내용이 차이가 없으면 exception 발생 }
         answer.setContent(newAnswer.getContent());
 
         return answer;
