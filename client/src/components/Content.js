@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { Vote } from './Vote';
 import { UserInfo } from './UserInfo';
 import { getTimeElapsed } from '../utils/timeElapsed';
-import { fetchDelete } from '../utils/api';
 import { ContentViewer } from './ContentViewer';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 // import { Tags } from './Tags';
 
 const ContentWrapper = styled.section`
@@ -72,6 +73,8 @@ export const Content = ({
   updateData,
   // tags,
 }) => {
+  const { user } = useSelector((state) => state.loginReducer);
+  // console.log(user.token);
   const params = useParams();
 
   const navigate = useNavigate();
@@ -83,15 +86,23 @@ export const Content = ({
   };
 
   const handleDelete = () => {
-    if (type === 'question') {
-      fetchDelete(`http://15.165.244.155:8080/questions/${id}`);
-      location.href = '/';
-    } else if (type === 'answer') {
-      fetchDelete(
-        `http://15.165.244.155:8080/questions/${params.id}/answers/${id}`
-      );
-      location.reload();
-    }
+    axios(`http://15.165.244.155:8080/${type}s/${id}`, {
+      method: 'delete',
+      headers: {
+        Authorization: user.token,
+      },
+    })
+      .then(() => {
+        if (type === 'question') {
+          location.href = '/';
+        } else if (type === 'answer') {
+          updateData({
+            ...questionData,
+            answers: questionData.answers.filter((el) => el.answerId !== id),
+          });
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
