@@ -36,10 +36,11 @@ public class AnswerService {
         if (!answer.getAuthor().getUserId().equals(userId)) {
             throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
         }
-//        if (answer.getContent().equals(newAnswer.getContent())) {
-//            throw new BusinessLogicException(ExceptionCode.CONTENT_NOT_CHANGED);
-//        // 질문 내용이 차이가 없으면 exception 발생 }
+        if (answer.getContent().equals(newAnswer.getContent())) {
+            throw new BusinessLogicException(ExceptionCode.CONTENT_NOT_CHANGED); }
+        // 질문 내용이 차이가 없으면 exception 발생
         answer.setContent(newAnswer.getContent());
+        answer.setAnswerId(answerId);
 
         return answer;
     }
