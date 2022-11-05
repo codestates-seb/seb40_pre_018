@@ -9,6 +9,7 @@ export const CommonButton = styled.button`
   color: ${(props) => props.color || 'var(--powder-700)'};
   font-size: 13px;
   border: 1px solid ${(props) => props.border || 'var(--blue-600)'};
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 `;
 
 export const AskBtn = styled.button`
