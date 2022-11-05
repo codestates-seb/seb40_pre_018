@@ -3,8 +3,6 @@ import axios from 'axios';
 import { getLocalStorage } from '../utils/localStorage';
 import { ReactComponent as VoteUpIcon } from '../assets/images/voteUp.svg';
 import { ReactComponent as VoteDownIcon } from '../assets/images/voteDown.svg';
-// import { fetchVote } from '../utils/api';
-// import { useState } from 'react';
 
 const VoteContainer = styled.div`
   width: auto;
@@ -32,6 +30,7 @@ const VoteContainer = styled.div`
     svg {
       width: 36px;
       height: 36px;
+      transition: fill 0.1s ease-in-out;
     }
   }
 `;
@@ -54,14 +53,13 @@ export const Vote = ({
       },
     })
       .then((res) => {
-        console.log('res', res.data);
         updateData(
           type === 'question'
             ? {
                 ...questionData,
                 voteCount: res.data.voteCount,
-                isUpVoter: res.data.upVoter,
-                isDownVoter: res.data.downVoter,
+                isUpVoter: res.data.isUpVoter,
+                isDownVoter: res.data.isDownVoter,
               }
             : {
                 ...questionData,
@@ -79,7 +77,7 @@ export const Vote = ({
               }
         );
       })
-      .catch((err) => console.log('Error', err.message));
+      .catch((err) => console.error('Error', err.message));
   };
 
   const onUpVote = () => {
@@ -91,6 +89,7 @@ export const Vote = ({
     const url = `http://15.165.244.155:8080/${type}s/${id}/downvotes`;
     fetchVote(url);
   };
+
   return (
     <VoteContainer>
       <button className="voting-button" onClick={onUpVote}>
