@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class QuestionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     QuestionDto.Response postQuestion(@RequestHeader(name = "Authorization") String token,
-                                      @RequestBody QuestionDto.Post requestDto) {
+                                      @Valid @RequestBody QuestionDto.Post requestDto) {
         Question question = mapper.postDtoToEntity(requestDto);
         return mapper.entityToResponseDto(questionService.saveQuestion(question, jwtTokenizer.getUserId(token)));
     }

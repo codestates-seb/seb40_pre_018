@@ -3,10 +3,7 @@ package com.notfound.stackoverflowclone.user.dto;
 import com.notfound.stackoverflowclone.user.entity.UserStatus;
 import lombok.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 public class UserDto {
@@ -29,9 +26,10 @@ public class UserDto {
         @Email(message = "Email should not be empty.")
         private String email;
 
-        @NotBlank
+        @Pattern(regexp = "^[A-Za-z\\d!@#$%^&*()_+~\\-=]{8,40}$")
         private String password;
 
+        @NotBlank
         private String displayName;
     }
 }
