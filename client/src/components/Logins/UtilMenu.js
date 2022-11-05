@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { AiOutlineUser } from 'react-icons/ai';
+import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 import { ReactComponent as InboxIcon } from '../../assets/images/inbox-icon.svg';
 import { ReactComponent as AchieveIcon } from '../../assets/images/achieve-icon.svg';
 import { ReactComponent as HelpIcon } from '../../assets/images/help-icon.svg';
@@ -25,8 +26,9 @@ const UtileMenuContainer = styled.div`
       }
     }
 
-    .profile {
+    li.profile {
       margin: 0 12px;
+      position: relative;
 
       > button {
         display: flex;
@@ -45,7 +47,13 @@ const UtileMenuContainer = styled.div`
       .reputation {
         font-size: 12px;
         font-weight: bold;
-        margin-left: 5px;
+        margin: 0 2px 0 5px;
+      }
+
+      .triangle {
+        width: 15px;
+        height: 15px;
+        fill: var(--orange-500);
       }
     }
   }
@@ -64,8 +72,15 @@ const UtilMenu = () => {
           <button onClick={handleToggle}>
             <AiOutlineUser className="avatar" />
             <span className="reputation">1</span>
+            {!toggle ? (
+              <VscTriangleDown className="triangle" />
+            ) : (
+              <VscTriangleUp className="triangle" />
+            )}
           </button>
-          {toggle ? <UserProfile /> : null}
+          {toggle ? (
+            <UserProfile toggle={toggle} toggleSet={toggleSet} />
+          ) : null}
         </li>
         <li>
           <InboxIcon />

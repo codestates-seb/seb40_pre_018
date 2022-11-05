@@ -6,7 +6,7 @@ export const PostSum = styled.div`
   justify-content: flex-start;
   flex-direction: column;
   width: 140px;
-  padding: 30px 20px 30px 30px;
+  padding: 2px 16px 4px 0;
   text-align: left;
   font-size: 13px;
 

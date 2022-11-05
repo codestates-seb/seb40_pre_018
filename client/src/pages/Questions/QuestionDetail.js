@@ -8,12 +8,18 @@ import { Content } from '../../components/Content';
 import { fetchCreate } from '../../utils/api';
 import NotFound from '../../components/NotFound';
 import TextEditor from '../../components/TextEditor';
+import { useSelector } from 'react-redux';
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
 const Container = styled.article`
+  width: calc(100% - 164px - 324px);
   padding: 24px;
   border-left: 1px solid var(--black-100);
   height: 100%;
+
+  .question-detail-container {
+    width: 100%;
+  }
 
   .answer-container {
     padding: 16px 0;
@@ -21,29 +27,40 @@ const Container = styled.article`
   }
 
   .submit-answer-btn {
+    /* width: 100%; */
     margin: 10px 0 15px;
   }
 `;
 
 // QuestionHeader와 그 내부 요소들 스타일링
 const QuestionHeader = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
 
-  h1 {
-    margin: 0 0 8px 0;
+  > h1 {
+    width: calc(100% - 100px);
+    margin: 0;
     font-size: 27px;
     font-weight: 400;
+    padding: 10px 10px 10px 0;
 
-    a {
+    > a {
       color: var(--black-700);
+      overflow-wrap: break-word;
+      hyphens: auto;
     }
   }
 
-  .ask-question-btn {
-    display: block;
-    white-space: nowrap;
-    height: 37px;
+  .ask-btn-container {
+    width: 100%;
+    text-align: right;
+
+    .ask-question-btn {
+      margin: 0;
+      margin-top: 6px;
+      margin-right: -8px;
+    }
   }
 `;
 
@@ -132,8 +149,11 @@ const QuestionDetail = () => {
   const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.loginReducer);
+
   const handleAskQuestion = () => {
-    navigate('/ask');
+    if (user) navigate('/ask');
+    else navigate('/login');
   };
 
   const handleAnswerSubmit = () => {
@@ -165,49 +185,54 @@ const QuestionDetail = () => {
   if (questionData) {
     return (
       <Container>
-        <QuestionHeader>
-          <h1>
-            <a
-              href={
-                'https://stackoverflow.com/questions/' + questionData.questionId
-              }
-              target="_blank"
-              rel="noreferrer"
-            >
-              {questionData.title}
-            </a>
-          </h1>
-          <CommonButton
-            bgColor="var(--blue-500)"
-            color="#fff"
-            border="transparent"
-            onClick={() => {
-              handleAskQuestion();
-            }}
-            className="ask-question-btn"
-          >
-            Ask Question
-          </CommonButton>
-        </QuestionHeader>
-        <QuestionSubHeader
-          createdAt={questionData.createdAt}
-          updatedAt={questionData.updatedAt}
-          views={questionData.views}
-        />
-        <Content
-          type="question"
-          author={questionData.author}
-          content={questionData.content}
-          votes={questionData.voteCount}
-          isUpVoter={questionData.isUpVoter}
-          isDownVoter={questionData.isDownVoter}
-          createdAt={questionData.createdAt}
-          updatedAt={questionData.updatedAt}
-          id={questionData.questionId}
-          questionData={questionData}
-          updateData={setQuestionData}
-          // tags={ans.tags}
-        />
+        <div className="question-detail-container">
+          <QuestionHeader>
+            <h1>
+              <a
+                href={
+                  'https://stackoverflow.com/questions/' +
+                  questionData.questionId
+                }
+                target="_blank"
+                rel="noreferrer"
+              >
+                {questionData.title}
+              </a>
+            </h1>
+            <div className="ask-btn-container">
+              <CommonButton
+                bgColor="var(--blue-500)"
+                color="#fff"
+                border="transparent"
+                onClick={() => {
+                  handleAskQuestion();
+                }}
+                className="ask-question-btn"
+              >
+                Ask Question
+              </CommonButton>
+            </div>
+          </QuestionHeader>
+          <QuestionSubHeader
+            createdAt={questionData.createdAt}
+            updatedAt={questionData.updatedAt}
+            views={questionData.views}
+          />
+          <Content
+            type="question"
+            author={questionData.author}
+            content={questionData.content}
+            votes={questionData.voteCount}
+            isUpVoter={questionData.isUpVoter}
+            isDownVoter={questionData.isDownVoter}
+            createdAt={questionData.createdAt}
+            updatedAt={questionData.updatedAt}
+            id={questionData.questionId}
+            questionData={questionData}
+            updateData={setQuestionData}
+            // tags={ans.tags}
+          />
+        </div>
         {questionData.answers.length > 0 && (
           <>
             <AnswersHeader count={questionData.answers.length} />
