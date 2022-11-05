@@ -29,14 +29,18 @@ public class QuestionService {
         return questionRepository.save(madeQuestion);
     }
 
-    public Question updateQuestion(Question question, Long userId) {
-        User findUser = userService.findVerifiedUser(userId);
-//        findUser.getQuestions().set(Math.toIntExact(question.getQuestionId()), question);
-        findVerifiedQuestion(question.getQuestionId()).setTitle(question.getTitle());
-        findVerifiedQuestion(question.getQuestionId()).setContent(question.getContent());
-//        Question madeQuestion = findVerifiedQuestion(question.getQuestionId());
+    public Question updateQuestion(Question newQuestion, Long userId) {
+        Question oldQuestion = findVerifiedQuestion(newQuestion.getQuestionId());
 
-        return questionRepository.save(findVerifiedQuestion(question.getQuestionId()));
+        if (!oldQuestion.getAuthor().getUserId().equals(userId)) {
+            throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
+        }
+
+        oldQuestion.setTitle(newQuestion.getTitle());
+        oldQuestion.setContent(newQuestion.getContent());
+
+
+        return oldQuestion;
     }
 
     private Question createQuestion(Question question, User user) {
