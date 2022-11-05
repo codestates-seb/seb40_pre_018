@@ -2,10 +2,7 @@ package com.notfound.stackoverflowclone.question.dto;
 
 import com.notfound.stackoverflowclone.answer.dto.AnswerDto;
 import com.notfound.stackoverflowclone.user.dto.UserDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,21 +48,18 @@ public class QuestionDto {
         private String content;
     }
 
+
+
+//    @Builder
+//    @NoArgsConstructor
     @Getter
-    @NoArgsConstructor
     @AllArgsConstructor
-    @Builder
     public static class Patch {
         private Long questionId;
         private String title;
         private String content;
 
         public void setQuestionId(Long questionId) {this.questionId = questionId;}
-
-//        public void setQuestionId(Long questionId) {this.questionId = questionId; }
-//
-//        public void setQestionId(Long questionId) {
-//        }
     }
 
 

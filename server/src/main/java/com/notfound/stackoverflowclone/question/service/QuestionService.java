@@ -29,7 +29,7 @@ public class QuestionService {
         return questionRepository.save(madeQuestion);
     }
 
-    public Question updateQuestion(Question question) {
+    public Question updateQuestion(Question question, Long userId) {
 
         Question madeQuestion = findVerifiedQuestion(question.getQuestionId());
 
