@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { ReactComponent as LoginLogo } from '../assets/images/loginlogo.svg';
 import BasicLogin from '../components/Logins/BasicLogin';
 import SocialLogin from '../components/Logins/SocialLogin';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = styled.section`
   width: 100%;
@@ -41,7 +39,6 @@ const LoginPage = styled.section`
 const Login = () => {
   return (
     <LoginPage>
-      <ToastContainer position="top-center" />
       <div className="login-container">
         <div className="login-logo">
           <Link to="/">
@@ -49,7 +46,7 @@ const Login = () => {
           </Link>
         </div>
         <SocialLogin />
-        <BasicLogin toast={toast} />
+        <BasicLogin />
         <div className="signup-link">
           {`Don't have an account?`}
           <Link to="/signup">Sign up</Link>
