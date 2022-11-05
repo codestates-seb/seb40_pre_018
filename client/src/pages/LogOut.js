@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { CommonButton } from '../components/Buttons';
 import faviconSprite from '../assets/images/faviconSprite.png';
 import { useNavigate } from 'react-router-dom';
-import { removeLocalStroage } from '../utils/localStorage';
+import { useDispatch } from 'react-redux';
+import { logOut } from '../redux/loginSlice';
 
 // 연결된 서비스 목록
 const serviceList = [
@@ -130,9 +131,10 @@ const LogOutWrapper = styled.div`
 
 const LogOut = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    removeLocalStroage();
+    dispatch(logOut());
     navigate('/');
   };
   const handleCancel = () => {
