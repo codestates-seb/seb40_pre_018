@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AskBtn, BottomBtn, SortBtn } from '../../components/Buttons';
@@ -68,8 +69,6 @@ const QuestionList = () => {
     fetchData();
   }, [size, page]);
 
-  // const
-
   // 정렬 탭 기능 구현
   // 최신 정렬
   const onNewestHandler = () => {
@@ -106,8 +105,11 @@ const QuestionList = () => {
   };
 
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.loginReducer);
+
   const askHandle = () => {
-    navigate('/ask');
+    if (user) navigate('/ask');
+    else navigate('/login');
   };
 
   return (

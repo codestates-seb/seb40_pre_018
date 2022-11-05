@@ -8,6 +8,7 @@ import { Content } from '../../components/Content';
 import { fetchCreate } from '../../utils/api';
 import NotFound from '../../components/NotFound';
 import TextEditor from '../../components/TextEditor';
+import { useSelector } from 'react-redux';
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
 const Container = styled.article`
@@ -132,8 +133,11 @@ const QuestionDetail = () => {
   const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.loginReducer);
+
   const handleAskQuestion = () => {
-    navigate('/ask');
+    if (user) navigate('/ask');
+    else navigate('/login');
   };
 
   const handleAnswerSubmit = () => {
