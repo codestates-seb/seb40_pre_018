@@ -60,6 +60,8 @@ public class SecurityConfiguration {
                         .antMatchers(POST, "/questions").hasRole("USER")
                         .antMatchers(GET, "/questions").permitAll()
                         .antMatchers(GET, "/questions/*").permitAll()
+                        .antMatchers(PATCH, "/questions/").hasRole("USER")
+                        .antMatchers(PATCH, "/questions/*").hasRole("USER")
                         .antMatchers(DELETE, "/questions/*").hasRole("USER")
                         .antMatchers(POST, "/questions/*/answers").hasRole("USER")
                         .antMatchers(DELETE, "/answers/*").hasRole("USER")

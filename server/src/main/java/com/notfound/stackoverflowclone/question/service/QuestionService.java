@@ -30,15 +30,19 @@ public class QuestionService {
     }
 
     public Question updateQuestion(Question question, Long userId) {
+        User findUser = userService.findVerifiedUser(userId);
+//        findUser.getQuestions().set(Math.toIntExact(question.getQuestionId()), question);
+        findVerifiedQuestion(question.getQuestionId()).setTitle(question.getTitle());
+        findVerifiedQuestion(question.getQuestionId()).setContent(question.getContent());
+//        Question madeQuestion = findVerifiedQuestion(question.getQuestionId());
 
-        Question madeQuestion = findVerifiedQuestion(question.getQuestionId());
-
-        return questionRepository.save(madeQuestion);
+        return questionRepository.save(findVerifiedQuestion(question.getQuestionId()));
     }
 
     private Question createQuestion(Question question, User user) {
         question.setAuthor(user);
         user.getQuestions().add(question);
+
         return question;
     }
 

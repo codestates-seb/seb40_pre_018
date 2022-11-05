@@ -50,8 +50,8 @@ public class QuestionDto {
 
 
 
-//    @Builder
-//    @NoArgsConstructor
+    @Builder
+    @NoArgsConstructor
     @Getter
     @AllArgsConstructor
     public static class Patch {
