@@ -77,6 +77,8 @@ const AnswerForm = ({ initialValue, onClickHandler }) => {
 
   const onSubmit = () => {
     !isError && onClickHandler(body);
+    editorRef.current.getInstance().setMarkdown('');
+    setIsError(false);
   };
 
   const onChange = () => {
