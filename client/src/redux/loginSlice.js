@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addLocalStorage } from '../utils/localStorage';
+import { addLocalStorage, removeLocalStroage } from '../utils/localStorage';
 import { loginAction } from './actions';
 import { initialState } from './initialState';
 import { toast } from 'react-toastify';
@@ -7,6 +7,12 @@ import { toast } from 'react-toastify';
 const loginSlice = createSlice({
   name: 'loginReducer',
   initialState: initialState,
+  reducers: {
+    logOut: (state) => {
+      state.user = null;
+      removeLocalStroage();
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(loginAction.pending, (state) => {
       state.status = 'Loading';
@@ -23,3 +29,4 @@ const loginSlice = createSlice({
 });
 
 export default loginSlice;
+export const { logOut } = loginSlice.actions;
