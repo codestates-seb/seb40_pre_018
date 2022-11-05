@@ -30,17 +30,17 @@ public class QuestionService {
     }
 
     public Question updateQuestion(Question newQuestion, Long userId) {
-        Question oldQuestion = findVerifiedQuestion(newQuestion.getQuestionId());
+        Question question = findVerifiedQuestion(newQuestion.getQuestionId());
 
-        if (!oldQuestion.getAuthor().getUserId().equals(userId)) {
+        if (!question.getAuthor().getUserId().equals(userId)) {
             throw new BusinessLogicException(ExceptionCode.USER_UNAUTHORIZED);
         }
 
-        oldQuestion.setTitle(newQuestion.getTitle());
-        oldQuestion.setContent(newQuestion.getContent());
+        question.setTitle(newQuestion.getTitle());
+        question.setContent(newQuestion.getContent());
 
 
-        return oldQuestion;
+        return question;
     }
 
     private Question createQuestion(Question question, User user) {
