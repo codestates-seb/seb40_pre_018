@@ -212,7 +212,6 @@ const QuestionDetail = () => {
           <>
             <AnswersHeader count={questionData.answers.length} />
             {questionData.answers.map((answer) => {
-              console.log(answer);
               return (
                 <Content
                   key={'answer' + answer.answerId}
@@ -220,8 +219,8 @@ const QuestionDetail = () => {
                   author={answer.author}
                   content={answer.content}
                   votes={answer.voteCount}
-                  isUpVoter={answer.upVoter}
-                  isDownVoter={answer.downVoter}
+                  isUpVoter={answer.isUpVoter}
+                  isDownVoter={answer.isDownVoter}
                   createdAt={answer.createdAt}
                   updatedAt={answer.updatedAt}
                   id={answer.answerId}
