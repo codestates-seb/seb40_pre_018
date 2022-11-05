@@ -9,8 +9,6 @@ import Questions from './Questions';
 
 const QuestionListPage = styled.div`
   height: 100%;
-  /* position: relative; */
-  width: 75%;
   display: flex;
   padding: 10px 24px 20px 0;
   border-left: 1px solid var(--black-075);
@@ -24,6 +22,11 @@ const QuestionHeader = styled.header`
   justify-content: space-between;
   font-size: 15px;
   color: var(--black-700);
+
+  > h1 {
+    font-weight: 500;
+    font-size: 27px;
+  }
 `;
 
 const SortContainer = styled.div`
@@ -33,6 +36,10 @@ const SortContainer = styled.div`
   margin-left: 24px;
   font-size: 17px;
   color: var(--black-600);
+
+  > h4 {
+    font-weight: 500;
+  }
 `;
 
 const FooterBtnContainer = styled.div`

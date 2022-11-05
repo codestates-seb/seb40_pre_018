@@ -22,14 +22,13 @@ const LeftAside = styled.aside`
 `;
 
 const RightAside = styled.aside`
-  width: 300px;
   height: 100%;
   display: block;
   margin-top: 30px;
   padding-right: 24px;
 
   ul {
-    width: 100%;
+    width: 300px;
     padding: 0;
     display: block;
     text-align: left;
@@ -38,6 +37,8 @@ const RightAside = styled.aside`
     background-color: var(--yellow-050);
     border-radius: 3px;
     border: 1px solid var(--yellow-200);
+    box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
+      0 2px 8px hsla(0, 0%, 0%, 0.05);
 
     > li {
       width: 100%;
