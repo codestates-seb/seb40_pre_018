@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AskBtn, BottomBtn, SortBtn } from '../../components/Buttons';
@@ -50,25 +51,32 @@ const QuestionList = () => {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(15);
   const [totalNum, setTotalNum] = useState(0);
+  const searchInput = useSelector((state) => state.searchReducer.searchValue);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `http://15.165.244.155:8080/questions?page=${page}&size=${size}`
-        );
-        setQuestion(response.data.data);
-        setTotalNum(response.data.pageInfo.totalElements);
+        if (searchInput === '') {
+          const response = await axios.get(
+            `http://15.165.244.155:8080/questions?page=${page}&size=${size}`
+          );
+          setQuestion(response.data.data);
+          setTotalNum(response.data.pageInfo.totalElements);
+        } else {
+          const response = await axios.get(
+            `http://15.165.244.155:8080/questions/search?q=${searchInput}&page=${page}&size=${size}`
+          );
+          setQuestion(response.data.data);
+          setTotalNum(response.data.pageInfo.totalElements);
+        }
       } catch (e) {
-        console.log(e);
+        window.alert('오류가 발생했습니다.');
       }
       setLoading(false);
     };
     fetchData();
-  }, [size, page]);
-
-  // const
+  }, [size, page, searchInput]);
 
   // 정렬 탭 기능 구현
   // 최신 정렬
@@ -114,7 +122,8 @@ const QuestionList = () => {
     <>
       <QuestionListPage>
         <QuestionHeader>
-          <h1>All Questions</h1>
+          {/* QuestionList 타이틀 */}
+          {searchInput === '' ? <h1>All Questions</h1> : <h1>Search Result</h1>}
           <AskBtn
             onClick={() => {
               askHandle();
@@ -125,7 +134,14 @@ const QuestionList = () => {
         </QuestionHeader>
         {/* 정렬 탭 */}
         <SortContainer>
-          <h4> {totalNum} questions</h4>
+          {searchInput === '' ? (
+            <h4> {totalNum} questions</h4>
+          ) : (
+            <div>
+              <h5> Result for &quot; {searchInput} &quot; </h5>
+              <h4> {totalNum} results</h4>
+            </div>
+          )}
           <div>
             <SortBtn onClick={onNewestHandler}>newest</SortBtn>
             <SortBtn onClick={onVotedHandler}>voted</SortBtn>

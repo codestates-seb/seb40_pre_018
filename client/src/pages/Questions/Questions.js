@@ -32,16 +32,6 @@ const QuestionContainer = styled.div`
     padding: 5px 0;
     font-size: 14px;
   }
-  /* .tag-layout {
-    width: auto;
-    background-color: var(--powder-100);
-    height: auto;
-    padding: 3px;
-    font-size: 12px;
-    border-radius: 3px;
-    margin-top: 5px;
-    color: var(--powder-700);
-  } */
 `;
 
 const UserInfo = styled.div`
@@ -127,8 +117,6 @@ const Qusetions = ({ questions }) => {
               <div className="question-content"> {questions.content} </div>
               <UserInfo>
                 <div className="user-container">
-                  {/* 태그 미정
-                  <div className="tag-layout"> Javascript</div> */}
                   <div className="user-info-container">
                     <div>
                       <AiOutlineUser className="user-icon" />
