@@ -7,7 +7,7 @@ export const getDaysElapsed = (dateObj) => {
 
   // 31일 미만은 날짜 단위로 반환합니다.
   if (days < 31) {
-    if (days === 0) return 'today';
+    if (days <= 0) return 'today';
     else if (days === 1) return 'yesterday';
     else return `${days} days ago`;
   }
