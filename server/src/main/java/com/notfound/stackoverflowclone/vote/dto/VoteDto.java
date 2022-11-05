@@ -25,7 +25,7 @@ public class VoteDto {
         private Long answerId;
         private Long voterId;
         private int voteCount;
-        private boolean isUpVoter;
-        private boolean isDownVoter;
+        private Boolean isUpVoter;
+        private Boolean isDownVoter;
     }
 }
