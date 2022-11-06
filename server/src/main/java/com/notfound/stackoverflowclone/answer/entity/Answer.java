@@ -29,7 +29,7 @@ public class Answer extends AuditingEntity {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Builder.Default

@@ -27,10 +27,12 @@ public class User extends AuditingEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String displayName;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserStatus userStatus = UserStatus.ACTIVE;
 
     @Builder.Default
