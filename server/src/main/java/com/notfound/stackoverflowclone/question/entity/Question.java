@@ -26,9 +26,10 @@ public class Question extends AuditingEntity {
     @JoinColumn(name = "author_id")
     private User author;
 
+    @Column(nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     private long views;
