@@ -78,7 +78,7 @@ public class QuestionService {
             response.setAnswers(
                     findQuestion.getAnswers().stream()
                             .map(answer -> {
-                                AnswerDto.DetailResponse responseDto = answerMapper.entityToResponseDto(answer);
+                                AnswerDto.DetailResponse responseDto = answerMapper.entityToDetailResponseDto(answer);
                                 responseDto.setIsUpVoter(answer.getVotes().stream()
                                         .filter(vote -> vote.getAmount() == 1)
                                         .map(vote -> vote.getVoter().getUserId()).collect(Collectors.toList())
