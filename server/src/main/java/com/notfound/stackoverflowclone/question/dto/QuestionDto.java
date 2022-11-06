@@ -20,6 +20,7 @@ public class QuestionDto {
         private String content;
         private Long views;
         private int voteCount;
+        private int answerCount;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }
@@ -36,6 +37,7 @@ public class QuestionDto {
         private String content;
         private Long views;
         private int voteCount;
+        private int answerCount;
         @Builder.Default
         private Boolean isUpVoter = false;
         @Builder.Default
