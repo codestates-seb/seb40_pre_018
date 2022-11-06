@@ -166,9 +166,10 @@ const QuestionDetail = () => {
       data,
     })
       .then((res) => {
+        const newAnswer = { ...res.data, voteCount: 0 };
         setQuestionData({
           ...questionData,
-          answers: [...questionData.answers, res.data],
+          answers: [...questionData.answers, newAnswer],
         });
       })
       .catch((err) => console.error(err));
