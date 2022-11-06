@@ -40,7 +40,7 @@ public class AnswerController {
             @Valid @RequestBody AnswerDto.Patch patchDto) {
         patchDto.setAnswerId(answerId);
         Answer answer = mapper.patchDtoToEntity(patchDto);
-        return mapper.entityToResponseDto(answerService.updateAnswer(answer, jwtTokenizer.getUserId(token), answerId));
+        return mapper.entityToResponseDto(answerService.updateAnswer(answer, jwtTokenizer.getUserId(token)));
     }
 
     @DeleteMapping("/answers/{answer-id}")
