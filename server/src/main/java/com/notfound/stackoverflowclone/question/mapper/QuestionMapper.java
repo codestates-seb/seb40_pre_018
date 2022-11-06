@@ -17,4 +17,6 @@ public interface QuestionMapper {
     List<QuestionDto.Response> entityListToResponseDtoList(List<Question> questions);
 
     QuestionDto.DetailResponse entityToDetailResponseDto(Question question);
+
+    QuestionDto.SimpleResponse entityToSimpleResponseDto(Question question);
 }

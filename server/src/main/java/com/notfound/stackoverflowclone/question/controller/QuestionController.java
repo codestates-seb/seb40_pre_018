@@ -25,21 +25,22 @@ public class QuestionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    QuestionDto.Response postQuestion(@RequestHeader(name = "Authorization") String token,
+    QuestionDto.SimpleResponse postQuestion(@RequestHeader(name = "Authorization") String token,
                                       @Valid @RequestBody QuestionDto.Post requestDto) {
         Question question = mapper.postDtoToEntity(requestDto);
-        return mapper.entityToResponseDto(questionService.saveQuestion(question, jwtTokenizer.getUserId(token)));
+        return mapper.entityToSimpleResponseDto(questionService.saveQuestion(question, jwtTokenizer.getUserId(token)));
     }
 
     @PatchMapping("/{question-id}")
     @ResponseStatus(HttpStatus.OK)
-    QuestionDto.Response patchQuestion(@PathVariable("question-id") Long questionId,
+    QuestionDto.SimpleResponse patchQuestion(@PathVariable("question-id") Long questionId,
                                               @RequestHeader(name = "Authorization") String token,
                                        @RequestBody QuestionDto.Patch requestDto) {
         requestDto.setQuestionId(questionId);
         Question question = mapper.patchDtoToEntity(requestDto);
 
-        return mapper.entityToResponseDto(questionService.updateQuestion(question, jwtTokenizer.getUserId(token)));
+        return mapper.entityToSimpleResponseDto(
+                questionService.updateQuestion(question, jwtTokenizer.getUserId(token)));
     }
 
     @GetMapping("/{question-id}")

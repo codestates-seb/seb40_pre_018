@@ -13,6 +13,20 @@ public class QuestionDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
+    public static class SimpleResponse {
+        private Long questionId;
+        private UserDto.Response author;
+        private String title;
+        private String content;
+        private Long views;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class Response {
         private Long questionId;
         private UserDto.Response author;
