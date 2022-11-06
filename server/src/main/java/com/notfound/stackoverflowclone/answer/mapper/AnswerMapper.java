@@ -8,5 +8,7 @@ import org.mapstruct.Mapper;
 public interface AnswerMapper {
     Answer postDtoToEntity(AnswerDto.Post postDto);
 
+    Answer patchDtoToEntity(AnswerDto.Patch patchDto);
+
     AnswerDto.Response entityToResponseDto(Answer answer);
 }
