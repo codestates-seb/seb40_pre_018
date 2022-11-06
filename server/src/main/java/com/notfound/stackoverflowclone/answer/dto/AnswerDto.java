@@ -13,7 +13,7 @@ public class AnswerDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class Response {
+    public static class DetailResponse {
         private Long answerId;
         private String content;
         private UserDto.Response author;
@@ -25,6 +25,18 @@ public class AnswerDto {
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class Response {
+        private Long answerId;
+        private String content;
+        private UserDto.Response author;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+    }
+
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor

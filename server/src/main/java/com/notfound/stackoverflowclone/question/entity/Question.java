@@ -48,4 +48,8 @@ public class Question extends AuditingEntity {
     public int getVoteCount() {
         return this.votes.stream().mapToInt(Vote::getAmount).sum();
     }
+
+    public int getAnswerCount() {
+        return this.answers.size();
+    }
 }
