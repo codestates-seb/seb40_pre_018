@@ -179,7 +179,11 @@ const QuestionDetail = () => {
     const fetchData = async () => {
       setIsPending(true);
       try {
-        const res = await axios(url);
+        const res = await axios(url, {
+          headers: {
+            Authorization: user?.token,
+          },
+        });
         setQuestionData({ ...res.data });
       } catch (err) {
         navigate('/notfound');
