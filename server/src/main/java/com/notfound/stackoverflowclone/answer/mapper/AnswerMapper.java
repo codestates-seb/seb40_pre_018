@@ -10,5 +10,5 @@ public interface AnswerMapper {
 
     Answer patchDtoToEntity(AnswerDto.Patch patchDto);
 
-    AnswerDto.Response entityToResponseDto(Answer answer);
+    AnswerDto.DetailResponse entityToResponseDto(Answer answer);
 }

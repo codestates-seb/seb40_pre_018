@@ -8,9 +8,7 @@ import com.notfound.stackoverflowclone.question.dto.QuestionDto;
 import com.notfound.stackoverflowclone.question.entity.Question;
 import com.notfound.stackoverflowclone.question.mapper.QuestionMapper;
 import com.notfound.stackoverflowclone.question.repository.QuestionRepository;
-import com.notfound.stackoverflowclone.user.dto.UserDto;
 import com.notfound.stackoverflowclone.user.entity.User;
-import com.notfound.stackoverflowclone.user.mapper.UserMapper;
 import com.notfound.stackoverflowclone.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -80,7 +78,7 @@ public class QuestionService {
             response.setAnswers(
                     findQuestion.getAnswers().stream()
                             .map(answer -> {
-                                AnswerDto.Response responseDto = answerMapper.entityToResponseDto(answer);
+                                AnswerDto.DetailResponse responseDto = answerMapper.entityToResponseDto(answer);
                                 responseDto.setIsUpVoter(answer.getVotes().stream()
                                         .filter(vote -> vote.getAmount() == 1)
                                         .map(vote -> vote.getVoter().getUserId()).collect(Collectors.toList())

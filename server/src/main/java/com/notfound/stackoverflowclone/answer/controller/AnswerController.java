@@ -24,7 +24,7 @@ public class AnswerController {
 
     @PostMapping("/questions/{question-id}/answers")
     @ResponseStatus(HttpStatus.CREATED)
-    public AnswerDto.Response postAnswer(
+    public AnswerDto.DetailResponse postAnswer(
             @RequestHeader(name = "Authorization") String token,
             @PathVariable("question-id") @Positive Long questionId,
             @Valid @RequestBody AnswerDto.Post postDto){
@@ -34,7 +34,7 @@ public class AnswerController {
 
     @PatchMapping("/answers/{answer-id}")
     @ResponseStatus(HttpStatus.OK)
-    public AnswerDto.Response patchAnswer(
+    public AnswerDto.DetailResponse patchAnswer(
             @RequestHeader(name = "Authorization") String token,
             @PathVariable("answer-id") @Positive Long answerId,
             @Valid @RequestBody AnswerDto.Patch patchDto) {

@@ -44,7 +44,7 @@ public class QuestionDto {
         private Boolean isDownVoter = false;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
-        private List<AnswerDto.Response> answers;
+        private List<AnswerDto.DetailResponse> answers;
     }
 
     @Getter
