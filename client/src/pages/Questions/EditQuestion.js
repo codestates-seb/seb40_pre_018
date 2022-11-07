@@ -31,7 +31,7 @@ const EditQuestion = () => {
       title,
       content,
     });
-    navigete('/');
+    navigete(-1);
   };
 
   return (
