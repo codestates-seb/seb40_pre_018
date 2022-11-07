@@ -78,7 +78,14 @@ export const Content = ({
   const handleEdit = () => {
     type === 'question'
       ? navigate(`/edit/${params.id}`)
-      : console.log('답변 수정 준비중...');
+      : navigate(`/edit/answers/${id}`, {
+          state: {
+            questionId: questionData.questionId,
+            questionTitle: questionData.title,
+            questionContent: questionData.content,
+            answer: content,
+          },
+        });
   };
 
   const handleDelete = () => {
@@ -117,9 +124,11 @@ export const Content = ({
         <Utils>
           <Options>
             <button>Share</button>
-            <button onClick={() => handleEdit()}>Edit</button>
             {user?.userId === author.userId && (
-              <button onClick={() => handleDelete()}>Delete</button>
+              <>
+                <button onClick={() => handleEdit()}>Edit</button>
+                <button onClick={() => handleDelete()}>Delete</button>
+              </>
             )}
           </Options>
           {updatedAt && (
