@@ -78,7 +78,7 @@ export const Content = ({
   const handleEdit = () => {
     type === 'question'
       ? navigate(`/edit/${params.id}`)
-      : console.log('질문 수정');
+      : console.log('답변 수정 준비중...');
   };
 
   const handleDelete = () => {
