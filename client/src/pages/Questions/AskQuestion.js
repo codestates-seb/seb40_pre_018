@@ -4,7 +4,7 @@ import questionCreateBg from '../../assets/images/questionCreateBg.svg';
 import AskQuestionForm from '../../components/AskQuestionForm';
 import { useState } from 'react';
 import { fetchCreate } from '../../utils/api';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { rendering } from '../../redux/renderSlice';
 
@@ -89,14 +89,15 @@ const QuestionCreatePage = styled.section`
 const AskQuestion = () => {
   const [askTitle, askTitleSet] = useState('');
   const [askBody, askBodySet] = useState('');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = (title, content) => {
     const data = { title, content };
     fetchCreate('http://15.165.244.155:8080/questions', data);
     dispatch(rendering());
-    navigate('/');
+    // navigate('/');
+    location.href = '/';
   };
 
   return (

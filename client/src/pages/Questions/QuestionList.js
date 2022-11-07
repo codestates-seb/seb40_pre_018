@@ -84,7 +84,6 @@ const QuestionList = () => {
         setLoading(true);
         window.alert('오류가 발생했습니다.');
       }
-      setLoading(false);
     };
     fetchData();
   }, [page, searchInput, render]);
