@@ -166,9 +166,10 @@ const QuestionDetail = () => {
       data,
     })
       .then((res) => {
+        const newAnswer = { ...res.data, voteCount: 0 };
         setQuestionData({
           ...questionData,
-          answers: [...questionData.answers, res.data],
+          answers: [...questionData.answers, newAnswer],
         });
       })
       .catch((err) => console.error(err));
@@ -178,7 +179,11 @@ const QuestionDetail = () => {
     const fetchData = async () => {
       setIsPending(true);
       try {
-        const res = await axios(url);
+        const res = await axios(url, {
+          headers: {
+            Authorization: user?.token,
+          },
+        });
         setQuestionData({ ...res.data });
       } catch (err) {
         navigate('/notfound');

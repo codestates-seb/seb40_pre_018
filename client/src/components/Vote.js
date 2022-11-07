@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import { getLocalStorage } from '../utils/localStorage';
 import { ReactComponent as VoteUpIcon } from '../assets/images/voteUp.svg';
 import { ReactComponent as VoteDownIcon } from '../assets/images/voteDown.svg';
+import { useSelector } from 'react-redux';
 
 const VoteContainer = styled.div`
   width: auto;
@@ -44,12 +44,14 @@ export const Vote = ({
   questionData,
   updateData,
 }) => {
+  const { user } = useSelector((state) => state.loginReducer);
+
   const fetchVote = async (url) => {
     axios(url, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: getLocalStorage().token,
+        Authorization: user?.token,
       },
     })
       .then((res) => {
