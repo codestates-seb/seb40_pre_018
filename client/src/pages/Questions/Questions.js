@@ -112,7 +112,7 @@ const Qusetions = ({ questions }) => {
           <div className="container">
             <PostSummary
               voteNum={questions.voteCount}
-              answerNum={questions.answers}
+              answerNum={questions.answerCount}
               viewNum={questions.views}
             />
             <div className="questions">
