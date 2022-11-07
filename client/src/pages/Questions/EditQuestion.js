@@ -7,6 +7,8 @@ import { fetchPatch } from '../../utils/api';
 const EditQuestionPage = styled.section`
   padding: 24px;
   width: calc(100% - 300px - 164px);
+  border-left: 1px solid var(--black-075);
+
   .edit-question-container {
     .edit-question-description {
       width: 100%;
