@@ -9,6 +9,7 @@ import SignUp from './pages/SignUp/SignUp';
 import Login from './pages/Login';
 import NotFound from './components/NotFound';
 import LogOut from './pages/LogOut';
+import EditAnswer from './pages/Questions/EditAnswer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -21,7 +22,8 @@ function App() {
         <Route path="/" element={<Common />}>
           <Route index element={<QuestionList />}></Route>
           <Route path="/questions/:id" element={<QuestionDetail />}></Route>
-          <Route path="edit/:id" element={<EditQuestion />}></Route>
+          <Route path="/edit/:id" element={<EditQuestion />}></Route>
+          <Route path="/edit/answers/:id" element={<EditAnswer />}></Route>
         </Route>
         <Route path="*" element={<NotFound />}></Route>
         <Route path="/ask" element={<AskQuestion />} />
