@@ -61,6 +61,7 @@ const QuestionList = () => {
   const [loading, setLoading] = useState(false);
   const [totalNum, setTotalNum] = useState(0);
   const searchInput = useSelector((state) => state.searchReducer.searchValue);
+  const { render } = useSelector((state) => state.renderReducer);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,7 +86,7 @@ const QuestionList = () => {
       setLoading(false);
     };
     fetchData();
-  }, [size, page, searchInput]);
+  }, [size, page, searchInput, render]);
 
   // 정렬 탭 기능 구현
   // 최신 정렬

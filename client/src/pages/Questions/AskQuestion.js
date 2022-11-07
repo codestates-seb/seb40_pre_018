@@ -5,6 +5,8 @@ import AskQuestionForm from '../../components/AskQuestionForm';
 import { useState } from 'react';
 import { fetchCreate } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { rendering } from '../../redux/renderSlice';
 
 const QuestionCreatePage = styled.section`
   width: 100%;
@@ -88,10 +90,12 @@ const AskQuestion = () => {
   const [askTitle, askTitleSet] = useState('');
   const [askBody, askBodySet] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (title, content) => {
     const data = { title, content };
     fetchCreate('http://15.165.244.155:8080/questions', data);
+    dispatch(rendering());
     navigate('/');
   };
 
