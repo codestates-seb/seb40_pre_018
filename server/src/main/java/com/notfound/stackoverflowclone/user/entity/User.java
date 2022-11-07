@@ -21,20 +21,28 @@ public class User extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
-    private String nickname;
+    @Column(nullable = false)
+    private String displayName;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus;
+    @Column(nullable = false)
+    private UserStatus userStatus = UserStatus.ACTIVE;
 
+    @Builder.Default
     @OneToMany(mappedBy = "author")
     private List<Question> questions = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "author")
     private List<Answer> answers = new ArrayList<>();
 
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 }
