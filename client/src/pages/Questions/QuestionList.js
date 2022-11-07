@@ -57,7 +57,6 @@ const QuestionList = () => {
   const [questions, setQuestion] = useState([]);
   // const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(15);
   const [loading, setLoading] = useState(false);
   const [totalNum, setTotalNum] = useState(0);
   const searchInput = useSelector((state) => state.searchReducer.searchValue);
@@ -69,13 +68,13 @@ const QuestionList = () => {
       try {
         if (searchInput === '') {
           const response = await axios.get(
-            `http://15.165.244.155:8080/questions?page=${page}&size=${size}`
+            `http://15.165.244.155:8080/questions?page=${page}&size=15`
           );
           setQuestion(response.data.data);
           setTotalNum(response.data.pageInfo.totalElements);
         } else {
           const response = await axios.get(
-            `http://15.165.244.155:8080/questions/search?q=${searchInput}&page=${page}&size=${size}`
+            `http://15.165.244.155:8080/questions/search?q=${searchInput}&page=${page}&size=15`
           );
           setQuestion(response.data.data);
           setTotalNum(response.data.pageInfo.totalElements);
@@ -86,7 +85,7 @@ const QuestionList = () => {
       setLoading(false);
     };
     fetchData();
-  }, [size, page, searchInput, render]);
+  }, [page, searchInput, render]);
 
   // 정렬 탭 기능 구현
   // 최신 정렬
