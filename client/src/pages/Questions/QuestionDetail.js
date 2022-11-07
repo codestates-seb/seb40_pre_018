@@ -197,16 +197,7 @@ const QuestionDetail = () => {
         <div className="question-detail-container">
           <QuestionHeader>
             <h1>
-              <a
-                href={
-                  'https://stackoverflow.com/questions/' +
-                  questionData.questionId
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                {questionData.title}
-              </a>
+              <a href="?">{questionData.title}</a>
             </h1>
             <div className="ask-btn-container">
               <CommonButton

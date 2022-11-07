@@ -54,13 +54,7 @@ export const UserInfo = ({ type, createdAt, author }) => {
         <AiOutlineUser size="32px" />
       </div>
       <div className="user-detail">
-        <a
-          href={'https://stackoverflow.com/users/' + author.userId}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {author.displayName}
-        </a>
+        <a href="?">{author.displayName}</a>
       </div>
     </UserInfoContainer>
   );
