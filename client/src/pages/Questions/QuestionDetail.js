@@ -239,7 +239,6 @@ const QuestionDetail = () => {
             id={questionData.questionId}
             questionData={questionData}
             updateData={setQuestionData}
-            // tags={ans.tags}
           />
         </div>
         {questionData.answers.length > 0 && (
