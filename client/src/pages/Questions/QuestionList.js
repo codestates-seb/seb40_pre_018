@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AskBtn, BottomBtn, SortBtn } from '../../components/Buttons';
+import Loading from '../../components/Loading';
 import Questions from './Questions';
 
 const QuestionListPage = styled.div`
@@ -55,31 +56,32 @@ const FooterBtnContainer = styled.div`
 
 const QuestionList = () => {
   const [questions, setQuestion] = useState([]);
-  // const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [totalNum, setTotalNum] = useState(0);
   const searchInput = useSelector((state) => state.searchReducer.searchValue);
   const { render } = useSelector((state) => state.renderReducer);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
         if (searchInput === '') {
           const response = await axios.get(
             `http://15.165.244.155:8080/questions?page=${page}&size=15`
           );
+          setLoading(false);
           setQuestion(response.data.data);
           setTotalNum(response.data.pageInfo.totalElements);
         } else {
           const response = await axios.get(
             `http://15.165.244.155:8080/questions/search?q=${searchInput}&page=${page}&size=15`
           );
+          setLoading(false);
           setQuestion(response.data.data);
           setTotalNum(response.data.pageInfo.totalElements);
         }
       } catch (e) {
+        setLoading(true);
         window.alert('오류가 발생했습니다.');
       }
       setLoading(false);
@@ -131,106 +133,110 @@ const QuestionList = () => {
   };
 
   return (
-    <>
-      <QuestionListPage>
-        <QuestionHeader>
-          {/* QuestionList 타이틀 */}
-          {searchInput === '' ? <h1>All Questions</h1> : <h1>Search Result</h1>}
-          <AskBtn
+    <QuestionListPage>
+      <QuestionHeader>
+        {/* QuestionList 타이틀 */}
+        {searchInput === '' ? <h1>All Questions</h1> : <h1>Search Result</h1>}
+        <AskBtn
+          onClick={() => {
+            askHandle();
+          }}
+        >
+          Ask Question
+        </AskBtn>
+      </QuestionHeader>
+      {/* 정렬 탭 */}
+      {!loading ? (
+        <div className="all-questions-container">
+          <SortContainer>
+            {searchInput === '' ? (
+              <h4> {totalNum} questions</h4>
+            ) : (
+              <div>
+                <h5> Result for &quot; {searchInput} &quot; </h5>
+                <h4> {totalNum} results</h4>
+              </div>
+            )}
+            <div>
+              <SortBtn onClick={onNewestHandler}>newest</SortBtn>
+              <SortBtn onClick={onVotedHandler}>voted</SortBtn>
+            </div>
+          </SortContainer>
+          <div>
+            {questions.map((question, index) => {
+              return (
+                <Questions
+                  key={question.questionId}
+                  questions={question}
+                  userName={question.author}
+                  index={index}
+                />
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <Loading />
+      )}
+      <FooterBtnContainer>
+        <div>
+          <BottomBtn
             onClick={() => {
-              askHandle();
+              pageHandle('Prev');
             }}
           >
-            Ask Question
-          </AskBtn>
-        </QuestionHeader>
-        {/* 정렬 탭 */}
-        <SortContainer>
-          {searchInput === '' ? (
-            <h4> {totalNum} questions</h4>
-          ) : (
-            <div>
-              <h5> Result for &quot; {searchInput} &quot; </h5>
-              <h4> {totalNum} results</h4>
-            </div>
-          )}
-          <div>
-            <SortBtn onClick={onNewestHandler}>newest</SortBtn>
-            <SortBtn onClick={onVotedHandler}>voted</SortBtn>
-          </div>
-        </SortContainer>
-        <div>
-          {questions.map((question, index) => {
-            return (
-              <Questions
-                key={question.questionId}
-                questions={question}
-                userName={question.author}
-                index={index}
-              />
-            );
-          })}
+            Prev
+          </BottomBtn>
+          <BottomBtn
+            bgColor={page === 1}
+            onClick={() => {
+              pageHandle(1);
+            }}
+          >
+            1
+          </BottomBtn>
+          <BottomBtn
+            bgColor={page === 2}
+            onClick={() => {
+              pageHandle(2);
+            }}
+          >
+            2
+          </BottomBtn>
+          <BottomBtn
+            bgColor={page === 3}
+            onClick={() => {
+              pageHandle(3);
+            }}
+          >
+            3
+          </BottomBtn>
+          <BottomBtn
+            bgColor={page === 4}
+            onClick={() => {
+              pageHandle(4);
+            }}
+          >
+            4
+          </BottomBtn>
+          <BottomBtn
+            bgColor={page === 5}
+            onClick={() => {
+              pageHandle(5);
+            }}
+          >
+            5
+          </BottomBtn>
+          <BottomBtn
+            onClick={() => {
+              pageHandle('Next');
+            }}
+          >
+            Next
+          </BottomBtn>
         </div>
-        <FooterBtnContainer>
-          <div>
-            <BottomBtn
-              onClick={() => {
-                pageHandle('Prev');
-              }}
-            >
-              Prev
-            </BottomBtn>
-            <BottomBtn
-              bgColor={page === 1}
-              onClick={() => {
-                pageHandle(1);
-              }}
-            >
-              1
-            </BottomBtn>
-            <BottomBtn
-              bgColor={page === 2}
-              onClick={() => {
-                pageHandle(2);
-              }}
-            >
-              2
-            </BottomBtn>
-            <BottomBtn
-              bgColor={page === 3}
-              onClick={() => {
-                pageHandle(3);
-              }}
-            >
-              3
-            </BottomBtn>
-            <BottomBtn
-              bgColor={page === 4}
-              onClick={() => {
-                pageHandle(4);
-              }}
-            >
-              4
-            </BottomBtn>
-            <BottomBtn
-              bgColor={page === 5}
-              onClick={() => {
-                pageHandle(5);
-              }}
-            >
-              5
-            </BottomBtn>
-            <BottomBtn
-              onClick={() => {
-                pageHandle('Next');
-              }}
-            >
-              Next
-            </BottomBtn>
-          </div>
-        </FooterBtnContainer>
-      </QuestionListPage>
-    </>
+      </FooterBtnContainer>
+    </QuestionListPage>
   );
 };
 
