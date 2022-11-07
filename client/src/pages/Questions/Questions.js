@@ -5,7 +5,6 @@ import { AiOutlineUser } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { getTimeElapsed, getDaysElapsed } from '../../utils/timeElapsed';
 
-// 질문 폼 전체 컨테이너
 const QuestionContainer = styled.div`
   .container {
     width: 100%;
@@ -112,7 +111,7 @@ const Qusetions = ({ questions }) => {
           <div className="container">
             <PostSummary
               voteNum={questions.voteCount}
-              answerNum={questions.answers}
+              answerNum={questions.answerCount}
               viewNum={questions.views}
             />
             <div className="questions">

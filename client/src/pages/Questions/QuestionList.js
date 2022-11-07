@@ -55,9 +55,10 @@ const FooterBtnContainer = styled.div`
 
 const QuestionList = () => {
   const [questions, setQuestion] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(15);
+  const [loading, setLoading] = useState(false);
   const [totalNum, setTotalNum] = useState(0);
   const searchInput = useSelector((state) => state.searchReducer.searchValue);
 
@@ -84,9 +85,7 @@ const QuestionList = () => {
       setLoading(false);
     };
     fetchData();
-  }, [size, page]);
-
-  // const
+  }, [size, page, searchInput]);
 
   // 정렬 탭 기능 구현
   // 최신 정렬
@@ -101,7 +100,7 @@ const QuestionList = () => {
   const onVotedHandler = () => {
     let newArr = [...questions];
     let voteResult = newArr.sort((a, b) => {
-      return a.voteCount - b.voteCount;
+      return b.voteCount - a.voteCount;
     });
     setQuestion(voteResult);
   };
@@ -142,7 +141,7 @@ const QuestionList = () => {
               askHandle();
             }}
           >
-            Ask Questions
+            Ask Question
           </AskBtn>
         </QuestionHeader>
         {/* 정렬 탭 */}
@@ -182,6 +181,7 @@ const QuestionList = () => {
               Prev
             </BottomBtn>
             <BottomBtn
+              bgColor={page === 1}
               onClick={() => {
                 pageHandle(1);
               }}
@@ -189,6 +189,7 @@ const QuestionList = () => {
               1
             </BottomBtn>
             <BottomBtn
+              bgColor={page === 2}
               onClick={() => {
                 pageHandle(2);
               }}
@@ -196,6 +197,7 @@ const QuestionList = () => {
               2
             </BottomBtn>
             <BottomBtn
+              bgColor={page === 3}
               onClick={() => {
                 pageHandle(3);
               }}
@@ -203,6 +205,7 @@ const QuestionList = () => {
               3
             </BottomBtn>
             <BottomBtn
+              bgColor={page === 4}
               onClick={() => {
                 pageHandle(4);
               }}
@@ -210,6 +213,7 @@ const QuestionList = () => {
               4
             </BottomBtn>
             <BottomBtn
+              bgColor={page === 5}
               onClick={() => {
                 pageHandle(5);
               }}
