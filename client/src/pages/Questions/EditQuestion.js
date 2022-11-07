@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import EditQuestionForm from '../../components/EditQuestionForm';
 import useAxios from '../../hooks/useAxios';
@@ -20,6 +20,7 @@ const EditQuestionPage = styled.section`
 `;
 
 const EditQuestion = () => {
+  const navigete = useNavigate();
   const { id } = useParams();
   const [question, isPending] = useAxios(
     `http://15.165.244.155:8080/questions/${id}`
@@ -30,7 +31,7 @@ const EditQuestion = () => {
       title,
       content,
     });
-    // 질문 상세페이지로 라우팅 필요함
+    navigete('/');
   };
 
   return (
