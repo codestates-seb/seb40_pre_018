@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import sprites from '../assets/images/sprites.svg';
 import { getTimeElapsed } from '../utils/timeElapsed';
 import { AiOutlineUser } from 'react-icons/ai';
 
@@ -37,43 +36,6 @@ const UserInfoContainer = styled.section`
       font-size: 13px;
       color: var(--blue-600);
     }
-
-    /* .user-scores {
-      display: flex;
-      margin-top: 2px;
-
-      .reputation {
-        font-weight: bold;
-        margin-right: 2px;
-      }
-
-      .badge {
-        background-image: url(${sprites});
-        display: inline-block;
-        margin-right: 3px;
-        margin-left: 2px;
-        vertical-align: text-bottom;
-        width: 6px;
-        height: 14px;
-      }
-
-      .gold {
-        background-position: -102px -398px;
-      }
-
-      .silver {
-        background-position: -82px -398px;
-      }
-
-      .bronze {
-        background-position: -62px -398px;
-      }
-
-      .badge-count {
-        margin-right: 3px;
-        margin-left: 2px;
-      }
-    } */
   }
 `;
 
@@ -92,28 +54,7 @@ export const UserInfo = ({ type, createdAt, author }) => {
         <AiOutlineUser size="32px" />
       </div>
       <div className="user-detail">
-        <a
-          href={'https://stackoverflow.com/users/' + author.userId}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {author.displayName}
-        </a>
-        {/* 아래는 유저 프로필 중 reputation 과 뱃지 관련 부분입니다. (우선순위가 낮아 일단 주석 처리 했습니다! - 추후 사용시 수정해서 사용) */}
-        {/* <ul className="user-scores">
-          <li>
-            <span className="reputation">{userReputation}</span>
-          </li>
-          {userBadge &&
-            Object.keys(userBadge).map((badgeColor) => {
-              return (
-                <li key={badgeColor}>
-                  <span className={badgeColor + ' badge'}></span>
-                  <span className="badge-count">{userBadge[badgeColor]}</span>
-                </li>
-              );
-            })}
-        </ul> */}
+        <a href="?">{author.displayName}</a>
       </div>
     </UserInfoContainer>
   );

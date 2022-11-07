@@ -1,13 +1,12 @@
-import { useParams, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import styled from 'styled-components';
-import { getDaysElapsed } from '../../utils/timeElapsed';
 import { CommonButton } from '../../components/Buttons';
 import { Content } from '../../components/Content';
-// import { fetchCreate } from '../../utils/api';
 import AnswerForm from '../../components/AnswerForm';
-import { useSelector } from 'react-redux';
+import { getDaysElapsed } from '../../utils/timeElapsed';
 
 // 전체 감싸는 컨테이너 - 스타일링 및 배치용
 const Container = styled.article`
@@ -140,12 +139,10 @@ const YourAnswerHeader = styled.h2`
   line-height: 1.3;
 `;
 
-// 여기서부터!
 const QuestionDetail = () => {
   const params = useParams();
   const url = 'http://15.165.244.155:8080/questions/' + [params.id];
   const [questionData, setQuestionData] = useState(null);
-  // const [yourAnswer, setYourAnswer] = useState('');
   const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
@@ -158,7 +155,6 @@ const QuestionDetail = () => {
 
   const handleAnswerSubmit = (body) => {
     const data = { content: body };
-    // setYourAnswer('');
     axios(`http://15.165.244.155:8080/questions/${params.id}/answers`, {
       method: 'post',
       headers: {
@@ -202,16 +198,7 @@ const QuestionDetail = () => {
         <div className="question-detail-container">
           <QuestionHeader>
             <h1>
-              <a
-                href={
-                  'https://stackoverflow.com/questions/' +
-                  questionData.questionId
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                {questionData.title}
-              </a>
+              <a href="?">{questionData.title}</a>
             </h1>
             <div className="ask-btn-container">
               <CommonButton
@@ -244,7 +231,6 @@ const QuestionDetail = () => {
             id={questionData.questionId}
             questionData={questionData}
             updateData={setQuestionData}
-            // tags={ans.tags}
           />
         </div>
         {questionData.answers.length > 0 && (
@@ -265,7 +251,6 @@ const QuestionDetail = () => {
                   id={answer.answerId}
                   questionData={questionData}
                   updateData={setQuestionData}
-                  // tags={ans.tags}
                 />
               );
             })}
