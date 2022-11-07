@@ -96,8 +96,8 @@ public class QuestionService {
 
     public Question findViewedQuestion(Long questionId) {
         Question findQuestion = findVerifiedQuestion(questionId);
-        findQuestion.setViews(findQuestion.getViews() + 1);
-        return findQuestion;
+        questionRepository.updateView(findQuestion);
+        return findVerifiedQuestion(questionId);
     }
 
 
