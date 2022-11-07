@@ -26,7 +26,10 @@ const EditQuestion = () => {
   );
 
   const handleEdit = (title, content) => {
-    fetchPatch(`http:/15.165.244.155:8080/questions/${id}`, { title, content });
+    fetchPatch(`http://15.165.244.155:8080/questions/${id}`, {
+      title,
+      content,
+    });
     // 질문 상세페이지로 라우팅 필요함
   };
 
