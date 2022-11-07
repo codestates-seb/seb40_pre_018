@@ -84,7 +84,7 @@ const QuestionList = () => {
       setLoading(false);
     };
     fetchData();
-  }, [size, page]);
+  }, [size, page, searchInput]);
 
   // const
 
