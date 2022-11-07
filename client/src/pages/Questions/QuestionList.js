@@ -142,7 +142,7 @@ const QuestionList = () => {
               askHandle();
             }}
           >
-            Ask Questions
+            Ask Question
           </AskBtn>
         </QuestionHeader>
         {/* 정렬 탭 */}
