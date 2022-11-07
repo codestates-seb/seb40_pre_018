@@ -5,7 +5,6 @@ import { AiOutlineUser } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { getTimeElapsed, getDaysElapsed } from '../../utils/timeElapsed';
 
-// 질문 폼 전체 컨테이너
 const QuestionContainer = styled.div`
   .container {
     width: 100%;

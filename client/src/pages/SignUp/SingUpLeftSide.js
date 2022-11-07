@@ -81,7 +81,6 @@ const SingUpLeftSide = () => {
           Get Stack Overflow for Teams free for up to 50 users.
         </a>
       </div>
-      {/* </div> */}
     </SignUpLeftPage>
   );
 };
