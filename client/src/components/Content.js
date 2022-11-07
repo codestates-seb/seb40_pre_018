@@ -6,7 +6,6 @@ import { getTimeElapsed } from '../utils/timeElapsed';
 import { ContentViewer } from './ContentViewer';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-// import { Tags } from './Tags';
 
 const ContentWrapper = styled.section`
   display: flex;
@@ -71,10 +70,8 @@ export const Content = ({
   id,
   questionData,
   updateData,
-  // tags,
 }) => {
   const { user } = useSelector((state) => state.loginReducer);
-  // console.log(user.token);
   const params = useParams();
 
   const navigate = useNavigate();
@@ -82,7 +79,6 @@ export const Content = ({
     type === 'question'
       ? navigate(`/edit/${params.id}`)
       : console.log('질문 수정');
-    // 답변 수정 - 중요도 중간이므로 추후 추가(일단 console.log('질문 수정'))
   };
 
   const handleDelete = () => {
@@ -118,7 +114,6 @@ export const Content = ({
       />
       <div className="main-content">
         <ContentViewer content={content} />
-        {/* {type === 'question' && tags && <Tags tags={tags} />} */}
         <Utils>
           <Options>
             <button>Share</button>
