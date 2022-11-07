@@ -124,9 +124,11 @@ export const Content = ({
         <Utils>
           <Options>
             <button>Share</button>
-            <button onClick={() => handleEdit()}>Edit</button>
             {user?.userId === author.userId && (
-              <button onClick={() => handleDelete()}>Delete</button>
+              <>
+                <button onClick={() => handleEdit()}>Edit</button>
+                <button onClick={() => handleDelete()}>Delete</button>
+              </>
             )}
           </Options>
           {updatedAt && (
