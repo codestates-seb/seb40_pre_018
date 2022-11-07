@@ -55,7 +55,7 @@ const FooterBtnContainer = styled.div`
 
 const QuestionList = () => {
   const [questions, setQuestion] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(15);
   const [totalNum, setTotalNum] = useState(0);
@@ -63,7 +63,6 @@ const QuestionList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
         if (searchInput === '') {
           const response = await axios.get(
@@ -81,7 +80,6 @@ const QuestionList = () => {
       } catch (e) {
         window.alert('오류가 발생했습니다.');
       }
-      setLoading(false);
     };
     fetchData();
   }, [size, page, searchInput]);
@@ -182,6 +180,7 @@ const QuestionList = () => {
               Prev
             </BottomBtn>
             <BottomBtn
+              bgColor={page === 1}
               onClick={() => {
                 pageHandle(1);
               }}
@@ -189,6 +188,7 @@ const QuestionList = () => {
               1
             </BottomBtn>
             <BottomBtn
+              bgColor={page === 2}
               onClick={() => {
                 pageHandle(2);
               }}
@@ -196,6 +196,7 @@ const QuestionList = () => {
               2
             </BottomBtn>
             <BottomBtn
+              bgColor={page === 3}
               onClick={() => {
                 pageHandle(3);
               }}
@@ -203,6 +204,7 @@ const QuestionList = () => {
               3
             </BottomBtn>
             <BottomBtn
+              bgColor={page === 4}
               onClick={() => {
                 pageHandle(4);
               }}
@@ -210,6 +212,7 @@ const QuestionList = () => {
               4
             </BottomBtn>
             <BottomBtn
+              bgColor={page === 5}
               onClick={() => {
                 pageHandle(5);
               }}
