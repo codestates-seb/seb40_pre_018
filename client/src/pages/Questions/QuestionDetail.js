@@ -53,6 +53,7 @@ const QuestionHeader = styled.div`
   .ask-btn-container {
     width: 100%;
     text-align: right;
+    flex: 1;
 
     .ask-question-btn {
       margin: 0;

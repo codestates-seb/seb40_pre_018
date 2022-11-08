@@ -89,23 +89,25 @@ export const Content = ({
   };
 
   const handleDelete = () => {
-    axios(`http://15.165.244.155:8080/${type}s/${id}`, {
-      method: 'delete',
-      headers: {
-        Authorization: user.token,
-      },
-    })
-      .then(() => {
-        if (type === 'question') {
-          location.href = '/';
-        } else if (type === 'answer') {
-          updateData({
-            ...questionData,
-            answers: questionData.answers.filter((el) => el.answerId !== id),
-          });
-        }
+    if (window.confirm('Are you sure you want to delete?')) {
+      axios(`http://15.165.244.155:8080/${type}s/${id}`, {
+        method: 'delete',
+        headers: {
+          Authorization: user.token,
+        },
       })
-      .catch((err) => console.error(err));
+        .then(() => {
+          if (type === 'question') {
+            location.href = '/';
+          } else if (type === 'answer') {
+            updateData({
+              ...questionData,
+              answers: questionData.answers.filter((el) => el.answerId !== id),
+            });
+          }
+        })
+        .catch((err) => console.error(err));
+    }
   };
 
   return (
