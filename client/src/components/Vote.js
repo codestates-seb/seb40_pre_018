@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ReactComponent as VoteUpIcon } from '../assets/images/voteUp.svg';
 import { ReactComponent as VoteDownIcon } from '../assets/images/voteDown.svg';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const VoteContainer = styled.div`
   width: auto;
@@ -84,12 +85,14 @@ export const Vote = ({
 
   const onUpVote = () => {
     const url = `http://15.165.244.155:8080/${type}s/${id}/upvotes`;
-    fetchVote(url);
+    if (user) fetchVote(url);
+    else toast.error('You must be logged in to vote');
   };
 
   const onDownVote = () => {
     const url = `http://15.165.244.155:8080/${type}s/${id}/downvotes`;
-    fetchVote(url);
+    if (user) fetchVote(url);
+    else toast.error('You must be logged in to vote');
   };
 
   return (

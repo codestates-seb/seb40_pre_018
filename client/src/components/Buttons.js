@@ -60,7 +60,7 @@ export const SortBtn = styled.button`
 `;
 
 export const BottomBtn = styled.button`
-  background-color: transparent;
+  /* background-color: transparent; */
   padding-left: 15px;
   padding-right: 15px;
   margin: 2px;
@@ -68,19 +68,20 @@ export const BottomBtn = styled.button`
   box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
   border: 1px solid var(--black-400);
   border-radius: 3px;
-  color: var(--black-900);
+  color: ${(props) => (props.bgColor ? 'white' : 'var(--black-900)')};
   font-size: 13px;
   height: 35px;
+  background-color: ${(props) =>
+    props.bgColor ? 'var(--orange-500)' : 'transparent'};
 
   &:hover {
-    background-color: var(--black-025);
+    background-color: var(--black-100);
+    color: var(--black-700);
   }
-  &:focus {
+
+  &:active {
     background-color: var(--orange-500);
     color: white;
-  }
-  &:active {
-    background-color: var(--black-100);
     outline: 6px solid var(--blue-100);
   }
 `;
